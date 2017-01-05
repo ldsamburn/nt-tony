@@ -1,0 +1,273 @@
+#
+#
+#   This is the shell used to back up (copy) during an ntcss update
+#
+#   call bkup.sh with two arguments as follows:
+#
+#      $1 = file name to be backed up
+#      $2 = file name extension of backup copy
+#
+#
+#       i.e.   bkup  gen_se  pre-patch7
+#
+#
+#            This would result in file gen_se being copied to gen_se.pre-patch7
+#
+#
+#
+#
+#
+bkup() 
+{
+   echo "Backing up $1 to $1.$2"
+   if [ ! -f $1 ]
+      then
+        echo "File $1 does not exist. Cannot perform backup.."
+   fi
+   if [ ! -f $1.$2 ]
+     then
+        cp -p $1 $1.$2
+     else
+        echo "backup copy already exists. No backup done..." 
+   fi
+}
+#
+#    reply.sh
+#
+#
+#        called by any shell that wants to prompt the
+#        user for a yes or no answer.
+#
+#
+#     call:    reply.sh $1
+#
+#         where $1 = question
+#
+#         and $ans return will be either "y" or "n"
+#
+#   NOTE: If no answer is given, or an incorrect answer, the default
+#         is "n" `NO`.
+#
+#
+reply()
+{
+echo " "
+echo "$1(y/n?)"
+echo "NO is the default answer:"
+#
+read x
+if [ -z "$x" ]
+  then
+     ans="n"
+     return
+fi
+if [ $x = "Y" -o $x = "y" -o $x = "yes" -o $x = "Yes" -o $x = "YES" ]
+then
+    ans="y"
+else
+    ans="n"
+fi
+}
+#
+#
+#   This is the shell used to restore/copy either backup files or new release
+#   files into the target original files. Used to restore originals or install
+#   release.
+#
+#   call restor.sh with two arguments as follows:
+#
+#      $1 = file name to be restored 
+#      $2 = file name extension used during backup
+#
+#
+#       i.e.   restor  gen_se  pre_patch7
+#
+#
+#            This would result in file gen_se.pre_patch7 being copied to gen_se
+#
+#
+#
+#
+#
+restor() 
+{
+#
+#
+echo "Copying $1.$2 to $1"
+if [ -f $1.$2 ]
+   then      
+     cp -p $1.$2 $1
+   else
+     echo "File $1.$2 does not exist. Cannot perform restore..."
+fi
+}
+
+analyze_site()
+{
+    #----------CHECK RSUPPLY----------
+    rsupply_site=`grep "RSUPPLY=RSUPPLY" $ini_file_tmp`
+    rsupply_site=$?
+    if [ "$rsupply_site" = "$yes" ]
+    then
+        $wps LOCALAPPS RSUPPLY YES SITE_FILE
+    else
+        $wps LOCALAPPS RSUPPLY NO SITE_FILE
+    fi
+    #----------CHECK RSUPPLY_Adm------
+    rsupply_adm_site=`grep "RSUPPLY_Adm=RSUPPLY_Adm" $ini_file_tmp`
+    rsupply_adm_site=$?
+    if [ "$rsupply_adm_site" = "$yes" ]
+    then
+        $wps LOCALAPPS RSUPPLY_Adm YES SITE_FILE
+    else
+        $wps LOCALAPPS RSUPPLY_Adm NO SITE_FILE
+    fi
+    #----------CHECK OMMSNG-----------
+    ommsng_site=`grep "OMMSNG=OMMSNG" $ini_file_tmp`
+    ommsng_site=$?
+    if [ "$ommsng_site" = "$yes" ]
+    then
+        $wps LOCALAPPS OMMSNG YES SITE_FILE
+    else
+        $wps LOCALAPPS OMMSNG NO SITE_FILE
+    fi
+    #----------CHECK OMMSNG_Adm-------
+    ommsng_adm_site=`grep "OMMSNG_Adm=OMMSNG_Adm" $ini_file_tmp`
+    ommsng_adm_site=$?
+    if [ "$ommsng_adm_site" = "$yes" ]
+    then
+        $wps LOCALAPPS OMMSNG_Adm YES SITE_FILE
+    else
+        $wps LOCALAPPS OMMSNG_Adm NO SITE_FILE
+    fi
+    #----------CHECK RADM-------------
+    radm_site=`grep "RADM=RADM" $ini_file_tmp`
+    radm_site=$?
+    if [ "$radm_site" = "$yes" ]
+    then
+        $wps LOCALAPPS RADM YES SITE_FILE
+    else
+        $wps LOCALAPPS RADM NO SITE_FILE
+    fi
+    #----------CHECK RADM_Adm---------
+    radm_adm_site=`grep "RADM_Adm=RADM_Adm" $ini_file_tmp`
+    radm_adm_site=$?
+    if [ "$radm_adm_site" = "$yes" ]
+    then
+        $wps LOCALAPPS RADM_Adm YES SITE_FILE
+    else
+        $wps LOCALAPPS RADM_Adm NO SITE_FILE
+    fi
+    #----------CHECK NALCOMIS---------
+    nalcomis_site=`grep "NALCOMIS=NALCOMIS" $ini_file_tmp`
+    nalcomis_site=$?
+    if [ "$nalcomis_site" = "$yes" ]
+    then
+        $wps LOCALAPPS NALCOMIS YES SITE_FILE
+    else
+        $wps LOCALAPPS NALCOMIS NO SITE_FILE
+    fi
+    #----------CHECK NALCOMIS_Adm------
+    nalcomis_adm_site=`grep "NALCOMIS_Adm=NALCOMIS_Adm" $ini_file_tmp`
+    nalcomis_adm_site=$?
+    if [ "$nalcomis_adm_site" = "$yes" ]
+    then
+        $wps LOCALAPPS NALCOMIS_Adm YES SITE_FILE
+    else
+        $wps LOCALAPPS NALCOMIS_Adm NO SITE_FILE
+    fi
+
+    # ---Determine SITE type
+
+    #----------MALS CHECK------------------------
+    if [ "$rsupply_site" = $yes -a "$nalcomis_site" = $yes -a "$ommsng_site" = $no ]
+    then
+        site_type=mals
+        if [ -f /p8_test_mode ]
+        then
+            echo "-->Test mode selected (The file /p8_test_mode existing"
+            echo "                       forces all applications to appear as"
+            echo "                       if they exist on this system)"
+            echo " "
+            rsupply_box=`hostname`
+            nalcomis_box=`hostname`
+        else
+            rsupply_box="rsupmast"
+            nalcomis_box="nalc"
+        fi
+        echo "SITE: (MALS Optimized)"
+        echo "----------------------"
+    fi
+    #----------SMALLDECK CHECK--------------------
+    if [ "$rsupply_site" = $yes -a "$ommsng_site" = $yes -a "$radm_site" = $yes \
+         -a "$nalcomis_site" = $no ]
+    then
+        site_type="smalldeck"
+        if [ -f /p8_test_mode ]
+        then
+            echo "-->Test mode selected (The file /p8_test_mode existing"
+            echo "                       forces all applications to appear as"
+            echo "                       if they exist on this system)"
+            echo " "
+            rsupply_box=`hostname`
+            omms_box=`hostname`
+            radm_box=`hostname`
+        else
+            rsupply_box="rsupmast"
+            omms_box="rsupmast"
+            radm_box="rsupmast"
+        fi
+        echo "SITE: (Small deck Optimized)"
+        echo "----------------------------"
+    fi
+    #----------NALCOMIS DUAL/SINGLE AIRSTATION CHECK--
+    if [ "$nalcomis_site" = $yes -a "$rsupply_site" = $no -a "$ommsng_site" = $no ] 
+    then
+        if [ -f /p8_test_mode ]
+        then
+            echo "-->Test mode selected (The file /p8_test_mode existing"
+            echo "                       forces all applications to appear as"
+            echo "                       if they exist on this system)"
+            echo " "
+            nalcomis_box=`hostname`
+        else
+            nalcomis_box="nalcmast"
+        fi
+        #Determine if 'dual' Unix NALCOMIS
+        dualnalc=`grep "nalc$" $ini_file_tmp`
+        if [ $? = $yes ]
+        then
+            site_type="dual_air"
+            echo "SITE: (Air station dual Unix Optimized)"
+            echo "---------------------------------------"
+        else
+            site_type="single_air"
+            echo "SITE: (Air station single Unix Optimized)"
+            echo "-----------------------------------------"
+        fi
+    fi
+    #----------LARGEDECK CHECK--------------------
+    if [ "$rsupply_site" = $yes -a "$ommsng_site" = $yes -a "$radm_site" = $yes \
+         -a "$nalcomis_site" = $yes ]
+    then
+        site_type="largedeck"
+        if [ -f /p8_test_mode ]
+        then
+            echo "-->Test mode selected (The file /p8_test_mode existing"
+            echo "                       forces all applications to appear as"
+            echo "                       if they exist on this system)"
+            echo " "
+            rsupply_box=`hostname`
+            omms_box=`hostname`
+            radm_box=`hostname`
+            nalcomis_box=`hostname`
+        else
+            rsupply_box="rsupmast"
+            omms_box="omms"
+            radm_box="radm"
+            nalcomis_box="nalc"
+        fi
+        echo "SITE: (Large deck Optimized)"
+        echo "----------------------------"
+    fi
+}

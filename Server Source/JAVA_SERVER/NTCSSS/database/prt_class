@@ -1,0 +1,29 @@
+Forms Printer
+Print without FF's
+hppcl
+
+Postscript
+NEC Silentwriter 95f v2011.111
+pscript
+
+LaserJet
+HP LaserJet
+hppcl
+
+Dot Matrix
+Generic / Text Only
+tty
+
+Proprinter
+IBM Proprinter
+proprint
+
+Laser Jet-13cpi
+HP LaserJet
+hppcl
+
+Laser 13cpi-nb
+HP LaserJet
+hppcl
+
+

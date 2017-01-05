@@ -1,0 +1,25 @@
+#!/bin/csh -f 
+#
+#
+#              Copyright(c)2002 Northrop Grumman Corporation
+#
+#                          All Rights Reserved
+#
+#
+#    This material may be reproduced by or for the U.S. Government pursuant
+#    to the copyright license under the clause at Defense Federal Acquisition
+#    Regulation Supplement (DFARS) 252.227-7013 (NOV 1995).
+#
+#
+# added to terminate message system interface program
+
+#
+# Xreset
+
+#set wpid=`cat /tmp/$DISPLAY.wpid`
+#if ( "${?wpid}" != 0 ) then
+#	kill -9 $wpid
+#	rm -f /tmp/$DISPLAY.wpid
+#	rm -f /tmp/$DISPLAY.fifo
+#endif
+

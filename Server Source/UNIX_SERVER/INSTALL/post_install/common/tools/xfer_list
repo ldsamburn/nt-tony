@@ -1,0 +1,362 @@
+#!/bin/sh
+#
+#
+#              Copyright(c)2002 Northrop Grumman Corporation
+#
+#                          All Rights Reserved
+#
+#
+#    This material may be reproduced by or for the U.S. Government pursuant
+#    to the copyright license under the clause at Defense Federal Acquisition
+#    Regulation Supplement (DFARS) 252.227-7013 (NOV 1995).
+#
+#
+
+# 'xfer_list'
+#Modified from 'xfer_to_all'
+#Transfers files from a list to the same directory of a target..
+
+xfer_log="/h/USERS/ntcssii/xfer_log"
+rm -f $xfer_log
+touch $xfer_log
+clear
+
+if [ ! -f filelist ]
+then
+    echo " "
+    echo "The input specification file 'filelist' was not found."
+    echo " "
+    echo "#The sample format is as follows:"
+    echo "#The pound sign is a commented line execpt when setting default paths."
+    echo "#"
+    echo "#"
+    echo "#DEFAULT FROM:/xfer/302Changes" 
+    echo "#DEFAULT TO:/h/NTCSSS/bin"
+    echo "#"
+    echo "#"
+    echo "#{file name(s) to transfer using defaults}"
+    echo "ntlpd"
+    echo "gen_se"
+    echo "#"
+    echo "#"
+    echo "#The following transfers an entire directory using the defaults:"
+    echo "/h/NTCSSS/bin"
+    echo "#"
+    echo "#"
+    echo "#The following is the format for absolute paths and overides the defaults:"
+    echo "#"
+    echo "/tmp/ntcss_lp>/h/NTCSSS/bin/ntcss_lp"
+    echo "#"
+    echo " "
+    exit -1
+else
+    echo " "
+    echo "This script will transfer the following uncommented files to the target systems:"
+    echo " "
+    cat filelist
+    echo " "
+    echo "Is this correct? (Y/N)"
+    echo " "
+    read ans
+    if [ "$ans" = "Y" -o "$ans" = "y" ]
+    then
+        echo "Proceeding..."
+    else
+        echo "Transfers aborted..."
+        exit 0
+    fi
+fi
+
+clear
+if [ ! -f targetlist ]
+then
+    echo " "
+    echo "The input target system specification file 'targetlist' was not found."
+    echo " "
+    echo "#The sample format is as follows:"
+    echo "#The pound sign is a commented line"
+    echo "#"
+    echo "#"
+    echo "mmfaf5ss"
+    echo "mef5rep"
+    echo "#"
+    echo "#m27125"
+    echo " "
+    exit -1
+else
+    echo " "
+    echo "This script will transfer files to the following systems"
+    echo "that are not preceeded with a pound sign:"
+    echo " "
+    cat targetlist
+    echo " "
+    echo "Is this correct? (Y/N)"
+    echo " "
+    read ans
+    if [ "$ans" = "Y" -o "$ans" = "y" ]
+    then
+        echo "Proceeding..."
+    else
+        echo "Transfers aborted..."
+        exit 0
+    fi
+fi
+
+for host in `cat targetlist`
+do
+
+        comment=`echo $host | grep "^#"`
+
+        if [ "$?" = "0" ]
+        then
+            # Comment line in target list
+            continue
+        fi
+
+	if [ "$host" = `hostname` ]
+	then
+                # Never update ourselves
+		continue
+	fi
+
+        echo " "
+	echo "Processing host -> $host"
+	echo "Processing host -> $host" >> $xfer_log
+
+        default_from_path="NONE"
+        default_to_path="NONE"
+        echo " "
+        echo "Default 'FROM' path: $default_from_path" 
+        echo "Default 'FROM' path: $default_from_path"  >> $xfer_log
+        echo "Default 'TO' path:   $default_to_path"
+        echo "Default 'TO' path:   $default_to_path" >> $xfer_log
+
+        rm -f "dynamic_list"
+
+        echo "Preprocessing 'filelist'" >> $xfer_log
+        {
+        while (true)
+        do
+
+            read file_desc
+
+            #Check for end of file
+            if [ $? -ne 0 ]
+            then
+                break
+            fi
+
+            if [ -z "$file_desc" ]
+            then
+                #Ignore empty lines
+                continue
+            fi
+
+            echo "Input record: <$file_desc>" >> $xfer_log
+
+            comment=`echo $file_desc | grep "^#"`
+            if [ "$?" = "0" ]
+            then
+                #Pound sign processing, copy over for post processing
+                echo $file_desc >> dynamic_list
+                default_from=`echo "$file_desc" | grep "DEFAULT FROM:"`
+                if [ "$?" = "0" ]
+                then
+                    #Default 'from' found
+                    default_from_path=`echo "$file_desc" | cut -d: -f 2`
+                    echo "Default from path changed to: $default_from_path" >> $xfer_log
+                    continue
+                fi
+                default_to=`echo "$file_desc" | grep "DEFAULT TO:"`
+                if [ "$?" = "0" ]
+                then
+                    #Default 'to' found
+                    default_to_path=`echo "$file_desc" | cut -d: -f 2`
+                    echo "Default to path changed to: $default_to_path" >> $xfer_log
+                    continue
+                fi 
+                continue
+            fi #End pound sign processing
+
+            if [ -d $file_desc ]
+            then
+                #directory found, create listing of directory
+                echo "Directory $file_desc found, creating list for post-processing" >> $xfer_log
+                if [ $default_from_path != "NONE" ]
+                then
+                    ls -1 $default_from_path >> dynamic_list
+                    echo "File list generated" >> $xfer_log
+                else
+                    echo "Directories ignored without DEFAULTS set..."
+                    echo "File list could not be generated, 'defaults' not set" >> $xfer_log
+                    continue
+                fi
+            else
+                #file found, echo to dynamic_list
+                echo "$file_desc" >> dynamic_list
+                echo "File $file_desc found" >> $xfer_log
+            fi
+
+        done } < filelist
+        echo "Pre-processing finished" >> $xfer_log
+
+# Post processing of dynamic_list
+
+        echo "Start Post-processing of 'dynamic_list'" >> $xfer_log
+        {
+        while (true)
+	do
+            read file
+
+            #Check for end of file
+            if [ $? -ne 0 ]
+            then
+                break
+            fi
+
+            if [ -z "$file" ]
+            then
+                # Empty line
+                echo "Empty line detected, ignoring.." >> $xfer_log
+                continue
+            fi
+
+            comment=`echo $file | grep "^#"`
+            if [ "$?" = "0" ]
+            then 
+                #Pound sign processing
+                echo "Pound sign detected <$file>" >> $xfer_log
+                syscmd=`echo "$file" | grep "SYS_CMD:"`
+                if [ "$?" = 0 ]
+                then
+                    syscmd=`echo "$file" | cut -d: -f2`
+                    if [ -n "$syscmd" ]
+                    then
+                        echo "Executing system command: $syscmd"
+                        echo "Executing system command: $syscmd" >> $xfer_log
+                        $syscmd
+                        error_code=$?
+                        if [ "$error_code" != 0 ]
+                        then
+                            echo "COMMAND FAILED, error code: <$error_code>"
+                            echo "COMMAND FAILED, error code: <$error_code>" >> $xfer_log
+                        fi
+                    fi
+                fi
+                default_from=`echo "$file" | grep "DEFAULT FROM:"`
+                if [ "$?" = "0" ]
+                then
+                    #Default 'from' found
+                    default_from_path=`echo "$file" | cut -d: -f 2`
+                    echo " "
+                    echo "New default 'FROM' path: $default_from_path"
+                    echo "New default 'FROM' path: $default_from_path" >> $xfer_log
+                    echo " "
+                    continue
+                fi
+                default_to=`echo "$file" | grep "DEFAULT TO:"`
+                if [ "$?" = "0" ]
+                then
+                    #Default 'to' found
+                    default_to_path=`echo "$file" | cut -d: -f 2`
+                    echo " "
+                    echo "New default 'TO' path:  $default_to_path"
+                    echo "New default 'TO' path:  $default_to_path" >> $xfer_log
+                    echo " "
+                    continue
+                fi
+                continue
+            fi
+
+            if [ $default_from_path = "NONE" -o $default_to_path = "NONE" ]
+            then
+                echo "Path not set up for $file, file NOT transferred."
+                echo "Path not set up for $file, file NOT transferred." >> $xfer_log
+                continue
+            fi
+
+            sourcefile=`echo "$file" | cut -d">" -f 1`
+            if [ -z "$sourcefile" ]
+            then
+                sourcefile="ZERO"
+                echo "Sourcefile is ZERO" >> $xfer_log
+            fi
+            echo "SOURCEFILE: $sourcefile" >> $xfer_log
+           
+            targetfile=`echo "$file" | cut -d">" -f 2`
+            if [ -z "$targetfile" ]
+            then
+                targetfile="ZERO"
+                echo "Targetfile is ZERO" >> $xfer_log
+            fi
+            echo "TARGETFILE: $targetfile" >> $xfer_log
+
+            sourcepath=`echo $sourcefile | grep "^/"`
+            if [ "$?" != "0" ]
+            then
+                #Full 'From' path not found, add default prefix
+                sourcefile=$default_from_path"/"$sourcefile
+                echo "Source file full path <$sourcefile>" >> $xfer_log
+            fi
+
+            targetpath=`echo "$targetfile" | grep "^/"`
+            if [ "$?" != "0" ]
+            then
+                #Full 'To' path not found, add default prefix
+                targetfile=$default_to_path"/"$targetfile
+                echo "Target file full path <$targetfile>" >> $xfer_log
+            fi
+
+            if [ $sourcefile = $targetfile ]
+            then
+                echo "Transferring: $sourcefile"
+                echo "Transferring: $sourcefile" >> $xfer_log
+            else
+                echo "Transferring: $sourcefile to"
+                echo "              $host"
+                echo "           as $targetfile"
+                echo "Transferring: $sourcefile to $host as $targetfile" >> $xfer_log
+            fi
+
+            if [ "$1" != "test" ]
+            then
+                p="none"
+                if [ -f /h/NTCSSS/bin/net_xfer ]
+                then
+                    p="/h/NTCSSS/bin/net_xfer"
+                else
+                    if [ -f ./net_xfer ]
+                    then
+                        p="./net_xfer"
+                    fi
+                fi
+                if [ $p = "none" ]
+                then
+                    echo " ";echo " "
+                    echo "Need net_xfer program in current directory!"
+                    echo " ";echo " "
+                    exit 1
+                fi
+                $p put $host $sourcefile $targetfile
+                if [ "$?" != "0" ]
+                    then
+                        echo "Bad file transfer, return status: <$?>"
+                        echo "Bad file transfer, return status: <$?>" >> $xfer_log
+                    else
+                        echo "...... Good transfer." >> $xfer_log
+                    fi
+            else
+                echo "Test mode..."
+                echo "Test mode..." >> $xfer_log
+            fi
+
+	done } < dynamic_list
+        echo "-----------------------------------------"
+        echo "-----------------------------------------" >> $xfer_log
+	echo " "
+    done
+
+echo " "
+echo "File transfers complete..."
+echo "File transfers complete..." >> $xfer_log
+

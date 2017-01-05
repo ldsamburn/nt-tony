@@ -1,0 +1,48 @@
+#!/bin/csh -f
+#
+#
+#              Copyright(c)2002 Northrop Grumman Corporation
+#
+#                          All Rights Reserved
+#
+#
+#    This material may be reproduced by or for the U.S. Government pursuant
+#    to the copyright license under the clause at Defense Federal Acquisition
+#    Regulation Supplement (DFARS) 252.227-7013 (NOV 1995).
+#
+#
+#
+#
+#    ck-proc is called by any shell that wants to
+#        know if a process is running.
+#
+#   call ck-proc with 2 arguments as follows:
+#
+#      $1 = process name
+#      $2 = name of calling shell
+#
+#
+#    this shell will return status indicated below
+#
+if (${1} == "") goto no-arg1
+if (${2} == "") goto no-arg2
+set x = `ps -ef | grep "$1" | egrep -v grep | egrep -v ck-proc | egrep -v $2`
+exit (${status})
+#
+#   exit with 0 status if process exists
+#
+#
+#  exit with status = 1 if process does not exist
+#
+#  exit with status = 2 if arguments incorrect
+#
+no-arg1:
+echo " "
+echo "argument 1 missing. Need process name..."
+#
+echo " "
+echo "        also"
+no-arg2:
+echo " "
+echo "argument 2 missing. Need calling shell name..."
+exit (2)

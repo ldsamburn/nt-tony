@@ -1,0 +1,112 @@
+NTCSS
+ntcssii
+Base NTCSS User
+***
+***
+4
+0
+
+DB_nmaster
+sybase
+Sybase Admin
+
+sybase
+28
+0
+
+nmaster
+atlbtusr
+ATLASS Boot User
+
+atlbtusr
+12
+0
+
+nmaster
+spawar
+Seed User
+
+spawar
+12
+0
+
+DB_nmaster
+spawar
+Seed User
+
+spawar
+12
+0
+
+IF_nmaster
+spawar
+Seed User
+
+spawar
+12
+0
+
+CS_nmaster
+spawar
+Seed User
+
+spawar
+12
+0
+
+NTCSS
+spawar
+Seed User
+
+spawar
+4
+0
+
+DB_danasvr
+sybase
+Sybase Admin
+
+sybase
+28
+0
+
+danasvr
+atlbtusr
+ATLASS Boot User
+
+atlbtusr
+12
+0
+
+danasvr
+spawar
+Seed User
+
+spawar
+12
+0
+
+DB_danasvr
+spawar
+Seed User
+
+spawar
+12
+0
+
+IF_danasvr
+spawar
+Seed User
+
+spawar
+12
+0
+
+CS_danasvr
+spawar
+Seed User
+
+spawar
+12
+0
+

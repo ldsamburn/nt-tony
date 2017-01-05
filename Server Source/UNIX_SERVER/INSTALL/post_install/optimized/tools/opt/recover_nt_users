@@ -1,0 +1,111 @@
+#!/bin/sh
+#
+#
+#              Copyright(c)2002 Northrop Grumman Corporation
+#
+#                          All Rights Reserved
+#
+#
+#    This material may be reproduced by or for the U.S. Government pursuant
+#    to the copyright license under the clause at Defense Federal Acquisition
+#    Regulation Supplement (DFARS) 252.227-7013 (NOV 1995).
+#
+#
+#######################################################################
+# Optimized only..
+# This script reads the /usr/local/NTCSSII/database/ntcss_users file
+# and re-creates the user in NT.  It is to be used to fix
+# catastrophic failure in the NT domain, where users are lost, and a
+# re-synching between NTCSS/Unix and NT is needed.
+#
+# It reads the NTCSSII database-ntcss_users file and creates a
+# "ntusers.ini" file and then calls "u2n_convert" with the -nt and skip
+# arguments to push to nt with fabricated passwords.
+#######################################################################
+
+PROFDIR="/usr/local/NTCSSII/applications/data/unix_uga/shell"
+NTCSSDATADIR="/usr/local/NTCSSII/database"
+DOMAIN_FLAG="DOMAIN"
+TELLNT="YES"
+TELLPWD="YES"
+ucdir="/usr/local/NTCSSII/applications/data/users_conf"
+
+
+    settings="/etc/ntcss_system_settings.ini"
+
+    ntcssdir=`grep "^HOME_DIR=" "$settings" | cut -d= -f2`
+    
+    bindir=`grep "NTCSS_BIN_DIR" "$settings" | cut -d= -f2`
+    bindir="$ntcssdir/$bindir"
+
+    gps="$bindir/GetProfileString"
+
+    appinst=`$gps Strings APP_INST "applications/data/install" $settings`
+    appinst="$ntcssdir/$appinst"
+
+    postdir="$appinst/post_install"
+
+. $appinst/getOSinfo.sh
+
+NTCSS_GRP="ntcss"
+PWDIR="/etc/passwd"
+GRPDIR="/etc/group"
+NTSHELL="/bin/csh"
+NTDIRPRE="/u"
+DEF_NTDIR="c:\\h"
+
+###
+# Get Unix user's directory from sysconf file
+###
+	sys_line=`grep "NTCSS HOME DIR" ${NTCSSDATADIR}/SYS_CONF`
+	if [ -n "${sys_line}" ]
+	then
+        	userdirpre=`echo ${sys_line} | sed -n "s/[^:]*.\(.*\)$/\1/p"`
+        	if [ -z "${userdirpre}" ]
+        	then
+                	userdirpre=${NTDIRPRE}
+        	fi
+	else
+        userdirpre=${NTDIRPRE}
+	fi
+
+
+{
+
+rm -f ./ntusers.ini
+
+while (true)
+do
+	read uid
+
+	if [ $? -ne 0 ]
+	then
+		echo "Done."
+		break
+	fi
+
+	read username
+	read longname
+	read apppwd
+	read ssn
+	read phone
+	read class
+	read pwchange
+	read dbreg
+	read role
+	read shpwd
+	read extra
+
+	if [ -z "$username" ] 
+	then
+		echo "Done."
+	fi
+
+	echo Processing $username"-"$longname
+	WriteProfileString USERS $username $username ./ntusers.ini
+	WriteProfileString $username LONGNAME "$longname" ./ntusers.ini
+	
+
+done } < /usr/local/NTCSSII/database/ntcss_users
+
+./u2n_convert -nt -skip

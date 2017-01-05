@@ -1,0 +1,352 @@
+#!/bin/sh
+#comd#		Restore Archive
+#head#
+
+. /usr/hvx_scripts/sysadmsh.cmd
+genprg="hvxvols"
+
+for i in $genprg
+do
+       genstr=`bdf | grep $i | egrep -v "bdf" | egrep -v "grep ${i}"`
+       if [ ! -n "$genstr" ]
+       then
+               /usr/hvx_scripts/msgdsp "hvxvols does not exist or not mounted"
+              exit 1;
+       fi
+done
+
+genprg1="hvx_gcos"
+for i in $genprg1
+do
+       genstr=`ps -e | grep $i | egrep -v "ps -e" | egrep -v "grep ${i}"`
+       if [ -n "$genstr" ]
+       then
+              /usr/hvx_scripts/msgdsp "HVX is Enabled"
+              exit 0;
+       fi
+done
+
+$ECHO_N "Is the restore from the hard drive? (Y/N/Q) "$NONL
+        read ans
+        if [ "$ans" = Y -o "$ans" = y ]
+        then
+echo
+echo " Copying .Z files to /hvxvols"
+cp /backup/*.* /hvxvols
+cd /hvxvols
+uncompress nalc00
+echo " Uncompressing nalc01"
+uncompress nalc01
+echo " Uncompressing nalc02"
+uncompress nalc02
+echo " Uncompressing nalc03"
+uncompress nalc03
+echo " Uncompressing nalc04"
+uncompress nalc04
+echo " Uncompressing fepc11"
+echo " Uncomprssing fepc11"
+uncompress fepc11
+rm *.Z
+/usr/hvx_scripts/msgdsp "You may now bring HVX back online for use"
+ 
+
+
+         exit 1
+elif [ "$ans" = N -o "$ans" = n ]
+then
+
+PRIDEV=/dev/rst2 
+PRIDEVN=/dev/nrst2 
+SECDEV=/dev/rst0
+SECDEVN=/dev/nrst0
+TRIDEV=/dev/rst1
+TRIDEVN=/dev/nrst1
+BUDIR=$ADMENU/menu/UTILS/ADM_SYSTEM/BACKUP_UTILS
+
+trap 'rm $LCKDIR/.exclude 2> /dev/null;exit 0' 2 15
+
+#
+#  Establish system-specific commands.
+#
+
+
+
+echo ""
+state=0
+next_state=0
+while  true
+do
+	case $state in
+	0)
+
+		$TPUTCUP 5 0
+		tput ed
+		echo ""
+		echo "Restoring the Archive will overwrite file systems, if they exist."
+		echo "Verify the correct tape volume has been selected and "
+		echo "insert the tape into the tape drive."
+		echo ""
+		$ECHO_N "Press RETURN to continue ('q' to quit) : "$NONL
+		state=INP
+		next_state=0.1
+		;;
+
+	0.1)
+		$TPUTCUP 10 0
+		tput ed
+		echo "Enter Backup Media Type: "
+		echo "   (4)MM DAT Tape"
+		echo "   (8)MM DAT Tape"
+		echo "   (S)treamer Tape"
+		echo "   (Q)uit"
+		$TPUTCUP 10 26
+		state=INP
+		next_state=0.2
+		;;
+	0.2)
+		if [ -n "$ans" ]	
+		then
+			state=0.3
+			$TPUTCUP 10 26
+			tput el
+			if [ "$ans" = 8 ]
+			then
+				savestr="8MM DAT Tape"
+				echo $savestr
+				savedev=$PRIDEV
+				savedevn=$PRIDEVN
+			elif [ "$ans" = 4 ]
+			then
+				savestr="4MM DAT Tape"
+				echo $savestr
+				savedev=$TRIDEV
+				savedevn=$TRIDEVN
+			elif [ "$ans" = S -o "$ans" = s ]
+			then
+				savestr="Streamer Tape"
+				echo $savestr
+				savedev=$SECDEV
+				savedevn=$SECDEVN
+			else
+				ERRSTR="Invalid media type, try again."
+				state=ERR
+				next_state=0.1
+			fi
+		else
+			ERRSTR="Invalid media type, try again."
+			state=ERR
+			next_state=0.1
+		fi	
+		;;
+
+	0.3)
+		$TPUTCUP 5 0
+		tput ed
+		echo ""
+		echo "Rewinding...."${savestr}
+		if mt -f ${savedev} rewind 2> /dev/null
+		then
+			state=1
+		else
+			echo ""
+			echo "Archive Incompatible with backup utilities"
+			echo "Check: "
+			echo "      - Archive Type"
+			echo "      - Correct Archive Volume Used"
+			echo " 	    - Correct Tape Media Type (${savestr} or equivilent)"
+			echo "      - Damaged/Defective Tape"
+			echo ""
+			$ECHO_N "Press any key to continue.."$NONL
+			state=INP
+			next_state=0
+		fi
+		;;
+
+	1)
+		$TPUTCUP 5 0
+		tput ed
+		echo ""
+		echo "Reading Tape Header...."$savestr
+		rm .header 2> /dev/null
+		if tar -xvf ${savedevn} 
+		then
+			if [ ! -f .header ]
+			then
+				echo ""
+				echo "Archive Incomatible with backup utilities"
+				echo "Check: "
+				echo "      - Archive Type"
+				echo "      - Correct Archive Volume Used"
+				echo " 	    - Correct Tape Media Type (${savestr} or equivilant)"
+				echo "      - Damaged/Defective Tape"
+				echo ""
+				$ECHO_N "Press any key to continue.."$NONL
+				state=INP
+				next_state=0
+			else
+				vol_name=`cat .header | sed -n "s/VOLUME NAME : \(.*\)/\1/p"`
+				vol_date=`cat .header | sed -n "s/DATE        : \(.*\)/\1/p"`
+				vol_time=`cat .header | sed -n "s/TIME        : \(.*\)/\1/p"`
+				state=1.5
+			fi
+		else
+			echo ""
+			echo "Archive Restoration Failed or Partially Failed."
+			echo "Check: "
+			echo "      - Correct Archive Volume Used"
+			echo " 	    - Correct Tape Media Type (${savestr} or equivilant)"
+			echo "      - Damaged/Defective Tape"
+			echo ""
+			$ECHO_N "Press any key to continue.."$NONL
+			state=INP
+			next_state=0
+		fi
+		;;
+	1.5)
+		$TPUTCUP 5 0
+		tput ed
+		$TPUTCUP 6 0
+		echo "--- ARCHIVE DESCRIPTION --- "
+		echo ""
+		echo "VOLUME NAME : "$vol_name
+		echo "DATE        : "$vol_date
+		echo "TIME        : "$vol_time
+		echo ""
+		echo "The Archive is as described above."
+		echo "Enter 'ALL' to restore the entire arhive,"
+		$ECHO_N "or enter a filename (with path) to restore: "$NONL
+		state=INP
+		next_state=2
+		;;
+	2)
+		if [ -n "$ans" ]
+		then
+			if [ "$ans" = ALL -o "$ans" = all ]
+			then
+				fname=
+			else
+				fname=$ans
+			fi
+			state=3
+		else
+			ERRSTR="Error on input, try again."
+			state=ERR
+			next_state=1.5
+		fi
+		;;
+
+	3)
+		clear
+		if mt -f ${savedevn} fsf > /dev/null
+		then
+			state=3.5
+		else
+			echo ""
+			echo ""
+			echo "*** Error Tape Positioning Operation"
+			echo ""
+			echo "    Check :"
+			echo "		- Proper insertion of tape "
+			echo "		- Correct media type (DAT 8mm/DC6150 Streamer type) used"
+			echo "		- Defective/damaged tape"
+			echo ""
+			$ECHO_N "Press RETURN key to continue.."$NONL
+			state=INP
+			next_state=30
+		fi
+		;;
+	3.5)
+		echo "Restoring from Archive...$fname"
+		if tar -xvf ${savedev} $fname 
+		then 
+			echo ""
+			echo "Archive Restoration Complete."
+echo
+echo " Copying .Z files to /hvxvols"
+cp /backup/*.* /hvxvols
+cd /hvxvols
+stty echo
+echo " Uncompressing nalc00"
+uncompress nalc00
+echo " Uncompressing nalc01"
+uncompress nalc01
+echo " Uncompressing nalc02"
+uncompress nalc02
+echo " Uncompressing nalc03"
+uncompress nalc03
+echo " Uncompressing nalc04"
+uncompress nalc04
+echo " Uncompressing fepc11"
+uncompress fepc11
+rm *.Z
+stty -echo
+/usr/hvx_scripts/msgdsp "You may now bring HVX back online for use"
+
+			$ECHO_N "Press any key to continue.."$NONL
+			state=INP
+			next_state=30
+		else
+			echo ""
+			echo "Archive Restoration Failed or Partially Failed."
+			echo "Check: "
+			echo "      - Correct Archive Volume Used"
+			echo " 	    - Correct Tape Media Type (DAT 8mm/DC6150 Streamer or equivilant)"
+			echo "      - Damaged/Defective Tape"
+			echo ""
+			$ECHO_N "Press RETURN to continue.."$NONL
+			state=INP
+			next_state=20
+		fi
+		;;
+
+	30)
+		clear 
+		sed -n "s/#head#//p" .DESC
+		echo "Restore from Archive"
+		state=0
+		;;
+	ERR)
+		$TPUTCUP 22 4 
+		tput ed 
+		tput bel
+		$ECHO_N $ERRSTR$NONL
+		sleep 3
+		$TPUTCUP 22 4 
+		tput ed 
+		if [ "$next_state" = BYE ]
+		then 
+			state=BYE
+		else
+			state=$next_state
+		fi 
+		;;
+	INP)
+		stty echo
+		read ans
+		stty -echo
+
+		if [ -n "$ans" ]
+		then 
+			if [ "$ans" = 'q' -o "$ans" = 'Q' -o "$ans" = '^' ]
+			then
+				state=BYE
+			else
+				state=$next_state
+			fi 
+		else
+			state=$next_state
+		fi
+		;;
+	BYE)
+		sleep 1
+		exit 0
+		;;
+	esac
+done
+elif [ "$ans" = Q -o "$ans" = q ]
+then
+exit 0
+else
+    exec $0
+fi
+       

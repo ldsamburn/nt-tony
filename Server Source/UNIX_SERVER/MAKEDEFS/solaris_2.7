@@ -1,0 +1,130 @@
+#****************************************************************************
+# 
+#              Copyright (c)2002 Northrop Grumman Corporation
+#
+#                          All Rights Reserved
+#
+#
+#    This material may be reproduced by or for the U.S. Government pursuant
+#    to the copyright license under the clause at Defense Federal Acquisition
+#    Regulation Supplement (DFARS) 252.227-7013 (NOV 1995).
+#**************************************************************************** 
+
+######################################################################
+## solaris_2.7
+##
+## Solaris 2.7
+## GCC Development Set 
+######################################################################
+## Define C compiler and permanent flags (like -Xa, -ansi...)
+## Could redefine this in the Makefile after including this...
+CC	= gcc 
+CPP	= g++
+AR	= /usr/local/bin/ar
+ARFLAGS = r
+RM	= rm
+LD	= ld
+MAKE    = /usr/local/bin/gmake
+
+######################################################################
+## Extra Defines
+GCC_WARNING_FLAGS =  -pedantic -W -Wimplicit -Wmain -Wreturn-type \
+	-Wunused -Wformat -Wmissing-prototypes -Wstrict-prototypes \
+        -Wwrite-strings -Wcast-qual  -Wchar-subscripts
+
+GCC_X_WARN_FLAGS = -W -Wimplicit-function-declaration -Wmain -Wreturn-type \
+                    -Wunused -Wswitch -Wcomment -Wtrigraphs -Wformat \
+                    -Wchar-subscripts -O -Wuninitialized -Wparentheses \
+                    -Wpointer-arith -Wcast-align \
+                    -pedantic -Wnested-externs -Winline \
+                    -Wstrict-prototypes -Wmissing-prototypes \
+                    -Wmissing-declarations
+
+#GCC_DEBUG_FLAGS = -ggdb3 -DDEBUG 
+GCC_DEBUG_FLAGS =
+
+# Optomize flags have 3 levels; 01, 02, and 03.
+#GCC_OPTOMIZE_FLAGS = -O3
+GCC_OPTOMIZE_FLAGS = 
+
+EXTRA_DEFS = -ansi  -pipe -DSYSV -DSOLARIS -DSPARC -DMALLOC_0_RETURNS_NULL \
+		-DFUNCPROTO -D__EXTENSIONS__ -DUSE_FILE_LOCKS
+
+GCC_FLAGS = $(EXTRA_DEFS) $(GCC_WARNING_FLAGS) $(GCC_DEBUG_FLAGS) \
+            $(GCC_OPTOMIZE_FLAGS)
+
+GCC_X_FLAGS = $(EXTRA_DEFS) $(GCC_X_WARN_FLAGS) $(GCC_DEBUG_FLAGS) \
+		$(GCC_OPTOMIZE_FLAGS)
+LFLAGS =
+
+######################################################################
+## Define compiler includes...
+INCL_motif = /usr/include/Xm 
+INCL_x11   = /usr/include/X11
+INCL_postgres  = /opt/postgres/include
+INCL_g++ = /usr/local/include/g++-3
+
+#INCLUDES = -I$(INRI_GCC_INCLUDE) -I$(INRI_LIBS_INCLUDE) -I$(INCL_g++) \
+#	-I$(INCL_postgres) -I$(INCL_motif) -I$(INCL_x11)
+
+INRI_OBJ = $(PROJECT_DIR)/$(PROJECT_NAME)/OBJ/$(MACH_OS)
+#Just in case we want to direct the lib .o's elsewhere.
+INRI_LIBS_OBJ = $(INRI_OBJ)
+
+INCLUDES = -I$(INRI_GCC_INCLUDE) -I$(INRI_LIBS_INCLUDE) -I$(INCL_g++) \
+	-I$(INCL_motif) -I$(INCL_x11)
+
+######################################################################
+## Define linker paths...
+
+## The following NTCSS LIBS may be needed.
+# -R$(INRI_GCC_LIB) - only needed for machines where gcclib not installed in /usr/local
+NTCSS_LIBS_DIR = /h/NTCSSS/libs
+POSTGRES_LIBS_DIR = /opt/postgres/lib
+
+#SHARED_LIB_PATH = $(NTCSS_LIBS_DIR):$(INRI_LIBS_LIB):$(POSTGRES_LIBS_DIR)
+#LDPATH =  -L$(INRI_GCC_LIB) -L$(INRI_LIBS_LIB) -L$(POSTGRES_LIBS_DIR)
+SHARED_LIB_PATH = $(NTCSS_LIBS_DIR):$(INRI_LIBS_LIB)
+LDPATH =  -L$(INRI_GCC_LIB) -L$(INRI_LIBS_LIB) 
+	
+
+
+######################################################################
+## Define library names...
+
+APILIBS = -lNtcssApi
+DBLIBS = -lDbInri
+INILIBS = -lINI
+NTCSSLIBS = -lNtcssInri
+SOCKLIBS = -lSockInri
+STRLIBS = -lStrInri
+PGLIBS = -lpq++
+CPPLIBS = -lstdc++
+GCCLIBS = -lgcc
+CLIBS = $(INRI_LIB)
+CPROGS = $(INRI_BIN)
+
+#INCLWM = $(INCL_$(WM))
+
+######################################################################
+## Define libraries we always need...(or can't hurt to use)
+SYSLIBS = -lsocket -lnsl
+LD_EXTRA_LIBS =  $(LDPATH) $(NTCSSLIBS) $(INILIBS) $(STRLIBS) \
+		$(SOCKLIBS) $(SYSLIBS) -lc $(GCCLIBS)
+
+## The following X11 Library macros are named.
+LIB_motif = -lXm
+LIB_xt	  = -lXt
+LIB_x11   = -lX11
+XLIBS = -lXInri $(LIB_motif) $(LIB_xt) $(LIB_x11)
+USE_SHARED_LIB = -Wl,-Bdynamic
+USE_ARCHIVED_LIB = -Wl,-Bstatic
+USE_DEFAULT_LIB = -Wl,-Bdynamic
+
+
+# points to the 1.1.6 jdk
+JAVA_HOME = /usr/java
+
+#WMLIB  = $(LIB_$(WM))
+######################################################################
+## End of sunos_2.7

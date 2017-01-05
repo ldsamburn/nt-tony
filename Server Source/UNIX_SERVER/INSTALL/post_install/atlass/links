@@ -1,0 +1,13 @@
+web/DocumentRoot/ADHOC/reports /h/ADHOC/data
+web/DocumentRoot/ATLASS/data /h/ATLASS/data
+web/DocumentRoot/ATLASS/reports ../NTCSSII/reports
+web/DocumentRoot/NALCOMIS/reports ../NTCSSII/reports
+web/DocumentRoot/NTCSSU/reports ../NTCSSII/reports
+web/DocumentRoot/OIMABT/reports ../NTCSSII/reports
+web/DocumentRoot/OMMSBT/reports ../NTCSSII/reports
+web/DocumentRoot/OMMSNG/reports ../NTCSSII/reports
+web/DocumentRoot/RADM/reports ../NTCSSII/reports
+web/DocumentRoot/RADMBT/reports ../NTCSSII/reports
+web/DocumentRoot/RSUPPLY/reports ../NTCSSII/reports
+web/DocumentRoot/SUP1BT/reports ../NTCSSII/reports
+web/DocumentRoot/SUP2BT/reports ../NTCSSII/reports

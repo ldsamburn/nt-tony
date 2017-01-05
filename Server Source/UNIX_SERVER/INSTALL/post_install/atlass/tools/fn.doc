@@ -1,0 +1,11 @@
+Using "fixpwd" and "newpwd".
+
+1. fixpwd
+2. review ini file for obvious errors
+2a. If you want to make the password for each user the same as their
+   login ID, run the script: pwinifix.sh
+3. newpwd
+4. ntcss_make_and_push_nis_maps
+
+5. Good luck.
+

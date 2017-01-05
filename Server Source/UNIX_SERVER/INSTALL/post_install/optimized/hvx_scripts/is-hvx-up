@@ -1,0 +1,15 @@
+#!/bin/sh
+. /usr/hvx_scripts/sysadmsh.cmd
+genprg="hvx_gcos"
+
+for i in $genprg
+do
+       genstr=`ps -e | grep $i | egrep -v "ps -e" | egrep -v "grep ${i}"`
+       if [ -n "$genstr" ]
+       then
+              echo " HVX IS UP";
+              exit 1;
+       fi
+done
+echo "HVX IS DOWN";
+exit 0;

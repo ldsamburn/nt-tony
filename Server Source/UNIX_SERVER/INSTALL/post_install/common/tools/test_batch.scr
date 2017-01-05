@@ -1,0 +1,37 @@
+#!/bin/csh
+#
+#
+#              Copyright(c)2002 Northrop Grumman Corporation
+#
+#                          All Rights Reserved
+#
+#
+#    This material may be reproduced by or for the U.S. Government pursuant
+#    to the copyright license under the clause at Defense Federal Acquisition
+#    Regulation Supplement (DFARS) 252.227-7013 (NOV 1995).
+#
+#
+# Invoke the C-Shell.  Must be the first line.
+###############################################################################
+# C-Sh Script:  remote_test.scr for TEST in /h/NTCSSS/init_data/tools
+###############################################################################
+
+set bindir="/h/NTCSSS/bin"
+set td="/h/NTCSSS/init_data/tools"
+
+# This will send a message box to the requested client IP as a batch test.
+# If it gets there, batch should work.
+
+
+$bindir/msg_test $1 "Batch launched on: `hostname`, checking environment..."
+
+set atlass_stuff=`env`
+set envstuff=`echo $atlass_stuff | grep ATLASS`
+
+if ($status == "0" ) then
+    $bindir/msg_test $1 "ATLASS ENV detected in Environment.."
+else
+    $bindir/msg_test $1 "ATLASS ENV NOT detected in Environment.."
+endif
+
+

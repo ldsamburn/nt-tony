@@ -1,0 +1,16 @@
+
+
+
+
+The (Master) Server part of the process is complete...
+
+You must now go the NT system and 'FTP' to the Unix server
+and retrieve the following file to the c:\ntcss2 directory:
+
+    /nt_import.ini
+
+NOTE: Use the FTP "ASCII" transfer mode..
+
+Then login to NTCSSII as 'ntcssii', execute 'User Administration
+and 'import' the 'c:\ntcss2\nt_import.ini' file..
+

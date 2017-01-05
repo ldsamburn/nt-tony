@@ -1,0 +1,79 @@
+#****************************************************************************
+# 
+#              Copyright (c)2002 Northrop Grumman Corporation
+#
+#                          All Rights Reserved
+#
+#
+#    This material may be reproduced by or for the U.S. Government pursuant
+#    to the copyright license under the clause at Defense Federal Acquisition
+#    Regulation Supplement (DFARS) 252.227-7013 (NOV 1995).
+#**************************************************************************** 
+# Include file for Solaris 2.5
+
+NTCSSII_SRC_DIRS = LIBS/SRC BCST_SERVER INSTALL NTCSS_LP NTCSS_NETCOPY \
+					NTCSS_SERVER NTLPD APIS RELEASE_REQ SRV_DEV \
+					TOOLS UNIX_INI DIST_MGR NTLPPD PRINT_NTCSS_SYSTEM_SETTING \
+					FS_ARCHIVE NTCSS_NIS_PROGRAMS PROGD DB_CHECKER
+NTCSSII_LIBS_DIRS = strlib dblib ntcsslib socklib inilib xlib
+INRI_OBJ = $(PROJECT_DIR)/$(PROJECT_NAME)/OBJ/$(MACH_OS)
+#Just in case we want to direct the lib .o's elsewhere.
+INRI_LIBS_OBJ = $(INRI_OBJ)
+
+
+
+POSTGRES_LIBS_DIR = /opt/pgsql/lib
+
+EXTRA_LIBS_INCLUDE = \
+		-I/opt/usr/local/lib/gcc-lib/sparc-sun-solaris2.5.1/2.8.1/include
+MOTIF_INCLUDE = -I/usr/include/X11 -I/usr/include/Xm
+#MOTIF_INCLUDE = -I/usr/openwin/include -I/usr/dt/include
+
+#EXTRA_LDPATH = -L/opt/usr/local/lib \
+#		-L/opt/usr/local/lib/gcc-lib/sparc-sun-solaris2.5.1/2.8.1 \
+#		-L$(POSTGRES_LIBS_DIR) \ 
+#		-R/opt/usr/local/lib/gcc-lib/sparc-sun-solaris2.5.1/2.8.1
+EXTRA_LDPATH = -L/opt/usr/local/lib \
+		-L/opt/usr/local/lib/gcc-lib/sparc-sun-solaris2.5.1/2.8.1 \
+		-R/opt/usr/local/lib/gcc-lib/sparc-sun-solaris2.5.1/2.8.1
+MOTIF_LDPATH =
+
+MOTIF_LIBS = -lXInri -lWidgets -lMrm -lXm -lXt -lX11
+SYS_LIBS = -lnsl -lsocket
+
+AR = /usr/local/bin/ar
+ARFLAGS = r
+RM = rm -f
+CP = cp
+CC = gcc
+MAKE = /usr/local/bin/gmake
+
+#CC_OPTIMIZE_FLAGS =
+CC_OPTIMIZE_FLAGS = -O
+CC_WARNING_FLAGS = -pedantic -W -Wimplicit -Wmain -Wreturn-type \
+		-Wformat -Wmissing-prototypes -Wstrict-prototypes \
+		-Wwrite-strings -Wcast-qual -Wchar-subscripts -Wunused
+CC_X_WARN_FLAGS = -W -Wimplicit-function-declaration -Wmain -Wreturn-type \
+                    -Wunused -Wswitch -Wcomment -Wtrigraphs -Wformat \
+                    -Wchar-subscripts -O -Wuninitialized -Wparentheses \
+                    -Wtemplate-debugging \
+                    -Wpointer-arith -Wcast-align \
+                    -pedantic -Wnested-externs -Winline \
+                    -Wstrict-prototypes -Wmissing-prototypes \
+                    -Wmissing-declarations
+#CC_DEBUG_FLAGS = -ggdb3 -DDEBUG
+CC_DEBUG_FLAGS =
+CC_EXTRA_DEFS = -ansi -pipe -DSYSV -DSOLARIS -D__BUILTIN_VA_ARG_INCR -DSPARC \
+			-DMALLOC_0_RETURNS_NULL -DFUNCPROTO $(CC_OPTIMIZE_FLAGS) \
+			-D__EXTENSIONS__
+
+CC_ARGS = -c $(CC_WARNING_FLAGS) $(CC_DEBUG_FLAGS) $(CC_EXTRA_DEFS) $(CC_EXTERN_FLAGS)
+CC_X_ARGS = -c $(CC_X_WARN_FLAGS) $(CC_DEBUG_FLAGS) $(CC_EXTRA_DEFS) $(CC_X_EXTERN_FLAGS)
+
+LFLAGS =
+LARGS = -o
+
+USE_SHARED_LIB = -Wl,-Bdynamic
+USE_ARCHIVE_LIB = -Wl,-Bstatic
+USE_DEFAULT_LIB = -Wl,-Bdynamic
+

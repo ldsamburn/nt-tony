@@ -1,0 +1,435 @@
+#!/bin/sh
+#
+#
+#              Copyright(c)2002 Northrop Grumman Corporation
+#
+#                          All Rights Reserved
+#
+#
+#    This material may be reproduced by or for the U.S. Government pursuant
+#    to the copyright license under the clause at Defense Federal Acquisition
+#    Regulation Supplement (DFARS) 252.227-7013 (NOV 1995).
+#
+#
+
+# update_users_partial
+# 04/14/1999
+# 06/13/2000 Add "include" file containing names to add from ntcss_users
+
+#######################################################################
+#
+# This script reads the ntcss_users file specified by arg-1
+# and re-creates the user in Unix and NT.  It is to be used to fix
+# catastrophic failure in the NT or Unix domain, where users are lost, and a
+# re-synching between NTCSS and NT/Unix is required.
+# To be run only on the NTCSSII master server.
+#
+# It does not create Unix groups except for 'ntcss'.
+#
+# If a 'use_last_ip" exists under the root directory, this script will
+# use the last IP of the NT domain controller that was entered.
+#
+# It will skip users if they are listed in the file: 
+# /h/NTCSSS/init_data/tools/skip_updates_list
+# By default, the user 'sybase' is entered into this file.
+#
+# It will only create users if they exist in the "rebuild_list" file.
+#
+#######################################################################
+
+
+    if [ -z "$1" ]
+    then
+        echo " ";echo " "
+        echo "USAGE: update_users_partial {name of 'rebuild_list' file}"
+        echo " ";echo " "
+        exit 0
+    else
+        rebuild_list="$1"
+        if [ ! -f "$rebuild_list" ]
+        then
+            echo " "; echo "The specified file <$rebuild_list> does not exist.."
+            echo " "; echo " "
+            exit 1
+        fi
+    fi
+
+    settings="/etc/ntcss_system_settings.ini"
+
+    ntcssdir=`grep "^HOME_DIR=" "$settings" | cut -d= -f2`
+#    echo "NTCSS Home Directory: <$ntcssdir>"
+
+    ntcss_bin_dir=`grep NTCSS_BIN_DIR "$settings" | cut -d= -f2`
+    ntcss_bin_dir="$ntcssdir/$ntcss_bin_dir"
+#    echo "NTCSS Bin directory: <$ntcss_bin_dir>"
+
+    PATH=$PATH:${ntcss_bin_dir};export PATH
+
+    gps="$ntcss_bin_dir/GetProfileString"
+    wps="$ntcss_bin_dir/WriteProfileString"
+
+    #---applications--
+    appdir="$ntcssdir/applications"
+#    echo "NTCSS Application Directory: <$appdir>"
+
+    #---install-------
+    appinst=`$gps Strings APP_INST "applications/data/install" $settings`
+    appinst="$ntcssdir/$appinst"
+#    echo "NTCSS Install Directory: <$appinst>"
+
+    #---post_install---
+    postdir="$appinst/post_install"
+#    echo "NTCSS PI Directory: <$postdir>"
+
+    #---database---
+    dbdir=`$gps NTCSS_SYSTEM_SETTINGS NTCSS_DB_DIR "/h/NTCSSS/database" $settings`
+#    echo "NTCSS Database Directory: <$dbdir>"
+
+    #---users_conf---
+    ucdir=`$gps NTCSS_SYSTEM_SETTINGS USER_CONFIG_DIR "applications/data/users_conf" $settings`
+    ucdir=$ntcssdir/$ucdir
+#    echo "NTCSS User Config Directory: <$ucdir>"
+
+    #---progrps.ini---
+    progrps_file=`$gps NTCSS_SYSTEM_SETTINGS NTCSS_PROGRP_ID_FILE "/h/NTCSSS/init_data/progrps.ini" $settings`
+#    echo "NTCSS Program Groups file: <$progrps_file>"
+
+    #---init_data---
+    init_data_dir=`$gps Strings INIT_DATA "init_data" $settings`
+    init_data_dir="$ntcssdir/$init_data_dir"
+#    echo "NTCSS Init Data Directory: <$init_data_dir>"
+
+    #---tools directory
+    tools_dir="$init_data_dir/tools"
+
+    #---user_config (full path)---
+    uc_prog=`$gps NTCSS_SYSTEM_SETTINGS NTCSS_CHANGE_USER_PROGRAM "/h/NTCSSS/applications/data/users_conf/user_config" $settings`
+#    echo "NTCSS User Config Program:"
+#    echo "      <$uc_prog>"
+
+    #---Unix user's directory---
+    user_dir=`$gps NTCSS_SYSTEM_SETTINGS NTCSS_UNIX_USERS_DIR "/h/USERS" $settings`
+#    echo "NTCSS User's directory: <$user_dir>"
+
+    #---Server device interface directories---
+    sdi_dir=`$gps NTCSS_SYSTEM_SETTINGS SDI_DIR "applications/data/srv_dev" $settings`
+    sdi_dir="$ntcssdir/$sdi_dir"
+#    echo "NTCSS SDI Directory: <$sdi_dir>"
+
+    #---ntcss_cmd---
+    ntcsscmd=`$gps NTCSS_SYSTEM_SETTINGS NTCSS_CMD_PROG "ntcss_cmd" $settings`
+#    echo "NTCSS CMD Name: <$ntcsscmd>"
+
+    #---web directory---
+    webdir="$ntcssdir/web"
+#    echo "Web Directory: <$webdir>"
+
+    #---shell directory---
+    shelldir=`$gps NTCSS_SYSTEM_SETTINGS NTCSS_SHELL_DIR "/h/NTCSSS/applications/data/unix_uga/shell" $settings`
+#    echo "Shell Directory: <$shelldir>"
+
+
+#
+#   source in the shell to get the OS information to set environment
+#
+
+. $appinst/getOSinfo.sh
+
+
+    #update_exceptions file
+    skip_file=$tools_dir/skip_updates_list
+    if [ -f "$skip_file" ]
+    then
+        skip_file_exists="y"
+    else
+        skip_file_exists="n"
+    fi
+
+NTCSSDATADIR="$dbdir"
+DOMAIN_FLAG="DOMAIN"
+TELLNT="YES"
+TELLPWD="NO"
+
+get_ip()
+{
+        echo " "
+        echo " "
+        echo "Enter the IP address of the Workstation where the NTCSSII desktop"
+        echo "is executing as the NT Domain Administrator... (nnn.nnn.nnn.nnn)"
+        echo " "
+        read disp < /dev/tty
+        echo $disp > lastip
+        echo " "
+        echo " "
+        echo "Testing NT connectivity..."
+        $ntcss_bin_dir/ws_exec "$disp" "clock"
+        echo " "
+        echo "Did a Windows clock just appear?"
+        echo " "
+        read yesno
+        if [ "$yesno" = "yes" -o "$yesno" = "YES" -o "$yesno" = "Y" \
+             -o "$yesno" = "y" ]
+        then
+            continue
+        else
+            echo " "
+            echo "Connectivity is required for users to be added to NT"
+            echo " "
+            exit 1
+        fi
+}
+
+if [ -f /use_last_ip ]
+then
+    if [ -f lastip ]
+    then
+        read disp < lastip
+    else
+        get_ip
+    fi
+else
+    get_ip
+fi
+
+rm -f $dbdir/ntcss_users.new
+touch $dbdir/ntcss_users.new
+
+
+NTCSS_GRP="ntcss"
+PWDIR="/etc/passwd"
+GRPDIR="/etc/group"
+NTSHELL="/bin/csh"
+NTDIRPRE="$user_dir"
+DEF_NTDIR="c:\h"
+
+nispush()
+{
+	if [ `ypwhich -m passwd.byname` = `hostname` ]
+        then
+                curdir=`pwd`
+                cd $NISDIR
+                /bin/make -f Makefile
+                cd $curdir
+        fi
+}
+
+do_unix()
+{
+        # Insure user is in /etc/passwd file.
+#	echo "Processing User -> "$username
+        check_user=`grep "^${username}:" $PWDIR 2> /dev/null`
+        if [ $? = "0" ]
+        then
+            #User found in passwd file
+#            echo "USER: <$username> already in passwd file"
+            userpwd=`echo $check_user | cut -d: -f2`
+            userid=`echo $check_user | cut -d: -f3`
+            usergid=$ntcss_gid
+            userdir=$user_dir/$username
+            usershl=$NTSHELL
+
+            chmod 644 $PWDIR
+
+ed - $PWDIR <<EOF 2>&1 > /dev/null
+/${username}:/d
+a
+${username}:${userpwd}:${userid}:${usergid}:${longname}:${userdir}:${usershl}
+.
+w
+q
+EOF
+            echo "---> /etc/passwd file (modified)"
+        else
+            #User not in passwd file
+            userdir=$user_dir/$username
+            $uc_prog ADDUSER $username "*" "$user_dir" "$longname" "$username" "$auth_server"
+            echo "---> /etc/passwd file (added)"
+        fi
+
+        #Create user directory if it doesn't exist
+#echo "DOING PERMISSIONS ON $userdir FOR USER $username"
+        if [ ! -d "${userdir}" ]
+        then
+            echo "---> Creating user directory"
+            mkdir -p ${userdir}
+        fi
+
+        chown ${username} ${userdir}
+        chmod 755 ${userdir}
+        chgrp ${NTCSS_GRP} ${userdir}
+
+        #New .cshrc
+        cp ${shelldir}/.cshrc ${userdir}
+        chown ${username} ${userdir}/.cshrc 
+        chgrp ${NTCSS_GRP} ${userdir}/.cshrc
+        chmod 774 ${userdir}/.cshrc
+
+        if [ ${VERSION_1} != "10" -a ${VERSION_1} != "11" ]
+        then
+            chmod 400 $SECPWD
+        fi
+
+        #Add user to atlass group
+        $uc_prog ADDGROUP $username $grpname
+}
+
+do_nt()
+{
+        #Do NT registration
+
+        #Users NT directory from SYS_CONF
+        sys_line=`grep NTUSERDIR ${NTCSSDATADIR}/SYS_CONF`
+        if [ -n "${sys_line}" ]
+        then
+            ntdir=`echo ${sys_line} | sed -n "s/[^:]*.[ ]*\(.*\)$/\1/p"`
+        else
+            ntdir="c:\\h\\users"
+        fi
+
+        #Template user
+        tmpuser=""
+        sys_line=`grep NTTMPUSER ${NTCSSDATADIR}/SYS_CONF`
+        if [ -n "${sys_line}" ]
+        then
+            tmpuser=`echo ${sys_line} | sed -n "s/[^:]*.[ ]*\(.*\)$/\1/p"`
+            if [ -z "${tmpuser}" ]
+            then
+                tmpuser=""
+            fi
+        fi
+
+        #Profiles directory
+        ntprof=""
+        sys_line=`grep NTPROFDIR ${NTCSSDATADIR}/SYS_CONF`
+        if [ -n "${sys_line}" ]
+        then
+            ntprof=`echo ${sys_line} | sed -n "s/[^:]*.[ ]*\(.*\)$/\1/p"`
+            if [ -z "${ntprof}" ]
+            then
+                ntprof="/winnt/profiles"
+            fi
+        fi
+
+        if [ "${TELLNT}" = "YES" ]
+        then
+#echo "disp:        <$disp>"
+#echo "username:    <$username>"
+#echo "userdesc:    <$userdesc>"
+#echo "ntdir:       <$ntdir>"
+#echo "tmpuser:     <$tmpuser>"
+#echo "ntprof:      <$ntprof>"
+#echo "DOMAIN_FLAG: <$DOMAIN_FLAG>"
+#echo "auth_server: <$auth_server>"
+            $ntcss_bin_dir/adduser "${disp}" /ADDEXT "$username" "$username" "$longname" ${ntdir}\\${username} "IT-21" "${ntprof}\\${username}" $DOMAIN_FLAG $auth_server
+             echo "------> Delay for NT to take effect"
+             sleep 15
+#            $ntcss_bin_dir/ws_exec "${disp}" "c:\ntcss2\bin\nltest.exe"
+        fi
+}
+
+
+#---- MAIN -----
+
+#Get ntcss group id
+ntcss=`grep "ntcss:" /etc/group`
+if [ $? = "0" ]
+then
+#    echo "ntcss group already in /etc/group file"
+    ntcss_gid=`grep "ntcss:" /etc/group | cut -d: -f3`
+else
+#    echo "Adding ntcss group to /etc/group"
+    gh=`sort -t: +2n -3 /etc/group | tail -1 | cut -d: -f3`
+    ntcss_gid=`expr ${gh} + 1`
+ed - $GRPDIR <<EOF 2>&1 > /dev/null
+$
+a
+ntcss:*:${ntcss_gid}:
+.
+w
+q
+EOF
+    echo "ntcss group added to /etc/group"
+fi
+
+{
+while (true)
+do
+
+	read uid
+
+	if [ $? -ne 0 ]
+	then
+                cp -p $dbdir/ntcss_users $dbdir/ntcss_users.old
+                cat $dbdir/ntcss_users.new $dbdir/ntcss_users.old > $dbdir/ntcss_users
+		echo "Processing for ntcss_users complete."
+                break
+	fi
+
+	read username
+	read "longname"
+	read "apppwd"
+	read "ssn"
+	read "phone"
+	read class
+	read pwchange
+	read dbreg
+	read role
+	read "shpwd"
+	read auth_server
+        read seperater
+
+	if [ -z "$username" ] 
+	then
+		echo "Processing for ntcss_users complete."
+                cp -p $dbdir/ntcss_users $dbdir/ntcss_users.old
+                cat $dbdir/ntcss_users.new $dbdir/ntcss_users.old > $dbdir/ntcss_users
+                break
+	fi
+
+        if [ -z "$auth_server" ]
+        then
+            auth_server=`hostname`
+        fi
+
+        if [ $skip_file_exists = "y" ]
+        then
+            skip=`grep "^$username$" $skip_file`
+        fi
+
+        if [ -z "$skip" ]
+        then
+            incl=`grep "^$username$" $rebuild_list` 
+            if [ $? = "0" ]
+            then
+                echo "Adding user: '$username'.."
+                echo "---> To Unix"
+                do_unix
+                #Write user to new ntcss_users file to update unix id
+                newuid=`grep $username":" $PWDIR | cut -d: -f3`
+                echo $newuid >> $dbdir/ntcss_users.new
+                echo $username >> $dbdir/ntcss_users.new
+                echo $longname >> $dbdir/ntcss_users.new
+                echo $apppwd >> $dbdir/ntcss_users.new
+                echo $ssn >> $dbdir/ntcss_users.new
+                echo $phone >> $dbdir/ntcss_users.new
+                echo $class >> $dbdir/ntcss_users.new
+                echo $pwchange >> $dbdir/ntcss_users.new
+                echo $dbreg >> $dbdir/ntcss_users.new
+                echo $role >> $dbdir/ntcss_users.new
+                echo $shpwd >> $dbdir/ntcss_users.new
+                echo $auth_server >> $dbdir/ntcss_users.new
+                echo $seperater >> $dbdir/ntcss_users.new
+                #Always add to NT
+                echo "---> To NT"
+                do_nt
+            else
+                echo "---> User <$username> not in rebuild_list, skipping.."
+            fi # end rebuild_list check
+        else
+                echo "---> Unix processing for '$username' skipped.."
+        fi # end skip check
+
+done } < $dbdir/ntcss_users
+
+exit 0
+

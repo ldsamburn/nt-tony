@@ -1,0 +1,22 @@
+
+
+
+
+
+
+NOTE-1:
+-------
+
+You must bring up NTCSSII executing the
+"/h/NTCSSS/bin/ntcss_init" command.
+(No arguments are necessary)
+
+NOTE-2:
+-------
+
+Please ignore the following messages:
+
+1. "Substitute pattern match failed"
+2. "install: cleanupSystemSettingsAndExit: freeNtcssSystemSettingsShm failed"
+3. "Installation warning! Cannot move log file to /h/NTCSSS/logs"
+

@@ -1,0 +1,35 @@
+#!/bin/sh
+#########################################################################
+# PROGRAM NAME: MSGDSP.sh 						#
+# DESCRIPTION : This program simply determines the display type and     #
+#		subsequently display an error message either via an X   #
+#		dialog box or a simple text display.			#
+#########################################################################
+
+. /usr/hvx_scripts/sysadmsh.cmd
+
+if [ -z "$ADMENU" ]
+then
+	ADMENU=/usr/hvx_scripts
+fi
+
+if [ "$TERM" = xterm -a -n "$DISPLAY" ]
+then
+	if [ `uname` = HP-UX ]
+	then
+		$ADMENU/xmbox_hp "$1"
+	else
+		$ADMENU/xmbox_sun "$1"
+	fi
+else
+	tput bel
+	if [ -n "$ECHO_N" ]
+	then
+		$ECHO_N $1 $NONL
+	else
+		/bin/echo $1
+	fi
+	sleep 3
+fi
+
+

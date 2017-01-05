@@ -1,0 +1,266 @@
+FEDLOG Update
+SCHOOL01
+/h/USERS/FEDLOG/FEDUUpdate.sh
+12
+2
+H592341504
+
+HCN Startups
+SCHOOL01
+/h/ATLASS/scripts/D60200.scr
+12
+1
+
+
+Boot Transfer Daemon
+IF_SCHOOL01
+/h/NTCSS_APP/scripts/paxferd.scr
+12
+1
+
+
+Simulate OMA Supply Receipt
+SCHOOL01
+/h/ATLASS_MS/scripts/sup_simltor.scr
+28
+0
+
+
+Simulate DAASC Status
+SCHOOL01
+/h/ATLASS_MS/scripts/daas_simltor.scr
+28
+0
+
+
+Replication Simulator
+SCHOOL01
+/h/ATLASS_MS/scripts/replc_simltor.scr
+12
+0
+
+
+Simulate IMA Reject WO
+SCHOOL01
+/h/ATLASS_MS/scripts/ima_simltor.scr ME
+12
+0
+
+
+Simulate OMA Pickup WO
+SCHOOL01
+/h/ATLASS_MS/scripts/ima_simltor.scr W1
+12
+0
+
+
+Simulate IMA Complete WO
+SCHOOL01
+/h/ATLASS_MS/scripts/ima_simltor.scr  JC
+12
+0
+
+
+Simulate IMA Accept Float
+SCHOOL01
+/h/ATLASS_MS/scripts/ima_simltor.scr P1
+28
+0
+
+
+Simulate IMA Reject Float
+SCHOOL01
+/h/ATLASS_MS/scripts/ima_simltor.scr PE
+28
+0
+
+
+Simulate IMA Accept Component
+SCHOOL01
+/h/ATLASS_MS/scripts/ima_simltor.scr MB
+28
+0
+
+
+Simulate IMA Accept PEI
+SCHOOL01
+/h/ATLASS_MS/scripts/ima_simltor.scr M2
+28
+0
+
+
+Boot Outgoing Interface Daemon
+SCHOOL01
+/h/ATLASS/scripts/intfc_export_at.scr
+12
+1
+
+
+Start Outgoing Interface Daemon
+SCHOOL01
+/h/ATLASS/scripts/intfc_export_at.scr
+12
+0
+
+
+Batch Test
+SCHOOL01
+/h/NTCSSS/bin/batch_test.sh
+12
+0
+
+
+Start Interface Daemon
+IF_SCHOOL01
+/h/NTCSS_APP/scripts/paxferd.scr
+12
+0
+
+
+Boot Interface Daemon
+IF_SCHOOL01
+/h/NTCSS_APP/scripts/paxferd.scr
+12
+1
+
+
+Class Setup
+CS_SCHOOL01
+/usr/bin/X11/xterm -T "Setup Class" -e /h/ATLASS_MS/scripts/setup_class.sh
+12
+2
+
+
+FEDLOG Update
+SCHOOL02
+/h/USERS/FEDLOG/FEDUUpdate.sh
+12
+2
+H592341504
+
+HCN Startups
+SCHOOL02
+/h/ATLASS/scripts/D60200.scr
+12
+1
+
+
+Boot Transfer Daemon
+IF_SCHOOL02
+/h/NTCSS_APP/scripts/paxferd.scr
+1
+1
+
+
+Simulate OMA Supply Receipt
+SCHOOL02
+/h/ATLASS_MS/scripts/sup_simltor.scr
+28
+0
+
+
+Simlate DAASC Status
+SCHOOL02
+/h/ATLASS_MS/scripts/daas_simltor.scr
+28
+0
+
+
+Replication Simulator
+SCHOOL02
+/h/ATLASS_MS/scripts/replc_simltor.scr
+12
+0
+
+
+Simulate IMA Reject WO
+SCHOOL02
+/h/ATLASS_MS/scripts/ima_simltor.scr ME
+12
+0
+
+
+Simulate OMA Pickup WO
+SCHOOL02
+/h/ATLASS_MS/scripts/ima_simltor.scr W1
+12
+0
+
+
+Simulate IMA Complete WO
+SCHOOL02
+/h/ATLASS_MS/scripts/ima_simltor.scr  JC
+12
+0
+
+
+Simulate IMA Accept Float
+SCHOOL02
+/h/ATLASS_MS/scripts/ima_simltor.scr P1
+28
+0
+
+
+Simulate IMA Reject Float
+SCHOOL02
+/h/ATLASS_MS/scripts/ima_simltor.scr PE
+28
+0
+
+
+Simulate IMA Accept Component
+SCHOOL02
+/h/ATLASS_MS/scripts/ima_simltor.scr MB
+28
+0
+
+
+Simulate IMA Accept PEI
+SCHOOL02
+/h/ATLASS_MS/scripts/ima_simltor.scr M2
+28
+0
+
+
+Boot Outgoing Interface Daemon
+SCHOOL02
+/h/ATLASS/scripts/intfc_export_at.scr
+12
+1
+
+
+Start Outgoing Interface Daemon
+SCHOOL02
+/h/ATLASS/scripts/intfc_export_at.scr
+12
+0
+
+
+Batch Test
+SCHOOL02
+/h/NTCSSS/bin/batch_test.sh
+12
+0
+
+
+Start Interface Daemon
+IF_SCHOOL02
+/h/NTCSS_APP/scripts/paxferd.scr
+12
+0
+
+
+Boot Interface Daemon
+IF_SCHOOL02
+/h/NTCSS_APP/scripts/paxferd.scr
+12
+1
+
+
+Class Setup
+CS_SCHOOL02
+/usr/bin/X11/xterm -T "Setup Class" -e /h/ATLASS_MS/scripts/setup_class.sh
+12
+2
+
+

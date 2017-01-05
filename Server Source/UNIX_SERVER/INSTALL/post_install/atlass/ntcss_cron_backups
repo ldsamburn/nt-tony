@@ -1,0 +1,2 @@
+0 1 * * * /h/NTCSSS/bin/ntcss_remote_backup
+59 * * * * /h/NTCSSS/bin/ntcss_users_hourly

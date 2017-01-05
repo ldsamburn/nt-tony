@@ -1,0 +1,127 @@
+#****************************************************************************
+# 
+#              Copyright (c)2002 Northrop Grumman Corporation
+#
+#                          All Rights Reserved
+#
+#
+#    This material may be reproduced by or for the U.S. Government pursuant
+#    to the copyright license under the clause at Defense Federal Acquisition
+#    Regulation Supplement (DFARS) 252.227-7013 (NOV 1995).
+#**************************************************************************** 
+
+######################################################################
+## hp_11.0
+##
+## HP-UX 11.0
+## GCC
+######################################################################
+## Define C compiler and permanent flags (like -Xa, -ansi...)
+## Could redefine this in the Makefile after including this...
+##
+AR      = /usr/local/bin/ar
+ARFLAGS = -cr
+RM      = rm
+CP      = cp
+CC      = gcc 
+CPP	= g++
+LD      = ld -b
+MAKE    = /usr/local/bin/gmake
+
+######################################################################
+## Extra Defines
+# NOTE: -Wno-sign-compare was added to silence massive amounts of references
+#        in the unorthodox 11.x system headers spark this warning. 
+GCC_WARNING_FLAGS =  -W -Wimplicit-function-declaration -Wmain -Wreturn-type \
+                    -Wunused -Wswitch  -Wtrigraphs -Wformat \
+                    -Wchar-subscripts -Wparentheses \
+                    -Wpointer-arith -Wcast-align \
+                    -pedantic -Wnested-externs -Winline \
+                    -Wstrict-prototypes -Wmissing-prototypes \
+                    -Wmissing-declarations -Wno-sign-compare
+
+GCC_X_WARN_FLAGS = -W -Wimplicit-function-declaration -Wmain -Wreturn-type \
+                    -Wunused -Wswitch -Wtrigraphs -Wformat \
+                    -Wchar-subscripts -O -Wuninitialized -Wparentheses \
+                    -Wpointer-arith -Wcast-align \
+                    -pedantic -Wnested-externs -Winline \
+                    -Wstrict-prototypes -Wmissing-prototypes \
+                    -Wmissing-declarations
+
+#GCC_DEBUG_FLAGS = -ggdb3 -DDEBUG -DMETRICS
+GCC_DEBUG_FLAGS =
+
+# Optomize flags have 3 levels; 01, 02, and 03.
+#GCC_OPTOMIZE_FLAGS = -O3
+GCC_OPTOMIZE_FLAGS = 
+
+EXTRA_DEFS =  -ansi -pipe -mgas -DSYSV -DHPUX -DHP700 -DVHP -D_HPUX_SOURCE\
+	-DMALLOC_0_RETURNS_NULL -DNeedFunctionPrototypes -DUSE_FILE_LOCKS \
+	-D_PROTOTYPES
+
+GCC_FLAGS = $(EXTRA_DEFS) $(GCC_WARNING_FLAGS) $(GCC_DEBUG_FLAGS) \
+		$(GCC_OPTOMIZE_FLAGS)
+
+GCC_X_FLAGS = $(EXTRA_DEFS) $(GCC_X_WARN_FLAGS) $(GCC_DEBUG_FLAGS) \
+		$(GCC_OPTOMIZE_FLAGS)
+
+######################################################################
+## Define compiler includes...
+#INCL_postgres  = /usr/local/pgsql/include
+#INCL_postgres = 
+INCL_motif = /usr/include/Motif1.2 
+INCL_x11   = /usr/include/X11R5 
+INCLUDES   = -I$(PROJECT_DIR)/$(PROJECT_NAME)/SYSTEM_INCLUDES/HP_UXrB.11.00.rA \
+		-I$(INRI_GCC_INCLUDE) -I$(INRI_LIBS_INCLUDE) \
+		-I$(INCL_motif) -I$(INCL_x11)
+
+#INCLWM = $(INCL_$(WM))
+######################################################################
+## Define libraries we always need...(or can't hurt to use)
+SYSLIBS = -lnsl
+DLDLIB = -ldld
+
+## The following NTCSS LIBS may be needed.
+LFLAGS = 
+
+INRI_OBJ = $(PROJECT_DIR)/$(PROJECT_NAME)/OBJ/$(MACH_OS)
+#Just in case we want to direct the lib .o's elsewhere.
+INRI_LIBS_OBJ = $(INRI_OBJ)
+
+#POSTGRES_LIBS_DIR = /usr/local/pgsql/lib
+POSTGRES_LIBS_DIR =
+XLIB_DIR = /usr/lib/X11R5
+MOTIF_DIR = /usr/lib/Motif1.2
+LDPATH =  -L$(INRI_GCC_LIB) -L$(INRI_LIBS_LIB) \
+	-L$(MOTIF_DIR) -L$(XLIB_DIR)
+NTCSS_LIBS_DIR = /h/NTCSSS/libs
+SHARED_LIB_PATH = $(NTCSS_LIBS_DIR):$(INRI_LIBS_LIB):$(INRI_LIBS_LIB)
+HP_EXTRA_DEFINES = -Wl,+b,$(SHARED_LIB_PATH)
+SHARED_LIB_FLAGS = 
+
+APILIBS = -lNtcssApi
+DBLIBS = -lDbInri
+INILIBS = -lINI
+SOCKLIBS = -lSockInri
+STRLIBS = -lStrInri
+NTCSSLIBS = -lNtcssInri
+#PGLIBS = -lpq++ -lpq
+#PGLIBS = -l:libpq++.a -l:libpq.a
+#CPPLIBS = -lstdc++
+CLIBS = $(INRI_LIB)
+CPROGS = $(INRI_BIN)
+
+## The following X11 Library macros are provided
+## referenced using the $(WM) variable...
+LIB_motif = -lXm
+LIB_xt	  = -lXt
+LIB_x11   = -lX11
+XLIBS = -lXInri $(LIB_motif) $(LIB_xt) $(LIB_x11)
+
+USE_SHARED_LIB = -Wl,-a,shared
+USE_ARCHIVED_LIB = -Wl,-a,archive
+USE_DEFAULT_LIB = -Wl,-a,default
+
+#WMLIB  = $(LIB_$(WM))
+######################################################################
+## End of hp_11.0

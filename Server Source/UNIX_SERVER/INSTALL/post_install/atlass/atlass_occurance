@@ -1,0 +1,239 @@
+[ATLASS_X]
+GROUP=ATLASS_X
+SERVER=hostname
+UNIX_GROUP=atlass
+ICON_FILE=c:\run\atlass.ico
+ICON_INDEX=0
+VERSION=821-01.00
+RELEASE_DATE=981001.0000
+CLIENT_LOCATION=c:\run\atlass.exe
+SERVER_LOCATION=
+APP_ENV_FILE=/h/ATLASS/scripts/atlass.env
+PROCESS_STATUS_FLAG=/h/ATLASS/scripts/atlass.psp
+BATCH_USER=atlbtusr
+TERMINATION_SIGNAL=9
+
+[ATLASS_X_PROG]
+ATLASS_X_PROG_1=ATLASS_X_PROG_1
+ATLASS_X_PROG_2=ATLASS_X_PROG_2
+ATLASS_X_PROG_3=ATLASS_X_PROG_3
+
+[ATLASS_X_PROG_1]
+PROGRAM=ATLASS
+EXEFILE=atlass.exe
+ICONFILE=c:\run\atlass.ico
+ICONINDEX=0
+COMMANDLINE=
+SECURITYCLASS=Unclassified-Sensitive
+ACCESS=App Administrator,All Users
+PROGRAMTYPE=Client Program
+WORKINGDIR=c:\run\
+
+[ATLASS_X_PROG_2]
+PROGRAM=NTCSS Functional Test
+EXEFILE=danatest.exe
+ICONFILE=$NTCSSDIR\testsw\danatest.exe
+ICONINDEX=0
+COMMANDLINE=
+SECURITYCLASS=Unclassified
+ACCESS=Test User
+PROGRAMTYPE=Client Program
+WORKINGDIR=\ntcss2\testsw\
+
+[ATLASS_X_PROG_3]
+PROGRAM=API Test Manager
+EXEFILE=tm.exe
+ICONFILE=$NTCSSDIR\resource\icon_d.dll
+ICONINDEX=34
+COMMANDLINE=
+SECURITYCLASS=Unclassified
+ACCESS=Test User
+PROGRAMTYPE=Client Program
+WORKINGDIR=\ntcss2\testsw\
+
+[ATLASS_X_ROLES]
+ATLASS_X_ROLE_1=App Administrator
+ATLASS_X_ROLE_2=All Users
+ATLASS_X_ROLE_3=Test User
+
+[ATLASS_X_ROLE_1]
+TITLE=App Administrator
+LOCK_OVERRIDE=1
+
+[ATLASS_X_ROLE_2]
+TITLE=All Users
+LOCK_OVERRIDE=0
+
+[ATLASS_X_ROLE_3]
+TITLE=Test User
+LOCK_OVERRIDE=0
+
+[ATLASS_X_PDJ]
+ATLASS_X_PDJ_1=ATLASS_X_PDJ_1
+ATLASS_X_PDJ_2=ATLASS_X_PDJ_2
+ATLASS_X_PDJ_3=ATLASS_X_PDJ_3
+ATLASS_X_PDJ_4=ATLASS_X_PDJ_4
+ATLASS_X_PDJ_5=ATLASS_X_PDJ_5
+ATLASS_X_PDJ_6=ATLASS_X_PDJ_6
+ATLASS_X_PDJ_7=ATLASS_X_PDJ_7
+
+[ATLASS_X_PDJ_1]
+TITLE=Boot Outgoing Interface Daemon
+GROUP=ATLASS_X
+COMMAND_LINE=/h/ATLASS/scripts/intfc_export_at.scr
+ACCESS=App Administrator,All Users
+JOBTYPE=Boot Job
+SCHEDULE=
+
+[ATLASS_X_PDJ_2]
+TITLE=Start Outgoing Interface Daemon
+GROUP=ATLASS_X
+COMMAND_LINE=/h/ATLASS/scripts/intfc_export_at.scr
+ACCESS=App Administrator,All Users
+JOBTYPE=Standard Predefined Job
+SCHEDULE=
+
+[ATLASS_X_PDJ_3]
+TITLE=MDL Exchange Price Update
+GROUP=ATLASS_X
+COMMAND_LINE=/h/ATLASS/scripts/JTB006.scr
+ACCESS=App Administrator,All Users
+JOBTYPE=Standard Predefined Job
+SCHEDULE=
+
+[ATLASS_X_PDJ_4]
+TITLE=FEDLOG Update
+GROUP=ATLASS_X
+COMMAND_LINE=/h/USERS/FEDLOG/FEDUUpdate.sh
+ACCESS=All Users,App Administrator
+JOBTYPE=Scheduled Job
+SCHEDULE=H592341504
+
+[ATLASS_X_PDJ_5]
+TITLE=HCN Startups
+GROUP=ATLASS_X
+COMMAND_LINE=/h/ATLASS/scripts/D60200.scr
+ACCESS=All Users,App Administrator
+JOBTYPE=Boot Job
+SCHEDULE=
+
+[ATLASS_X_PDJ_6]
+TITLE=Test Remote Start {IP} {target}
+GROUP=ATLASS_X
+COMMAND_LINE=/h/NTCSSS/init_data/tools/remote_test.scr
+ACCESS=Test User
+JOBTYPE=Standard Predefined Job
+SCHEDULE=
+
+[ATLASS_X_PDJ_7]
+TITLE=Test Batch Capability {IP}
+GROUP=ATLASS_X
+COMMAND_LINE=/h/NTCSSS/init_data/tools/test_batch.scr
+ACCESS=Test User
+JOBTYPE=Standard Predefined Job
+SCHEDULE=
+
+[DB_X]
+GROUP=DB_X
+SERVER=hostname
+UNIX_GROUP=sybase
+ICON_FILE=\ntcss2\resource\icon_d.dll
+ICON_INDEX=6
+VERSION=1.0
+RELEASE_DATE=970515.0000
+CLIENT_LOCATION=
+SERVER_LOCATION=
+APP_ENV_FILE=
+PROCESS_STATUS_FLAG=
+BATCH_USER=
+TERMINATION_SIGNAL=9
+
+[DB_X_PROG]
+DB_X_PROG_1=DB_X_PROG_1
+DB_X_PROG_2=DB_X_PROG_2
+
+[DB_X_PROG_1]
+PROGRAM=DB Utils (telnet)
+EXEFILE=telnet.exe
+ICONFILE=\ntcss2\resource\icon_d.dll
+ICONINDEX=6
+COMMANDLINE=hostname
+SECURITYCLASS=Unclassified-Sensitive
+ACCESS=App Administrator,op user
+PROGRAMTYPE=Client Program
+WORKINGDIR=\winnt\system32\
+
+[DB_X_PROG_2]
+PROGRAM=Sybase Central
+EXEFILE=scview.exe
+ICONFILE=\sybtools\win32\scview.exe
+ICONINDEX=0
+COMMANDLINE=
+SECURITYCLASS=Unclassified-Sensitive
+ACCESS=App Administrator,Sybase Central User
+PROGRAMTYPE=Client Program
+WORKINGDIR=\sybtools\win32\
+
+[DB_X_ROLES]
+DB_X_ROLE_1=App Administrator
+DB_X_ROLE_2=op user
+DB_X_ROLE_3=Sybase Central User
+
+[DB_X_ROLE_1]
+TITLE=App Administrator
+
+[DB_X_ROLE_2]
+TITLE=op user
+
+[DB_X_ROLE_3]
+TITLE=Sybase Central User
+
+[IF_X]
+GROUP=IF_X
+SERVER=hostname
+UNIX_GROUP=ntcss_app
+ICON_FILE=\ntcss2\resource\icon_d.dll
+ICON_INDEX=10
+VERSION=1.0
+RELEASE_DATE=980401.0000
+CLIENT_LOCATION=
+SERVER_LOCATION=
+APP_ENV_FILE=/h/NTCSS_APP/scripts/ntcss_app.env
+PROCESS_STATUS_FLAG=/h/NTCSS_APP/scripts/ntcss_app.psp
+BATCH_USER=atlbtusr
+TERMINATION_SIGNAL=15
+
+[IF_X_PDJ]
+IF_X_PDJ_1=IF_X_PDJ_1
+
+[IF_X_PDJ_1]
+TITLE=Boot Transfer Daemon
+GROUP=IF_X
+COMMAND_LINE=/h/NTCSS_APP/scripts/paxferd.scr
+ACCESS=App Administrator,All Users
+JOBTYPE=Boot Job
+SCHEDULE=
+
+[IF_X_PROG]
+IF_X_PROG_1=IF_X_PROG_1
+
+[IF_X_PROG_1]
+PROGRAM=Make Paxferd
+EXEFILE=telnet.exe
+ICONFILE=\ntcss2\resource\icon_d.dll
+ICONINDEX=10
+COMMANDLINE=hostname
+SECURITYCLASS=Unclassified
+ACCESS=App Administrator,All Users
+PROGRAMTYPE=Client Program
+WORKINGDIR=\winnt\system32\
+
+[IF_X_ROLES]
+IF_X_ROLE_1=App Administrator
+IF_X_ROLE_2=All Users
+
+[IF_X_ROLE_1]
+TITLE=App Administrator
+
+[IF_X_ROLE_2]
+TITLE=All Users

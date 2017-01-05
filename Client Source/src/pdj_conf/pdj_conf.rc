@@ -1,0 +1,472 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\r\n"
+    "#ifdef _WIN32\r\n"
+    "LANGUAGE 9, 1\r\n"
+    "#pragma code_page(1252)\r\n"
+    "#endif\r\n"
+    "#include ""res\\pdj_conf.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""afxres.rc""         // Standard components\r\n"
+    "#endif\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON    DISCARDABLE     "res\\Pdjconf.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOG DISCARDABLE  0, 0, 217, 55
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "About NTCSS Predefined Job"
+FONT 8, "MS Sans Serif"
+BEGIN
+    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
+    LTEXT           "NTCSS Predefined Job Version 3.0.0",IDC_STATIC,40,10,
+                    119,8,SS_NOPREFIX
+    LTEXT           "Copyright  INRI,  1997",IDC_STATIC,40,25,119,8
+    DEFPUSHBUTTON   "OK",IDOK,178,7,32,14,WS_GROUP
+END
+
+IDD_PDJ_CONF_DIALOG DIALOGEX 0, 0, 395, 212
+STYLE DS_MODALFRAME | DS_3DLOOK | WS_MINIMIZEBOX | WS_POPUP | WS_VISIBLE | 
+    WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "NTCSS Predefined Job Manager"
+MENU IDR_MENU1
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "&Apply",IDOK,91,184,50,14
+    PUSHBUTTON      "&Close",IDCANCEL,243,184,50,14
+    GROUPBOX        "",IDC_STATIC,6,173,384,32
+    GROUPBOX        " Application List  ",IDC_STATIC,7,14,101,156
+    GROUPBOX        " Predefined Job List ",IDC_STATIC,115,14,273,156
+    CONTROL         "List3",IDC_PDJ_LIST,"SysListView32",LVS_REPORT | 
+                    LVS_SHOWSELALWAYS | WS_BORDER | WS_TABSTOP,124,24,255,
+                    140
+    LISTBOX         IDC_APPLICATION_LIST,15,32,86,132,LBS_SORT | 
+                    LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "",IDC_STATIC,0,0,395,9
+END
+
+IDD_PDJ_EDIT DIALOG DISCARDABLE  0, 0, 236, 201
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Predefined Job Description"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,37,167,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,141,167,50,14
+    EDITTEXT        IDC_PDJ_TITLE,64,18,142,15,ES_AUTOHSCROLL
+    LTEXT           "Title :",IDC_STATIC,40,21,19,10
+    EDITTEXT        IDC_PDJ_COMMAND,64,39,142,15,ES_AUTOHSCROLL
+    LTEXT           "Command :",IDC_STATIC,23,40,38,13
+    GROUPBOX        "",IDC_STATIC,7,157,222,30
+    GROUPBOX        "",IDC_STATIC,7,7,222,150
+    LISTBOX         IDC_ROLE_LIST,64,59,141,40,LBS_MULTIPLESEL | 
+                    LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Access Roles :",IDC_STATIC,12,60,47,13
+    COMBOBOX        IDC_JOB_TYPE,64,105,141,39,CBS_DROPDOWN | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Type :",IDC_STATIC,37,105,23,13
+    PUSHBUTTON      "Add Schedule",IDC_SCHEDULE_BUTTON,95,128,58,17
+END
+
+IDD_SCHEDULE_DLG DIALOG DISCARDABLE  0, 0, 303, 239
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "NTCSS Schedule Dialog"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",ID_DONE,61,213,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,128,213,50,14
+    PUSHBUTTON      "Sun",IDC_HEADING_SUN,13,64,20,10
+    PUSHBUTTON      "Mon",IDC_HEADING_MON,33,64,20,10
+    PUSHBUTTON      "Tue",IDC_HEADING_TUE,53,64,20,10
+    PUSHBUTTON      "Wed",IDC_HEADING_WED,73,64,20,10
+    PUSHBUTTON      "Thur",IDC_HEADING_THUR,93,64,20,10
+    PUSHBUTTON      "Fri",IDC_HEADING_FRI,113,64,20,10
+    PUSHBUTTON      "Sat",IDC_HEADING_SAT,133,64,20,10
+    CONTROL         "",IDC_DAY01,"Button",BS_OWNERDRAW | WS_TABSTOP,14,77,20,
+                    17
+    CONTROL         "",IDC_DAY2,"Button",BS_OWNERDRAW | WS_TABSTOP,34,77,20,
+                    17
+    CONTROL         "",IDC_DAY3,"Button",BS_OWNERDRAW | WS_TABSTOP,53,77,20,
+                    17
+    CONTROL         "",IDC_DAY4,"Button",BS_OWNERDRAW | WS_TABSTOP,73,77,20,
+                    17
+    CONTROL         "",IDC_DAY5,"Button",BS_OWNERDRAW | WS_TABSTOP,93,77,20,
+                    17
+    CONTROL         "",IDC_DAY6,"Button",BS_OWNERDRAW | WS_TABSTOP,113,77,20,
+                    17
+    CONTROL         "",IDC_DAY7,"Button",BS_OWNERDRAW | WS_TABSTOP,133,77,20,
+                    17
+    CONTROL         "",IDC_DAY8,"Button",BS_OWNERDRAW | WS_TABSTOP,14,93,20,
+                    17
+    CONTROL         "",IDC_DAY9,"Button",BS_OWNERDRAW | WS_TABSTOP,34,93,20,
+                    17
+    CONTROL         "",IDC_DAY10,"Button",BS_OWNERDRAW | WS_TABSTOP,53,93,20,
+                    17
+    CONTROL         "",IDC_DAY11,"Button",BS_OWNERDRAW | WS_TABSTOP,73,93,20,
+                    17
+    CONTROL         "",IDC_DAY12,"Button",BS_OWNERDRAW | WS_TABSTOP,93,93,20,
+                    17
+    CONTROL         "",IDC_DAY13,"Button",BS_OWNERDRAW | WS_TABSTOP,113,93,
+                    20,17
+    CONTROL         "",IDC_DAY14,"Button",BS_OWNERDRAW | WS_TABSTOP,133,93,
+                    20,17
+    CONTROL         "",IDC_DAY15,"Button",BS_OWNERDRAW | WS_TABSTOP,14,109,
+                    20,17
+    CONTROL         "",IDC_DAY16,"Button",BS_OWNERDRAW | WS_TABSTOP,34,109,
+                    20,17
+    CONTROL         "",IDC_DAY17,"Button",BS_OWNERDRAW | WS_TABSTOP,53,109,
+                    20,17
+    CONTROL         "",IDC_DAY18,"Button",BS_OWNERDRAW | WS_TABSTOP,73,109,
+                    20,17
+    CONTROL         "",IDC_DAY19,"Button",BS_OWNERDRAW | WS_TABSTOP,93,109,
+                    20,17
+    CONTROL         "",IDC_DAY20,"Button",BS_OWNERDRAW | WS_TABSTOP,113,109,
+                    20,17
+    CONTROL         "",IDC_DAY21,"Button",BS_OWNERDRAW | WS_TABSTOP,133,109,
+                    20,17
+    CONTROL         "",IDC_DAY22,"Button",BS_OWNERDRAW | WS_TABSTOP,14,125,
+                    20,17
+    CONTROL         "",IDC_DAY23,"Button",BS_OWNERDRAW | WS_TABSTOP,34,125,
+                    20,17
+    CONTROL         "",IDC_DAY24,"Button",BS_OWNERDRAW | WS_TABSTOP,53,125,
+                    20,17
+    CONTROL         "",IDC_DAY25,"Button",BS_OWNERDRAW | WS_TABSTOP,73,125,
+                    20,17
+    CONTROL         "",IDC_DAY26,"Button",BS_OWNERDRAW | WS_TABSTOP,93,125,
+                    20,17
+    CONTROL         "",IDC_DAY27,"Button",BS_OWNERDRAW | WS_TABSTOP,113,125,
+                    20,17
+    CONTROL         "",IDC_DAY28,"Button",BS_OWNERDRAW | WS_TABSTOP,133,125,
+                    20,17
+    CONTROL         "",IDC_DAY29,"Button",BS_OWNERDRAW | WS_TABSTOP,14,141,
+                    20,17
+    CONTROL         "",IDC_DAY30,"Button",BS_OWNERDRAW | WS_TABSTOP,34,141,
+                    20,17
+    CONTROL         "",IDC_DAY31,"Button",BS_OWNERDRAW | WS_TABSTOP,53,141,
+                    20,17
+    CONTROL         "",IDC_DAY32,"Button",BS_OWNERDRAW | WS_TABSTOP,73,141,
+                    20,17
+    CONTROL         "",IDC_DAY33,"Button",BS_OWNERDRAW | WS_TABSTOP,93,141,
+                    20,17
+    CONTROL         "",IDC_DAY34,"Button",BS_OWNERDRAW | WS_TABSTOP,113,141,
+                    20,17
+    CONTROL         "",IDC_DAY35,"Button",BS_OWNERDRAW | WS_TABSTOP,133,141,
+                    20,17
+    CONTROL         "",IDC_DAY36,"Button",BS_OWNERDRAW | WS_TABSTOP,14,157,
+                    20,17
+    CONTROL         "",IDC_DAY37,"Button",BS_OWNERDRAW | WS_TABSTOP,34,157,
+                    20,17
+    CONTROL         "",IDC_DAY38,"Button",BS_OWNERDRAW | WS_TABSTOP,53,157,
+                    20,17
+    CONTROL         "",IDC_DAY39,"Button",BS_OWNERDRAW | WS_TABSTOP,73,157,
+                    20,17
+    CONTROL         "",IDC_DAY40,"Button",BS_OWNERDRAW | WS_TABSTOP,93,157,
+                    20,17
+    CONTROL         "",IDC_DAY41,"Button",BS_OWNERDRAW | WS_TABSTOP,113,157,
+                    20,17
+    CONTROL         "",IDC_DAY42,"Button",BS_OWNERDRAW | WS_TABSTOP,133,157,
+                    20,17
+    EDITTEXT        IDC_MONTH_TEXT,46,47,25,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "<",IDC_MONTH_DOWN,34,47,11,12
+    PUSHBUTTON      ">",IDC_MONTH_UP,72,47,11,12
+    EDITTEXT        IDC_YEAR_TEXT,102,47,25,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "<",IDC_YEAR_DOWN,90,47,11,12
+    PUSHBUTTON      ">",IDC_YEAR_UP,128,47,11,12
+    COMBOBOX        IDC_SCHEDULE_TYPE,47,23,78,80,CBS_DROPDOWN | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "Schedule Entry Type:",IDC_STATIC,31,9,75,10
+    LISTBOX         IDC_ENTRY_LIST,177,23,106,97,LBS_SORT | 
+                    LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Schedule Entries:",IDC_STATIC,173,12,62,10
+    LTEXT           "Schedule At Time:",IDC_STATIC,25,181,61,10
+    SCROLLBAR       IDC_HOUR_SCROLL,87,185,9,12,SBS_VERT
+    EDITTEXT        IDC_HOUR_VALUE,97,185,12,12,ES_AUTOHSCROLL | ES_READONLY
+    CTEXT           ":",IDC_STATIC,109,188,8,10
+    PUSHBUTTON      "Save",IDC_SAVE_ENTRY,179,129,30,15
+    PUSHBUTTON      "Discard",IDC_DISCARD_ENTRY_CHANGES,179,155,30,15
+    PUSHBUTTON      "Delete",IDC_DELETE_ENTRY,179,182,30,15
+    LTEXT           "Save entry changes",IDC_STATIC,214,132,66,9
+    LTEXT           "Discard entry changes",IDC_STATIC,214,158,73,9
+    LTEXT           "Delete entry",IDC_STATIC,214,184,66,9
+    EDITTEXT        IDC_MINUTE_VALUE,117,185,12,12,ES_AUTOHSCROLL | 
+                    ES_READONLY
+    SCROLLBAR       IDC_MIN_SCROLL,129,185,9,12,SBS_VERT
+    CONTROL         "",IDC_STATIC,"Static",SS_BLACKFRAME,4,7,160,198
+    CONTROL         "",IDC_STATIC,"Static",SS_BLACKFRAME,169,7,124,198
+    PUSHBUTTON      "Help",IDC_NEED_HELP,195,213,50,14
+END
+
+IDD_SYSTEM_LOG DIALOG DISCARDABLE  0, 0, 271, 172
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "NTCSS System Change Log"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,108,148,50,14
+    EDITTEXT        IDC_SYSTEM_LOG,7,7,257,135,ES_MULTILINE | ES_AUTOVSCROLL | 
+                    ES_AUTOHSCROLL
+END
+
+IDD_APPLOCKED DIALOG DISCARDABLE  0, 0, 150, 103
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "PDJ Warning!!"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,55,84,45,13
+    LISTBOX         IDC_APPS_LOCKED,16,32,115,43,LBS_SORT | 
+                    LBS_NOINTEGRALHEIGHT | LBS_NOSEL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "WARNING:  The Following Application",IDC_STATIC,11,7,
+                    130,10
+    LTEXT           "Groups are Not Available:",IDC_STATIC,55,16,86,10
+END
+
+
+#ifndef _MAC
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904B0"
+        BEGIN
+            VALUE "CompanyName", "\0"
+            VALUE "FileDescription", "PDJ_CONF MFC Application\0"
+            VALUE "FileVersion", "1, 0, 0, 1\0"
+            VALUE "InternalName", "PDJ_CONF\0"
+            VALUE "LegalCopyright", "Copyright © 1997\0"
+            VALUE "LegalTrademarks", "\0"
+            VALUE "OriginalFilename", "PDJ_CONF.EXE\0"
+            VALUE "ProductName", "PDJ_CONF Application\0"
+            VALUE "ProductVersion", "1, 0, 0, 1\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+#endif    // !_MAC
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 210
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 48
+    END
+
+    IDD_PDJ_CONF_DIALOG, DIALOG
+    BEGIN
+        BOTTOMMARGIN, 205
+    END
+
+    IDD_PDJ_EDIT, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 229
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 194
+    END
+
+    IDD_SCHEDULE_DLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 296
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 232
+    END
+
+    IDD_SYSTEM_LOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 264
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 164
+    END
+
+    IDD_APPLOCKED, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 143
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 96
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MENU1 MENU DISCARDABLE 
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&Apply",                      ID_SYSTEM_APPLY
+        MENUITEM "&Cancel",                     ID_SYSTEM_CANCEL
+        MENUITEM "&View Change Log",            ID_SYSTEM_VIEWCHANGELOG
+        MENUITEM "&Quit",                       ID_SYSTEM_QUIT
+    END
+    POPUP "&Predefined Jobs"
+    BEGIN
+        MENUITEM "&Add",                        ID_PREDFINEDJOBS_ADD
+        MENUITEM "&Edit",                       ID_PREDFINEDJOBS_EDIT
+        MENUITEM "&Delete",                     ID_PREDFINEDJOBS_DELETE
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&Desktop Help Topics    F1",  ID_PDJ_HELP
+        MENUITEM SEPARATOR
+        MENUITEM "&Getting Help",               ID_GETTING_HELP
+        MENUITEM "&Window Help               Ctrl + F1", ID_WINDOW_HELP
+        MENUITEM "&Field Help                     Ctrl + F1", ID_FIELD_HELP
+        MENUITEM SEPARATOR
+        POPUP "&Books"
+        BEGIN
+            MENUITEM "&Users Guide        F1",      ID_USERS_GUIDE
+            MENUITEM "&Interface Design Document",  ID_IDD
+            MENUITEM "&System Administration (NTCSS)", ID_SYSTEM_ADMIN_GUIDE
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "&Technical Support",          ID_TECH_SUPPORT
+        MENUITEM "&Version",                    ID_PDJ_ABOUT
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDR_HELP ACCELERATORS DISCARDABLE 
+BEGIN
+    VK_F1,          ID_USERS_GUIDE,         VIRTKEY, NOINVERT
+    VK_F1,          ID_WINDOW_HELP,         VIRTKEY, CONTROL, NOINVERT
+    VK_F1,          ID_FIELD_HELP,          VIRTKEY, SHIFT, NOINVERT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_ABOUTBOX            "&About pdj_conf..."
+    IDP_SOCKETS_INIT_FAILED "Windows sockets initialization failed."
+END
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE 9, 1
+#pragma code_page(1252)
+#endif
+#include "res\pdj_conf.rc2"  // non-Microsoft Visual C++ edited resources
+#include "afxres.rc"         // Standard components
+#endif
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

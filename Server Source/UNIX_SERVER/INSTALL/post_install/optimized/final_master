@@ -1,0 +1,23 @@
+
+
+
+
+
+
+NOTE-1:
+-------
+
+You must bring up NTCSSII executing the
+"/h/NTCSSS/bin/ntcss_init" command.
+(No arguments are necessary)
+
+NOTE-2:
+-------
+
+Please ignore the following messages:
+
+1. "Substitute pattern match failed"
+2. "Installation warning! Cannot move log file to /h/NTCSSS/logs"
+3. "Installation warning! Could not change UNIX group to sys on all NTCSS files under /h/NTCSSS.
+
+

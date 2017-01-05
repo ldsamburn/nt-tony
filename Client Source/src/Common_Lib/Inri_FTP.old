@@ -1,0 +1,1255 @@
+ // NTCSS_ROOT_DIR\source\comn_lib\inri_ftp.cpp
+//
+// WSP, last update: 9/16/96
+//                                         
+// This is the implementation file for the CInriFtpMan routines.  
+//
+// See routine comments below and also the header file for details on 
+// processing.
+//
+//----------------------------------------------------------------------
+
+#include "stdafx.h"
+#include "stdio.h"
+#include "inri_ftp.h"
+#include <sys/types.h>   
+#include <sys/stat.h>
+ 
+
+#ifdef _DEBUG
+#undef THIS_FILE
+static char BASED_CODE THIS_FILE[] = __FILE__;
+#endif
+
+
+/////////////////////////////////////////////////////////////////////////////
+// CTransfer message mapping
+// _________________________
+
+BEGIN_MESSAGE_MAP(CInriFtpMan, CWnd)
+    //{{AFX_MSG_MAP(CInriFtpMan)
+    ON_WM_CREATE()
+    ON_WM_DESTROY()
+    ON_WM_TIMER()
+    //}}AFX_MSG_MAP
+END_MESSAGE_MAP()
+
+
+
+/////////////////////////////////////////////////////////////////////////////
+// LocalFileGetFromRemote
+// ______________________
+//
+// Reads a file from the server on the other end of m_win_sock and
+// writes it to a local disk.
+
+CInriFtpMan::~CInriFtpMan()
+{
+#ifdef _NTCSS_FTP_MAN_TRACING_
+	if (m_log_file != NULL)
+		fclose(m_log_file);
+#endif
+}
+
+
+/////////////////////////////////////////////////////////////////////////////
+// LocalFileGetFromRemote
+// ______________________
+//
+// Reads a file from the server on the other end of m_win_sock and
+// writes it to a local disk.
+
+int CInriFtpMan::LocalFileGetFromRemote
+						 (const char *remote_file_name_str,
+                          const char *local_file_name_str,
+                          BOOL is_text)
+{
+                                       // Static so have to bother
+                                       //  with allocating space only when
+                                       //  class is first constructed
+    static SfixedDataBuffer fixed_data;
+    
+    FILE  *file_ptr = NULL;
+    int  state = XFER_INIT_READ;
+    BOOL done_fopen = FALSE;
+
+    BOOL done = FALSE;
+    BOOL ok   = TRUE;
+    
+    while(!done) 
+    {
+        switch(state) 
+        {
+        	                           // Receieve ACK from server after
+        	                           //  XFER_INIT_READ 
+        	                           //  and after XFER_WRITE_LOCAL
+									   //  (XFER_OK_PACK case), here
+									   //  just read data, actually
+									   //  check contents in 
+									   //  XFER_OPEN_LOCAL and
+									   //  WRITE_LOCAL
+			case XFER_GET_RESP:
+			{   
+				TraceOutput("XFER_GET_RESP\n");
+				if (PacketRead(&fixed_data)  != XFER_ERROR_CODE) 
+			    {
+				    if (!done_fopen)
+					    state = XFER_OPEN_LOCAL;
+	                else
+		                state = XFER_WRITE_LOCAL;
+			    }
+				else
+				{
+			        m_errman.RecordError("Error reading socket response");
+				    state = XFER_TRANSFER_ERROR;
+	            } 
+			}
+            break;
+
+                                       // Open remote file
+			case XFER_INIT_READ:
+			{
+				TraceOutput("XFER_INIT_READ\n");
+				if (SendCommand(XFER_OPEN_READ_NC, 
+								remote_file_name_str))
+				{
+					state = XFER_GET_RESP;
+					strcpy(fixed_data.file_name_buf,
+						   remote_file_name_str);
+				}
+				else
+				{ 
+				    char err_msg[MAX_ERROR_MSG_LEN];
+					sprintf(err_msg,"Error opening remote file\n\t%s",
+	                        remote_file_name_str);
+		                
+			        m_errman.RecordError(err_msg);
+				    state = XFER_TRANSFER_ERROR;
+				} 
+			}
+            break; 
+									   // After have done 
+									   //  XFER_GET_RESP for the
+									   //  XFER_INIT_READ then get to
+									   //  XFER_OPEN_LOCAL to verify
+									   //  status and to open local
+									   //  file for write
+			case XFER_OPEN_LOCAL:	   
+			{
+				TraceOutput("XFER_OPEN_LOCAL\n");
+				
+									   // First make sure is ok
+									   //
+				if (fixed_data.cmd_val == XFER_OK_PACK) 
+				{
+									   // If local file exists try to
+									   //  delete it
+									   //
+    			    struct stat stat_val;
+	                if (!stat(local_file_name_str, &stat_val)) 
+		            {
+			            if ((stat_val.st_mode & _S_IFREG) &&  
+				            (stat_val.st_uid == fixed_data.uid_val)) 
+					    {
+						    remove(local_file_name_str);
+						} 
+						else 
+						{
+							char err_msg[MAX_ERROR_MSG_LEN];
+							sprintf(err_msg,"Unable to create file (permission or type error)\n\t%s",
+								    local_file_name_str);
+                    
+							m_errman.RecordError(err_msg);
+							state = XFER_TRANSFER_ERROR;
+						}
+					}
+// WSPTODO - what about here?
+
+//              setgid(hdblock.dbuf.gid);
+//              setuid(hdblock.dbuf.uid);
+//              file_mode=hdblock.dbuf.file_mode;
+
+									   // Now open local file for writing
+									   //  and then start reading file
+									   //  from server
+									   //
+					if ((file_ptr = fopen(local_file_name_str, is_text?"w":"w+b")) != NULL) 
+					 
+					{
+		                done_fopen = TRUE;
+			            SendCommand(XFER_READ_NC, remote_file_name_str);
+				        state = XFER_GET_RESP; 
+					}
+					else
+					{
+						char err_msg[MAX_ERROR_MSG_LEN];
+						sprintf(err_msg,"Unable to open file for writing\n\t%s",
+							    local_file_name_str);
+                    
+						m_errman.RecordError(err_msg);
+						state = XFER_TRANSFER_ERROR;
+					} 
+				}
+									   // Else did't get expected ack
+				else
+	            {
+					char err_msg[MAX_ERROR_MSG_LEN];
+	                sprintf(err_msg,"Error opening remote file\n\t%s",
+						    remote_file_name_str);
+                    
+					m_errman.RecordError(err_msg);
+					state = XFER_TRANSFER_ERROR;
+				} 
+			}
+            break;
+
+									   // Just got data from server, 
+									   //  now verify ok and write
+									   //  data to local file
+			case XFER_WRITE_LOCAL:
+			{
+				TraceOutput("XFER_WRITE_LOCAL\n");
+
+		        switch(fixed_data.cmd_val) 
+			    {
+									   // Standard case, received ok
+									   //  write data to local file
+									   //  and ask server for more
+					case XFER_OK_PACK:
+					{
+						TraceOutput("XFER_OK_PACK\n");
+
+	                    if ((fwrite(fixed_data.data_buf, 1, 
+									(size_t)fixed_data.len_val, 
+									file_ptr)) 
+                             == (size_t)fixed_data.len_val) 
+	                    {
+							fflush(file_ptr);
+		                    state = XFER_GET_RESP;
+			                SendCommand(XFER_READ_NC, remote_file_name_str);             
+				        }
+						else 
+		                {
+							char err_msg[MAX_ERROR_MSG_LEN];
+							sprintf(err_msg,"Local file write error error\n\t%s",
+							        local_file_name_str);
+							m_errman.RecordError(err_msg);
+
+			                SendCommand(XFER_CLOSE_READ_NC, remote_file_name_str);
+				            state = XFER_TRANSFER_ERROR;
+					    } 
+                    }
+					break;
+									   // EOF case, if any data at all
+									   //  came over then write it to
+									   //  file and then do 
+									   //  XFER_CLOSE_LOCAL
+					case XFER_EOF_PACK:
+					{
+						TraceOutput("XFER_EOF_PACK\n");
+		                state = XFER_CLOSE_LOCAL;
+
+	                    if (fixed_data.len_val != 0)
+						{
+							if ((fwrite(fixed_data.data_buf, 1,
+		                                (size_t)fixed_data.len_val,
+								        file_ptr)) 
+			                    != (size_t)fixed_data.len_val) 
+							{
+								m_errman.RecordError("Unexpected end of file");
+								state = XFER_TRANSFER_ERROR;
+							} 
+							fflush(file_ptr);
+
+						}
+					}
+				    break;
+                    				   // Error case, didn't get good
+									   //  ack from server
+	                case XFER_NOK_PACK:
+					{
+						TraceOutput("XFER_NOK_PACK\n");
+		                m_errman.RecordError("File transfer error (invalid server acknowledgement)");
+			            state = XFER_TRANSFER_ERROR;
+					}
+				    break;
+                    				   // Weirdo case, error also
+					default:
+					{
+						m_errman.RecordError("Unexpected server response");
+	                    state = XFER_TRANSFER_ERROR;
+					}
+                    break;
+                }
+            }
+            break;
+    								   // So far so good, close file
+									   //  and socket then done ok
+			case XFER_CLOSE_LOCAL:
+			{
+				TraceOutput("XFER_CLOSE_LOCAL\n");
+
+	            fclose(file_ptr);    
+		        m_win_sock->CloseSocket();
+			    done = TRUE;
+				ok = TRUE;
+			}
+            break;					   //  Errors go through here
+            
+	        case XFER_TRANSFER_ERROR:    
+			{
+				TraceOutput("XFER_TRANSFER_ERROR\n");
+			    if (file_ptr)
+				    fclose(file_ptr);
+				m_win_sock->CloseSocket();
+				done = TRUE;
+				ok = FALSE;
+			}
+            break;
+            						   // Wierdo case
+			default:
+			{
+				m_errman.RecordError("File transfer state error");
+	            state = XFER_TRANSFER_ERROR;
+			}
+            break;
+
+        }  // end of switch(state) 
+    }  // end of while(!done) 
+
+
+    return(ok);
+}
+
+
+/////////////////////////////////////////////////////////////////////////////
+// FileWrite
+// _________
+//
+//
+// Reads a local file and sends it to the server on the other end of 
+// the m_win_sock.
+                 
+BOOL CInriFtpMan::LocalFilePutToRemote
+						 (const char *remote_file_name_str,
+                          const char *local_file_name_str,
+                          BOOL is_text)
+{
+                                       // Static so have to bother
+                                       //  with allocating space only when
+                                       //  class is first constructed
+    static SfixedDataBuffer fixed_data;
+    
+    int    read_cnt;
+    FILE  *file_ptr = NULL;
+    int  state = XFER_INIT_WRITE;
+    BOOL done_fclose = FALSE;
+
+    BOOL done = FALSE;
+    BOOL ok   = TRUE;
+    
+    while(!done) 
+    {
+        switch(state) 
+        {
+        	                           // Receieve ACK from server after
+        	                           //  OPEN_REMOTE, after WRITE_REMOTE
+        	                           //  and after CLOSE.
+        	case XFER_GET_RESP:
+        	{
+				TraceOutput("XFER_GET_RESP\n");
+    	        if (PacketRead(&fixed_data)  != XFER_ERROR_CODE) 
+        	    {
+            	    if (fixed_data.cmd_val == XFER_OK_PACK) 
+                	{
+                	                   // For GET_RESP state next state is
+                	                   //  always READ_LOCAL until the flag
+                	                   //  done_fclose becomes TRUE
+                	                   //
+	                    if (done_fclose)
+    	                    state = XFER_DONE;
+        	            else
+            	            state = XFER_READ_LOCAL;
+	                } 
+    	            else 
+        	        {
+            	        char err_msg[MAX_ERROR_MSG_LEN];
+                	    sprintf(err_msg,"Remote file open/read error\n\t%s",
+                    	        remote_file_name_str);
+                    
+	                    m_errman.RecordError(err_msg);
+    	                state = XFER_TRANSFER_ERROR;
+        	        }
+				}
+    	        else
+	            {
+            	    m_errman.RecordError("Error reading socket data response");
+        	        state = XFER_TRANSFER_ERROR;
+	            }
+	        }
+   	        break;
+                                       // Make sure local file exists
+        	case XFER_INIT_WRITE:
+        	{
+				TraceOutput("XFER_INIT_WRITE\n");
+    			struct stat stat_val;
+            	if (!stat(local_file_name_str, &stat_val))
+            	{
+                	state = XFER_OPEN_LOCAL;
+            	} 
+            	else 
+            	{
+                	state = XFER_TRANSFER_ERROR;
+                	char err_msg[MAX_ERROR_MSG_LEN];
+                	sprintf(err_msg,"File not found or invalid file type\n\t%s",
+                            local_file_name_str);
+                	m_errman.RecordError(err_msg);
+            	}
+        	}
+        	break;                     
+                                       // Open local file
+        	case XFER_OPEN_LOCAL:
+			{
+				TraceOutput("XFER_OPEN_LOCAL\n");
+				if ((file_ptr = fopen(local_file_name_str, is_text?"r":"r+b")) != NULL) 
+            	{ 
+                	state = XFER_OPEN_REMOTE;
+            	}
+            	else
+            	{
+                	char err_msg[MAX_ERROR_MSG_LEN];
+                	sprintf(err_msg,"No such file or directory\n\t%s",
+                    	    local_file_name_str);
+                	m_errman.RecordError(err_msg);
+                	state = XFER_TRANSFER_ERROR;
+            	} 
+            }
+           	break;                     // Have server open remote file
+            
+        	case XFER_OPEN_REMOTE:
+        	{
+				TraceOutput("XFER_OPEN_REMOTE\n");
+	            if (!(SendCommand(XFER_OPEN_NC, remote_file_name_str)))     
+    	        {
+        	        char err_msg[MAX_ERROR_MSG_LEN];
+            	    sprintf(err_msg,"Unable to open remote file\n\t%s",
+                	        remote_file_name_str);
+	                m_errman.RecordError(err_msg);
+    	            state = XFER_TRANSFER_ERROR;
+        	    } 
+            	else 
+	                state = XFER_GET_RESP;
+        	}
+   	        break;          
+                                       // Read another block from the the
+                                       //  local file unless hit eof
+        	case XFER_READ_LOCAL:
+			{
+				TraceOutput("XFER_READ_LOCAL\n");
+            	if (feof(file_ptr))
+            	{
+	                state = XFER_CLOSE;
+	            }
+	            else 
+    	        {
+// Here is where would be handling cr/lf stuff, WSPTODO, old code
+//              if (ascii_flag == TRUE) {
+//                  if ((fgets(hdblock.dbuf.buf,BUF_SIZE,file_ptr)) == NULL) {
+//                      MessageBox("Error reading local file","",MB_OK);
+//                      state=CLOSE;
+//                  } else {
+                        // we assume the order is CR/LF at the end so change strlen-1 to LF
+//                      hdblock.dbuf.buf[strlen(hdblock.dbuf.buf)-1]
+//                  }
+                    
+        	        if ((read_cnt = fread(fixed_data.data_buf, 1, 
+        	        					  XFER_DATABUF_SIZE, file_ptr)) == 0) 
+            	    {
+                	    char err_msg[MAX_ERROR_MSG_LEN];
+                    	sprintf(err_msg,"Error in local file read\n\t%s",
+	                            local_file_name_str);
+                    
+    	                m_errman.RecordError(err_msg);
+        	            state = XFER_TRANSFER_ERROR;
+            	    } 
+                	else 
+	                    state = XFER_WRITE_REMOTE;
+    	        }
+    	    }
+        	break;
+                                       // Send another block to server
+        	case XFER_WRITE_REMOTE:
+			{
+				TraceOutput("XFER_WRITE_REMOTE\n");
+				
+            	fixed_data.cmd_val = XFER_WRITE_NC;
+            	fixed_data.len_val = read_cnt;
+            
+// WSPTODO, is strcpy necessary everytime or can get by doing just once?
+
+            	strcpy(fixed_data.hostname_buf, m_lcl_hostname_str);
+            
+            	if (!(PacketWrite(&fixed_data))) 
+	            {
+                	state = XFER_TRANSFER_ERROR;
+	                m_errman.RecordError("Socket transfer error.");
+    	        }
+        	    else
+            	    state=XFER_GET_RESP;
+            }
+            break;
+                                       // Done, close local file and send
+                                       //  close file cmd to server
+        	case XFER_CLOSE:
+        	{
+				TraceOutput("XFER_CLOSE\n");
+            	fclose(file_ptr);
+            	file_ptr = NULL;              
+            	SendCommand(XFER_CLOSE_NC, remote_file_name_str);
+            	state = XFER_GET_RESP;
+            	done_fclose = TRUE;
+            }
+            break;                     
+                                       // Finished transfer, everything ok
+        	case XFER_DONE:  
+            {
+				TraceOutput("XFER_DONE\n");
+	            m_win_sock->CloseSocket();
+    	        done = TRUE;
+        	    ok = TRUE;
+        	}
+            break;
+                                       // Ran into a problem, m_errman
+                                       //  should already have record of 
+                                       //  error
+        	case XFER_TRANSFER_ERROR:
+        	{    
+				TraceOutput("XFER_TRANSFER_ERROR\n");
+            	if (file_ptr)
+                	fclose(file_ptr);
+            	done = TRUE;
+            	ok = FALSE;
+            }
+            break;
+                                       // Just in case
+        	default:
+        	{
+            	m_errman.RecordError("File transfer state error");
+	            state = XFER_TRANSFER_ERROR;
+        	}
+            break;
+
+    	} // end of switch(state) 
+        
+    }  // end of while(!done) 
+    
+    return(ok);
+}
+
+
+
+/////////////////////////////////////////////////////////////////////////////
+// GetFile
+// _______
+// 
+// Does initializations and housekeeping for LocalFileGetFromRemote.
+
+BOOL CInriFtpMan::GetFile
+				(const char *remote_hostname_str,
+                 const char *remote_file_name_str,
+                 const char *local_file_name_str,
+                 BOOL is_text,
+                 int protection_mask)  
+{
+#ifdef _NTCSS_FTP_MAN_TRACING_
+	char buf[SIZE_SMALL_GENBUF];
+	sprintf(buf,"ENTERING GetFile to transfer remote file %s\n\t from host %s to local file %s\n",
+	       remote_file_name_str, remote_hostname_str, local_file_name_str);
+	TraceOutput(buf);
+#endif
+	       
+    m_errman.ClearError();
+    BOOL ok = TRUE;
+    
+	if (!m_is_ok)
+	{
+    	m_errman.RecordError("Not properly initialized");
+    	ok = FALSE;
+	}
+	
+	if ( (ok) &&
+		 (strlen(remote_hostname_str) > (XFER_NAMES_BUF_LEN-1)) ||
+		 (strlen(remote_file_name_str) > (XFER_NAMES_BUF_LEN-1)) ||
+		 (strlen(local_file_name_str) > (XFER_NAMES_BUF_LEN-1)) )
+	{
+  		m_errman.RecordError("Host and/or file name length error");
+    	return(FALSE);
+	}
+    
+    char tmp_host_name_str[XFER_NAMES_BUF_LEN];
+    strcpy(tmp_host_name_str, remote_hostname_str);
+    
+    if ( (ok) &&
+    	 (!SockInit(tmp_host_name_str)) )
+    {   
+       	// m_errman.RecordError done in SockInit
+       	ok = FALSE;
+    }
+
+
+// WSPTODO - note that for now not using mode_val
+
+    if ( (ok) &&
+		 (!LocalFileGetFromRemote(remote_file_name_str, 
+    				 			  local_file_name_str, 
+    				 			  is_text)) )
+    {   
+       	// m_errman.RecordError done in SockInit
+       	ok = FALSE;
+    }
+         
+    return(ok);
+}
+
+
+
+/////////////////////////////////////////////////////////////////////////////
+// Initialize
+// ____________
+//
+// Does necessary initializations to prepare for file transfer.
+//
+
+BOOL CInriFtpMan::Initialize()
+{
+	if (m_initialized)
+	{
+    	m_errman.RecordError("Already initialized");
+    	return(FALSE);
+	}
+	
+	TraceMsgStart();
+    CWnd *the_wnd = AfxGetMainWnd();
+    
+    m_win_sock = new CWinsock(NetEventHandler, the_wnd);
+    
+    struct servent *servent_ptr;
+                                       // Get protocol info & set m_port_num
+                                       //
+    if ((servent_ptr = (struct servent *)
+    				    m_win_sock->GetServByName(XFER_SERVER_NAME,"tcp")) 
+        == NULL) 
+        
+        m_port_num = XFER_DEFAULT_PORT;
+
+    else
+        m_port_num = (int)(servent_ptr->s_port);
+    
+    if (m_port_num < 0)
+
+        m_port_num = XFER_DEFAULT_PORT;
+    
+                                        // Save host name
+                                        //
+    m_win_sock->GetHostName(m_lcl_hostname_str, XFER_NAMES_BUF_LEN);
+    
+    char *dot_ptr;   
+    if ((dot_ptr = strchr(m_lcl_hostname_str, (int)'.')) != NULL)
+        (*dot_ptr) = NULL;
+
+    m_errman.ClearError();
+                                       // Okay to continue now
+	m_is_ok = TRUE;
+	
+    return(TRUE);
+}    
+
+
+
+/////////////////////////////////////////////////////////////////////////////
+// NetEventHandler
+// _______________
+
+void CALLBACK CInriFtpMan::NetEventHandler(WPARAM wParam, LPARAM lParam)
+{
+// WSPTODO - need to do something here
+//	AfxMessageBox("NetEventHandler not implemented", MB_OK);
+}
+
+
+
+/////////////////////////////////////////////////////////////////////////////
+// OnCreate
+// ________
+//
+// WSPTODO - maybe get rid of this
+
+int CInriFtpMan::OnCreate(LPCREATESTRUCT lpCreateStruct)
+{   
+
+    return (CWnd::OnCreate(lpCreateStruct));
+}
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////
+// OnDestroy
+// _________
+//
+// WSPTODO - maybe get rid of this
+
+void CInriFtpMan::OnDestroy()
+{
+    CWnd::OnDestroy();
+}
+    
+
+
+/////////////////////////////////////////////////////////////////////////////
+// OnTimer
+// _______
+
+void CInriFtpMan::OnTimer(UINT nIDEvent)
+{
+    m_errman.RecordError("Socket timeout error.");
+    m_win_sock->CloseSocket();
+    
+    CWnd::OnTimer(nIDEvent);
+}
+
+
+
+    
+
+/////////////////////////////////////////////////////////////////////////////
+// PacketRead
+// __________
+//
+// Reads a SrawDataBuffer from m_win_sock into a SrawDataBuffer and
+// then convert that structure's values to the fixed_data's
+// SfixedDataBuffer values.
+
+int CInriFtpMan::PacketRead (SfixedDataBuffer *fixed_data)
+{
+    static SrawDataBuffer raw_data;
+    char *data_ptr = (char *)&raw_data;     
+
+    BOOL done = FALSE;
+    BOOL ok = TRUE;
+    int  total_bytes_recvd = 0;
+    int  recv_cnt;
+    int  bytes_todo;
+    
+    memset(&raw_data, NULL, sizeof(SrawDataBuffer));
+    
+    while (!done)
+    {
+        if (total_bytes_recvd >= sizeof(SrawDataBuffer))
+        {
+            done = TRUE;
+            continue;
+        }
+                   
+        bytes_todo = (sizeof(SrawDataBuffer) - total_bytes_recvd);
+        memset(data_ptr, ' ', bytes_todo);  
+        
+//AfxMessageBox("FTP - Just before SetTimer");
+
+        SetTimer(XFER_TIMER_ID, XFER_TIMER_VAL, NULL);
+        recv_cnt = m_win_sock->Recv(data_ptr, bytes_todo, 0);  
+        KillTimer(XFER_TIMER_ID);
+
+//AfxMessageBox("FTP - Timer turned OFF");
+        
+        if (m_win_sock->GetLastError() != WSAEWOULDBLOCK) 
+        {
+            if (recv_cnt <= 0) 
+            {
+TraceOutput ("PacketRead failing because of bad m_win_sock->Recv\n");
+                ok = FALSE;
+                done = TRUE;
+                m_win_sock->CloseSocket();
+                continue;
+            }          
+            
+            total_bytes_recvd += recv_cnt;
+            
+         //   if (data_ptr[recv_cnt-1] == NULL)
+           // {
+             //   done = TRUE;
+//                if (total_bytes_recvd < sizeof(SrawDataBuffer))
+//				{
+//fprintf (m_log_file,"PacketRead failing because received less than full packet \n  (read %d )n",
+//total_bytes_recvd);
+//                	ok = FALSE;
+//				}
+                	
+               // continue;
+            //}
+            data_ptr += recv_cnt;
+        }
+    } 
+    if (!ok)
+        return(XFER_ERROR_CODE);
+        
+    fixed_data->cmd_val = atoi(raw_data.cmd_buf);
+    strcpy(fixed_data->file_name_buf,raw_data.file_name_buf);
+    fixed_data->gid_val = atoi(raw_data.gid_buf);
+    fixed_data->uid_val = atoi(raw_data.uid_buf);
+    fixed_data->file_mode_val = atoi(raw_data.file_mode_buf);
+    strcpy(fixed_data->hostname_buf, raw_data.hostname_buf);
+    fixed_data->len_val = atoi(raw_data.len_buf);    
+    
+    memcpy(fixed_data->data_buf, raw_data.data_buf, XFER_DATABUF_SIZE);
+
+#ifdef _NTCSS_FTP_MAN_TRACING_
+
+	char buf[SIZE_SMALL_GENBUF];
+	
+	sprintf(buf,"PacketRead done\n");
+	TraceOutput(buf);
+	sprintf(buf,"Command:        %d\n", fixed_data->cmd_val);
+	TraceOutput(buf);
+	sprintf(buf,"File name:      %s\n", fixed_data->file_name_buf);
+	TraceOutput(buf);
+	sprintf(buf,"gid:            %d\n", fixed_data->gid_val);
+	TraceOutput(buf);
+	sprintf(buf,"uid:            %d\n", fixed_data->uid_val);
+	TraceOutput(buf);
+	sprintf(buf,"file mode:      %d\n", fixed_data->file_mode_val);
+	TraceOutput(buf);
+	sprintf(buf,"host name:      %s\n", fixed_data->hostname_buf);
+	TraceOutput(buf);
+	sprintf(buf,"length:         %d\n", fixed_data->len_val);
+	TraceOutput(buf);
+	sprintf(buf,"bytes received: %d\n", total_bytes_recvd);
+	TraceOutput(buf);
+
+#endif // _NTCSS_FTP_MAN_TRACING_
+	
+    return(total_bytes_recvd);
+}
+
+
+
+/////////////////////////////////////////////////////////////////////////////
+// PacketWrite
+// ___________
+//
+// Converts fixed_data's SfixedDataBuffer values into raw_data's
+// a SrawDataBuffer and writes raw_data to m_win_sock. 
+
+BOOL CInriFtpMan::PacketWrite (SfixedDataBuffer *fixed_data)
+{
+                                       // Static so have to bother
+                                       //  with allocating space only when
+                                       //  class is first constructed
+    static SrawDataBuffer raw_data;
+    int xfer_cnt;
+                                       // Translate data from fixed_data to
+                                       //  raw_data structures
+                                       //
+    memset((void *)&raw_data, NULL, sizeof(SrawDataBuffer));
+
+    strcpy(raw_data.hostname_buf, m_lcl_hostname_str);
+    
+    sprintf(raw_data.gid_buf, "%-d", fixed_data->gid_val);
+    sprintf(raw_data.uid_buf, "%-d", fixed_data->uid_val);
+    sprintf(raw_data.len_buf, "%-d", fixed_data->len_val);
+    sprintf(raw_data.file_mode_buf, "%-d", fixed_data->file_mode_val);
+    
+    strcpy(raw_data.file_name_buf, fixed_data->file_name_buf);
+
+    sprintf(raw_data.cmd_buf, "%-d", fixed_data->cmd_val); 
+    
+    memcpy(&raw_data.data_buf, fixed_data->data_buf, XFER_DATABUF_SIZE);
+
+                                       // Now send raw_data to server 
+    BOOL ok = TRUE;
+    
+    xfer_cnt = m_win_sock->Send((char *)&raw_data,  
+    							sizeof(SrawDataBuffer), 
+    							0);
+    
+    if (xfer_cnt == SOCKET_ERROR) 
+    { 
+       if (m_win_sock->GetLastError() != WSAEWOULDBLOCK) 
+       {
+            m_win_sock->CloseSocket();
+            
+            ok = FALSE;
+        }
+    }
+
+#ifdef _NTCSS_FTP_MAN_TRACING_
+
+	char buf[SIZE_SMALL_GENBUF];
+	
+	sprintf(buf,"PacketWrite done\n");
+	TraceOutput(buf);
+	sprintf(buf,"Command:        %d\n", fixed_data->cmd_val);
+	TraceOutput(buf);
+	sprintf(buf,"File name:      %s\n", fixed_data->file_name_buf);
+	TraceOutput(buf);
+	sprintf(buf,"gid:            %d\n", fixed_data->gid_val);
+	TraceOutput(buf);
+	sprintf(buf,"uid:            %d\n", fixed_data->uid_val);
+	TraceOutput(buf);
+	sprintf(buf,"file mode:      %d\n", fixed_data->file_mode_val);
+	TraceOutput(buf);
+	sprintf(buf,"host name:      %s\n", fixed_data->hostname_buf);
+	TraceOutput(buf);
+	sprintf(buf,"length:         %d\n", fixed_data->len_val);
+	TraceOutput(buf);
+	
+#endif // _NTCSS_FTP_MAN_TRACING_
+
+    return(ok);
+}
+
+ 
+ 
+/////////////////////////////////////////////////////////////////////////////
+// PutFile
+// _______
+// 
+// Does initializations and housekeeping for LocalFilePutToRemote.
+//
+
+int CInriFtpMan::PutFile
+					  (const char *remote_hostname_str,
+                       const char *remote_file_name_str,
+                       const char *local_file_name_str,
+                       BOOL is_text,
+					   int protection_mask)  
+{                                                                
+#ifdef _NTCSS_FTP_MAN_TRACING_
+	char buf[SIZE_SMALL_GENBUF];
+	sprintf(buf,"ENTERING PutFile to transfer local file %s\n\t to host %s file %s\n",
+	       local_file_name_str, remote_hostname_str, remote_file_name_str);
+	TraceOutput(buf);
+#endif
+	       
+    m_errman.ClearError();
+    BOOL ok = TRUE;
+    
+	if (!m_is_ok)
+	{
+    	m_errman.RecordError("Not properly initialized");
+    	ok = FALSE;
+	}
+	
+	if ( (ok) &&
+		 (strlen(remote_hostname_str) > (XFER_NAMES_BUF_LEN-1)) ||
+		 (strlen(remote_file_name_str) > (XFER_NAMES_BUF_LEN-1)) ||
+		 (strlen(local_file_name_str) > (XFER_NAMES_BUF_LEN-1)) )
+	{
+  		m_errman.RecordError("Host and/or file name length error");
+    	return(FALSE);
+	}
+    
+    char tmp_host_name_str[XFER_NAMES_BUF_LEN];
+    strcpy(tmp_host_name_str, remote_hostname_str);
+    
+    if ( (ok) &&
+    	 (!SockInit(tmp_host_name_str)) )
+    {   
+       	// m_errman.RecordError done in SockInit
+       	ok = FALSE;
+    }
+
+// WSPTODO - note that for now not using mode_val
+    if ( (ok) &&
+		 (!LocalFilePutToRemote(remote_file_name_str, 
+    				 			local_file_name_str, 
+    				 			is_text)) )
+    {   
+       	// m_errman.RecordError done in SockInit
+       	ok = FALSE;
+    }
+         
+// WSPTODO - do something better here?, had been having problems with
+//			 timing on server side and this seems to correct 10/96
+// WSPTODO - Need to get equivilent for Sleep under 16 bit
+
+#ifdef NTCSS_32BIT_BUILD
+	Sleep(1000);
+#endif
+    return(ok);
+}  
+    
+
+
+/////////////////////////////////////////////////////////////////////////////
+// SendCommand
+// ___________
+//
+// Puts the given cmd and filename_str into a SfixedDataBuffer and
+// then does a PacketWrite of it
+//
+BOOL CInriFtpMan::SendCommand(int cmd, const char *filename_str)
+{ 
+                                       // Static so have to bother
+                                       //  with allocating space only when
+                                       //  class is first constructed
+    static SfixedDataBuffer fixed_data;
+    
+    memset(&fixed_data, NULL, sizeof(SfixedDataBuffer));
+                      
+    strcpy(fixed_data.hostname_buf, m_lcl_hostname_str);
+    fixed_data.gid_val 		= 0;
+    fixed_data.uid_val 		= 0;
+    fixed_data.len_val 		= 0;
+
+// WSPTODO - for now mode is set here?
+
+    fixed_data.file_mode_val  = 0666;
+
+    strcpy(fixed_data.file_name_buf, filename_str);
+    fixed_data.cmd_val = cmd;
+
+    BOOL ok = TRUE;
+    
+    if (!PacketWrite(&fixed_data))
+    {
+        ok = FALSE;
+    }
+
+    return(ok);
+}
+
+
+
+/////////////////////////////////////////////////////////////////////////////
+// SockInit
+// ________
+//
+// Sets	up m_win_sock with a connection to the host given by
+// hostname_str.
+
+BOOL CInriFtpMan::SockInit(char *hostname_str)
+{
+	TraceOutput("SockInit\n");
+	    
+    BOOL ok = TRUE;
+    int si_sock = m_win_sock->Socket(PF_INET, SOCK_STREAM, IPPROTO_IP);
+    if (si_sock < 0) 
+    {
+       	m_errman.RecordError("Unable to create socket");
+		ok = FALSE;
+    } 
+    
+	struct hostent *hostent_ptr;
+    if (ok)
+    {
+    	m_win_sock->Assume(si_sock);
+    
+    	hostent_ptr = (struct hostent *)m_win_sock->GetHostByName(hostname_str);
+    	
+    	if (hostent_ptr == NULL) 
+    	{                    
+        	hostent_ptr = (struct hostent *)
+        					m_win_sock->GetHostByAddr(hostname_str, 
+        							                  strlen(hostname_str), 
+        							                  AF_INET);
+        	if (hostent_ptr == NULL) 
+        	{
+            	m_errman.RecordError("Unable to resolve hostname for socket connection.");
+
+            	ok = FALSE;
+        	} 
+        }
+    } 
+
+    struct sockaddr_in name;
+    
+    if (ok)
+    {
+    	name.sin_addr.s_addr=((struct in_addr *)
+    						  (hostent_ptr->h_addr))->s_addr;
+    	name.sin_family = AF_INET;
+    	name.sin_port = m_win_sock->Htons(m_port_num);
+
+    	if (m_win_sock->Connect((const struct sockaddr *)&name,
+                            	sizeof(name)) < 0) 
+    	{ 
+       		if (m_win_sock->GetLastError() != WSAEWOULDBLOCK) 
+       		{
+            	m_errman.RecordError("Unable to establish socket connection");
+
+            	ok = FALSE;
+            }
+        }
+    }
+
+    return(ok);    
+}
+
+
+                                       // Routines below here are compiled
+                                       // only when doing 
+									   // _NTCSS_FTP_MAN_TRACING_
+
+#ifdef _NTCSS_FTP_MAN_TRACING_
+
+/////////////////////////////////////////////////////////////////////////////
+// TraceMsgStart
+// _____________
+//
+// Opens msg tracing file for appending.
+
+
+void CdllMsgDeliveryMan::TraceMsgStart()
+{
+	m_trace_file = fopen(NTCSS_FTP_MAN_TRACE_FILE, "a");
+
+	if (m_trace_file != NULL)
+	{
+// WSPTODO - need to output date at start maybe put date
+	}
+}
+
+
+
+/////////////////////////////////////////////////////////////////////////////
+// TraceMsgStop
+// _____________
+
+void CdllMsgDeliveryMan::TraceMsgStop()
+{
+	if (m_trace_file != NULL)
+	{
+	    fclose(m_trace_file);
+	}
+	m_trace_file = NULL;
+}
+
+
+
+/////////////////////////////////////////////////////////////////////////////
+// TraceOutput
+// ___________
+//
+// Outputs to trace msg file.  Minor formatting done to try to make
+// sure that lines are not longer than 80 chars
+
+void CdllMsgDeliveryMan::TraceOutput(char *buf)
+{
+									   // If not tracing now then do
+									   // nothing
+	if (!m_trace_is_on)
+		return;
+
+	int chars_to_print = strlen(buf);
+
+									   // Easy if less than 80 chars
+	if (chars_to_print < 80)
+	{
+		fprintf(m_trace_file, buf);
+		return;
+	}
+
+	int idx_on = 0;
+	BOOL done = FALSE;
+	char tmp_ch1;
+	char tmp_ch2;
+									   // Otherwise output 80 chars
+									   //  per line until all chars
+									   //  from buf are written
+
+	while (!done)
+	{
+		if (chars_to_print >= 80)
+		{
+			tmp_ch1 = *(buf + idx_on + 80);
+			tmp_ch2 = *(buf + idx_on + 81);
+
+			*(buf + idx_on + 80) = '\n';
+			*(buf + idx_on + 81) = '\0';
+
+			fprintf(m_trace_file, (buf+idx_on));
+
+			*(buf + idx_on + 80) = tmp_ch1;
+			*(buf + idx_on + 81) = tmp_ch2;
+
+			idx_on += 80;
+			chars_to_print -= 80;
+
+			if (chars_to_print <= 0)
+				done = TRUE;
+		}
+		else
+		{
+			*(buf + idx_on + chars_to_print)= '\n';
+			*(buf + idx_on + chars_to_print + 1) = '\0';
+
+			fprintf(m_trace_file, (buf+idx_on));
+
+			done = TRUE;
+		}
+	}
+}
+
+
+/////////////////////////////////////////////////////////////////////////////
+// TraceOutput
+// ________________
+//
+// Write msg to trace file, but note that if caller is NULL then
+// is not being called from within the dll so can't make the call to
+// showMsg to get details
+//
+
+void CdllMsgDeliveryMan::TraceOutput(SDllMsgRec *msg, 
+										  CNtcssBaseMsg *caller)
+{
+									   // If not tracing now then do
+									   // nothing
+	if (!m_trace_is_on)
+		return;
+
+    Sbasic_svrmsgrec *bsc = (Sbasic_svrmsgrec *)msg->send_data_ptr;
+
+    CString show_data = "Message data:";
+    char buf[2000];
+    sprintf(buf,"\n  The message type is: <");			
+    strncat(buf,bsc->header,SIZE_MESSAGE_TYPE);
+    strcat(buf,">");
+    show_data = buf;
+
+    sprintf(buf,"\n  The message loginname: <");
+    strncat(buf,bsc->loginname,SIZE_LOGIN_NAME);
+    strcat(buf,">");
+    show_data += buf;
+
+    sprintf(buf,"\n  The message token: <");
+    strncat(buf,bsc->token,SIZE_TOKEN);
+    strcat(buf,">");
+    show_data += buf;
+
+    sprintf(buf,
+    "\n  The message being sent has %d bytes\n", msg->send_data_size);
+    show_data += buf;
+
+    CString more_info;
+
+    if (caller == NULL)
+    {
+        more_info = "\n  Non-DLL call - can't show message data";
+        return;
+    }
+	else
+		caller->ShowMsg(&more_info);
+
+    show_data += more_info;
+
+    show_data += "\n\nDone showing message data.";
+
+    TraceOutput((LPCTSTR)show_data);
+}
+
+
+
+#endif // _NTCSS_MSG_TRACING_
+

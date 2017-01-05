@@ -1,0 +1,158 @@
+#!/bin/sh
+#
+#
+#              Copyright(c)2002 Northrop Grumman Corporation
+#
+#                          All Rights Reserved
+#
+#
+#    This material may be reproduced by or for the U.S. Government pursuant
+#    to the copyright license under the clause at Defense Federal Acquisition
+#    Regulation Supplement (DFARS) 252.227-7013 (NOV 1995).
+#
+#
+#######################################################################
+# This script reads the /usr/local/NTCSSII/database/ntcss_users file
+# and re-creates the user in Unix and NT.  It is to be used to fix
+# catastrophic failure in the NT or Unix domain, where users are lost, and a
+# re-synching between NTCSS and NT/Unix is to be done.
+#######################################################################
+
+PROFDIR="/usr/local/NTCSSII/applications/data/unix_uga/shell"
+NTCSSDATADIR="/usr/local/NTCSSII/database"
+DOMAIN_FLAG="DOMAIN"
+TELLNT="YES"
+TELLPWD="YES"
+ucdir="/usr/local/NTCSSII/applications/data/users_conf"
+
+
+    settings="/etc/ntcss_system_settings.ini"
+
+    ntcssdir=`grep "^HOME_DIR=" "$settings" | cut -d= -f2`
+    
+    bindir=`grep "NTCSS_BIN_DIR" "$settings" | cut -d= -f2`
+    bindir="$ntcssdir/$bindir"
+
+    gps="$bindir/GetProfileString"
+
+    appinst=`$gps Strings APP_INST "applications/data/install" $settings`
+    appinst="$ntcssdir/$appinst"
+
+    postdir="$appinst/post_install"
+
+. $appinst/getOSinfo.sh
+
+
+NTCSS_GRP="ntcss"
+PWDIR="/etc/passwd"
+GRPDIR="/etc/group"
+NTSHELL="/bin/csh"
+NTDIRPRE="/u"
+DEF_NTDIR="c:\\h"
+
+###
+# Get Unix user's directory from sysconf file
+###
+	sys_line=`grep "NTCSS HOME DIR" ${NTCSSDATADIR}/SYS_CONF`
+	if [ -n "${sys_line}" ]
+	then
+        	userdirpre=`echo ${sys_line} | sed -n "s/[^:]*.\(.*\)$/\1/p"`
+        	if [ -z "${userdirpre}" ]
+        	then
+                	userdirpre=${NTDIRPRE}
+        	fi
+	else
+        userdirpre=${NTDIRPRE}
+	fi
+
+nispush()
+{
+        #ypline=`ps -ef | grep ypserv | egrep -v grep`
+        #if [ -n "${ypline}" ]
+	if [ `ypwhich -m passwd.byname` = `hostname` ]
+        then
+                curdir=`pwd`
+                cd $NISDIR
+                /bin/make -f Makefile 2>&1 /dev/null
+                cd $curdir
+        fi
+}
+
+edit_user()
+{
+	echo "Processing User -> "$username
+###
+# Get NT User directory from sysconf file
+###
+	sys_line=`grep NTUSERDIR ${NTCSSDATADIR}/SYS_CONF`
+	if [ -n "${sys_line}" ]
+	then
+        	ntdir=`echo ${sys_line} | sed -n "s/[^:]*.\(.*\)$/\1/p"`
+        	if [ -z "${ntdir}" ]
+        	then
+                	ntdir=${DEF_NTDIR}
+        	fi
+	else
+        	ntdir=${DEF_NTDIR}
+	fi
+
+###
+# Get NT Group from sysconf file
+###
+	sys_line=`grep NTGROUP ${NTCSSDATADIR}/SYS_CONF`
+	if [ -n "${sys_line}" ]
+	then
+        	ntgroup=`echo ${sys_line} | sed -n "s/[^:]*.\(.*\)$/\1/p"`
+        	if [ -z "${ntgroup}" ]
+        	then
+                	ntgroup=${DEFNTGROUP}
+        	fi
+	else
+        	ntgroup=${DEFNTGROUP}
+	fi
+
+	echo "	Adding User..."
+	$ucdir/user_config ADDUSER "$username" "wXVtBSyIhu7cQ" "$userdir" "$longname" "xxxxxxxx" 2>&1 /dev/null
+	echo "	Adding User to Groups..."
+	$ucdir/user_config ADDGROUP "$username" "ntcss" 2>&1 /dev/null
+}
+
+
+{
+
+rm -f ./ntusers.ini
+
+while (true)
+do
+	read uid
+
+	if [ $? -ne 0 ]
+	then
+		echo "Done."
+		exit 0
+	fi
+
+	read username
+	read longname
+	read apppwd
+	read ssn
+	read phone
+	read class
+	read pwchange
+	read dbreg
+	read role
+	read shpwd
+	read extra
+
+	if [ -z "$username" ] 
+	then
+		echo "Done."
+	fi
+
+	echo Processing $username"-"$longname
+	WriteProfileString USERS $username $username ./ntusers.ini
+	WriteProfileString $username LONGNAME "$longname" ./ntusers.ini
+	
+	./u2n_convert -nt -skip
+
+done } < /usr/local/NTCSSII/database/ntcss_users

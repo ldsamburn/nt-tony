@@ -1,0 +1,27 @@
+#!/bin/sh
+#comd#		Start HVX Emulator  
+#aces# suadps_adp omms_adp omms_obe suadps_obe
+
+. /usr/hvx_scripts/sysadmsh.cmd
+stty echo
+
+
+genprg="hvx_gcos"
+up="GEN IS UP"
+down="GEN IS DOWN"
+for i in $genprg
+do
+       genstr=`ps -e | grep $i | egrep -v "ps -e" | egrep -v "grep ${i}"`
+       if [ -n "$genstr" ]
+       then
+              #echo " GEN IS UP";
+              /usr/hvx_scripts/msgdsp "HVX is Already Enabled"
+       #sleep 5
+              exit 0;
+       else 
+              /usr/hvx/active/bin/hvx_gcos
+              /usr/hvx_scripts/msgdsp "HVX is Disabled"
+       fi
+done
+echo "HVX IS DOWN";
+exit 0;

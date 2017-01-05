@@ -1,0 +1,476 @@
+[APPS]
+NTCSS=NTCSS
+SCHOOL=SCHOOL
+IF_SCHOOL=IF_SCHOOL
+DB_SCHOOL=DB_SCHOOL
+CS_SCHOOL=CS_SCHOOL
+
+[NTCSS]
+GROUP=NTCSS
+SERVER=hostname
+UNIX_GROUP=ntcss
+ICON_FILE=$NTCSSDIR\resource\folder.ico
+ICON_INDEX=0
+VERSION=806-01.01.06
+RELEASE_DATE=990920.0000
+CLIENT_LOCATION=c:\ntcss2
+SERVER_LOCATION=ntcss_server_dir
+APP_ENV_FILE=/h/NTCSSS/applications/data/install/post_install/ntcss.env
+PROCESS_STATUS_FLAG=/h/NTCSSS/applications/data/install/post_install/ntcss.psp
+BATCH_USER=
+TERMINATION_SIGNAL=16
+
+[NTCSS_PROG]
+NTCSS_PROG_1=NTCSS_PROG_1
+NTCSS_PROG_2=NTCSS_PROG_2
+NTCSS_PROG_3=NTCSS_PROG_3
+NTCSS_PROG_4=NTCSS_PROG_4
+
+[NTCSS_PROG_1]
+PROGRAM=NTCSS User Administration
+EXEFILE=UserConfig.exe
+ICONFILE=$NTCSSDIR\resource\atlass.ico
+ICONINDEX=0
+COMMANDLINE=
+SECURITYCLASS=Unclassified
+ACCESS=App Administrator,Security Admin
+PROGRAMTYPE=Client Program
+WORKINGDIR=$NTCSSDIR\bin\
+
+[NTCSS_PROG_2]
+PROGRAM=NTCSS Printer Configuration
+EXEFILE=prtui.exe
+ICONFILE=$NTCSSDIR\resource\prt.ico
+ICONINDEX=0
+COMMANDLINE=
+SECURITYCLASS=Unclassified
+ACCESS=App Administrator
+PROGRAMTYPE=Client Program
+WORKINGDIR=$NTCSSDIR\bin\
+
+[NTCSS_PROG_3]
+PROGRAM=NTCSS System Monitor
+EXEFILE=SystemMonitor.exe
+ICONFILE=$NTCSSDIR\resource\sysmon.ico
+ICONINDEX=0
+COMMANDLINE=
+SECURITYCLASS=Unclassified
+ACCESS=App Administrator,Operator,Security Admin
+PROGRAMTYPE=Client Program
+WORKINGDIR=$NTCSSDIR\bin\
+
+[NTCSS_PROG_4]
+PROGRAM=Administrator Help
+EXEFILE=winhlp32.exe
+ICONFILE=$NTCSSDIR\resource\help.ico
+ICONINDEX=0
+COMMANDLINE=c:\ntcss2\help\dskag.hlp
+SECURITYCLASS=Unclassified
+ACCESS=App Administrator,Operator,Security Admin
+PROGRAMTYPE=Client Program
+WORKINGDIR=\winnt\system32\
+
+[NTCSS_ROLES]
+NTCSS_ROLE_1=App Administrator
+NTCSS_ROLE_2=Security Admin
+NTCSS_ROLE_3=Operator
+
+[NTCSS_ROLE_1]
+TITLE=App Administrator
+LOCK_OVERRIDE=0
+
+[NTCSS_ROLE_2]
+TITLE=Security Admin
+LOCK_OVERRIDE=0
+
+[NTCSS_ROLE_3]
+TITLE=Operator
+LOCK_OVERRIDE=0
+
+[SCHOOL]
+GROUP=GROUP
+SERVER=hostname
+UNIX_GROUP=atlass
+ICON_FILE=c:\run\atlass.ico
+ICON_INDEX=0
+VERSION=821-01.00
+RELEASE_DATE=990921.0000
+CLIENT_LOCATION=c:\run\atlass.exe
+SERVER_LOCATION=
+APP_ENV_FILE=/h/ATLASS/scripts/atlass.env
+PROCESS_STATUS_FLAG=/h/ATLASS/scripts/atlass.psp
+BATCH_USER=atlbtusr
+TERMINATION_SIGNAL=9
+
+[SCHOOL_PDJ]
+SCHOOL_PDJ_1=SCHOOL_PDJ_1
+SCHOOL_PDJ_2=SCHOOL_PDJ_2
+SCHOOL_PDJ_3=SCHOOL_PDJ_3
+SCHOOL_PDJ_4=SCHOOL_PDJ_4
+SCHOOL_PDJ_5=SCHOOL_PDJ_5
+SCHOOL_PDJ_6=SCHOOL_PDJ_6
+SCHOOL_PDJ_7=SCHOOL_PDJ_7
+SCHOOL_PDJ_8=SCHOOL_PDJ_8
+SCHOOL_PDJ_9=SCHOOL_PDJ_9
+SCHOOL_PDJ_10=SCHOOL_PDJ_10
+SCHOOL_PDJ_11=SCHOOL_PDJ_11
+SCHOOL_PDJ_12=SCHOOL_PDJ_12
+SCHOOL_PDJ_13=SCHOOL_PDJ_13
+SCHOOL_PDJ_14=SCHOOL_PDJ_14
+SCHOOL_PDJ_15=SCHOOL_PDJ_15
+
+[SCHOOL_PDJ_1]
+TITLE=Boot Outgoing Interface Daemon
+GROUP=SCHOOL
+COMMAND_LINE=/h/ATLASS/scripts/intfc_export_at.scr
+ACCESS=App Administrator,All Users
+JOBTYPE=Boot Job
+SCHEDULE=
+
+[SCHOOL_PDJ_2]
+TITLE=Start Outgoing Interface Daemon
+GROUP=SCHOOL
+COMMAND_LINE=/h/ATLASS/scripts/intfc_export_at.scr
+ACCESS=App Administrator,All Users
+JOBTYPE=Standard Predefined Job
+SCHEDULE=
+
+[SCHOOL_PDJ_3]
+TITLE=FEDLOG Update
+GROUP=SCHOOL
+COMMAND_LINE=/h/USERS/FEDLOG/FEDUUpdate.sh
+ACCESS=App Administrator,All Users
+JOBTYPE=Scheduled Job
+SCHEDULE=H592341504
+
+[SCHOOL_PDJ_4]
+TITLE=HCN Startups
+GROUP=SCHOOL
+COMMAND_LINE=/h/ATLASS/scripts/D60200.scr
+ACCESS=App Administrator,All Users
+JOBTYPE=Standard Predefined Job
+SCHEDULE=
+
+[SCHOOL_PDJ_5]
+TITLE=Simulate OMA Supply Receipt
+GROUP=SCHOOL
+COMMAND_LINE=/h/ATLASS_MS/scripts/sup_simltor.scr
+ACCESS=App Administrator,All Users
+JOBTYPE=Standard Predefined Job
+SCHEDULE=
+
+[SCHOOL_PDJ_6]
+TITLE=Simulate DAASC Status
+GROUP=SCHOOL
+COMMAND_LINE=/h/ATLASS_MS/scripts/daas_simltor.scr
+ACCESS=App Administrator,All Users
+JOBTYPE=Standard Predefined Job
+SCHEDULE=
+
+[SCHOOL_PDJ_7]
+TITLE=Replication Simulator
+GROUP=SCHOOL
+COMMAND_LINE=/h/ATLASS_MS/scripts/replc_simltor.scr
+ACCESS=App Administrator,All Users
+JOBTYPE=Standard Predefined Job
+SCHEDULE=
+
+[SCHOOL_PDJ_8]
+TITLE=Simulate IMA Reject WO 
+GROUP=SCHOOL
+COMMAND_LINE=/h/ATLASS_MS/scripts/ima_simltor.scr ME
+ACCESS=App Administrator,All Users
+JOBTYPE=Standard Predefined Job
+SCHEDULE=
+
+[SCHOOL_PDJ_9]
+TITLE=Simulate OMA Pickup WO
+GROUP=SCHOOL
+COMMAND_LINE=/h/ATLASS_MS/scripts/ima_simltor.scr W1
+ACCESS=App Administrator,All Users
+JOBTYPE=Standard Predefined Job
+SCHEDULE=
+
+[SCHOOL_PDJ_10]
+TITLE=Simulate IMA Complete WO
+GROUP=SCHOOL
+COMMAND_LINE=/h/ATLASS_MS/scripts/ima_simltor.scr JC
+ACCESS=App Administrator,All Users
+JOBTYPE=Standard Predefined Job
+SCHEDULE=
+
+[SCHOOL_PDJ_11]
+TITLE=Simulate IMA Accept Float
+GROUP=SCHOOL
+COMMAND_LINE=/h/ATLASS_MS/scripts/ima_simltor.scr P1
+ACCESS=App Administrator,All Users
+JOBTYPE=Standard Predefined Job
+SCHEDULE=
+
+[SCHOOL_PDJ_12]
+TITLE=Simulate IMA Reject Float
+GROUP=SCHOOL
+COMMAND_LINE=/h/ATLASS_MS/scripts/ima_simltor.scr PE
+ACCESS=App Administrator,All Users
+JOBTYPE=Standard Predefined Job
+SCHEDULE=
+
+[SCHOOL_PDJ_13]
+TITLE=Simulate IMA Accept Component
+GROUP=SCHOOL
+COMMAND_LINE=/h/ATLASS_MS/scripts/ima_simltor.scr MB
+ACCESS=App Administrator,All Users
+JOBTYPE=Standard Predefined Job
+SCHEDULE=
+
+[SCHOOL_PDJ_14]
+TITLE=Simulate IMA Accept PEI
+GROUP=SCHOOL
+COMMAND_LINE=/h/ATLASS_MS/scripts/ima_simltor.scr M2
+ACCESS=App Administrator,All Users
+JOBTYPE=Standard Predefined Job
+SCHEDULE=
+
+[SCHOOL_PDJ_15]
+TITLE=Class Setup
+GROUP=SCHOOL
+COMMAND_LINE=/h/ATLASS_MS/scripts/setup_class.sh
+ACCESS=App Administrator
+JOBTYPE=Standard Predefined Job
+SCHEDULE=
+
+[SCHOOL_PROG]
+SCHOOL_PROG_1=SCHOOL_PROG_1
+SCHOOL_PROG_2=SCHOOL_PROG_2
+SCHOOL_PROG_3=SCHOOL_PROG_3
+
+[SCHOOL_PROG_1]
+PROGRAM=ATLASS
+EXEFILE=atlass.exe
+ICONFILE=c:\run\atlass.ico
+ICONINDEX=0
+COMMANDLINE=
+SECURITYCLASS=Unclassified-Sensitive
+ACCESS=App Administrator,All Users
+PROGRAMTYPE=Client Program
+WORKINGDIR=c:\run\
+
+[SCHOOL_PROG_2]
+PROGRAM=NTCSS Functional Test
+EXEFILE=danatest.exe
+ICONFILE=$NTCSSDIR\testsw\danatest.exe
+ICONINDEX=0
+COMMANDLINE=
+SECURITYCLASS=Unclassified
+ACCESS=Test User
+PROGRAMTYPE=Client Program
+WORKINGDIR=\ntcss2\testsw\
+
+[SCHOOL_PROG_3]
+PROGRAM=API Test Manager
+EXEFILE=tm.exe
+ICONFILE=$NTCSSDIR\resource\icon_d.dll
+ICONINDEX=34
+COMMANDLINE=
+SECURITYCLASS=Unclassified
+ACCESS=Test User
+PROGRAMTYPE=Client Program
+WORKINGDIR=\ntcss2\testsw\
+
+[SCHOOL_ROLES]
+SCHOOL_ROLE_1=App Administrator
+SCHOOL_ROLE_2=All Users
+SCHOOL_ROLE_3=Test User
+
+[SCHOOL_ROLE_1]
+TITLE=App Administrator
+LOCK_OVERRIDE=1
+
+[SCHOOL_ROLE_2]
+TITLE=All Users
+LOCK_OVERRIDE=0
+
+[SCHOOL_ROLE_3]
+TITLE=Test User
+LOCK_OVERRIDE=1
+
+[IF_SCHOOL]
+GROUP=IF_SCHOOL
+SERVER=hostname
+UNIX_GROUP=ntcss_app
+ICON_FILE=\ntcss2\resource\icon_d.dll
+ICON_INDEX=10
+VERSION=1.0
+RELEASE_DATE=990921.0000
+CLIENT_LOCATION=
+SERVER_LOCATION=
+APP_ENV_FILE=/h/NTCSS_APP/scripts/ntcss_app.env
+PROCESS_STATUS_FLAG=/h/NTCSS_APP/scripts/ntcss_app.psp
+BATCH_USER=atlbtusr
+TERMINATION_SIGNAL=16
+
+[IF_SCHOOL_PDJ]
+IF_SCHOOL_PDJ_1=IF_SCHOOL_PDJ_1
+IF_SCHOOL_PDJ_2=IF_SCHOOL_PDJ_2
+
+[IF_SCHOOL_PDJ_1]
+TITLE=Start Interface Daemon
+GROUP=IF_SCHOOL
+COMMAND_LINE=/h/NTCSS_APP/scripts/paxferd.scr
+ACCESS=App Administrator,All Users
+JOBTYPE=Standard Predefined Job
+SCHEDULE=
+
+[IF_SCHOOL_PDJ_2]
+TITLE=Boot Interface Daemon
+GROUP=IF_mml300
+COMMAND_LINE=/h/NTCSS_APP/scripts/paxferd.scr
+ACCESS=App Administrator,All Users
+JOBTYPE=Boot Job
+SCHEDULE=
+
+[IF_SCHOOL_PROG]
+IF_SCHOOL_PROG_1=IF_SCHOOL_PROG_1
+
+[IF_SCHOOL_PROG_1]
+PROGRAM=Make Paxferd
+EXEFILE=telnet
+ICONFILE=\ntcss2\resource\icon_d.dll
+ICONINDEX=10
+COMMANDLINE=hostname
+SECURITYCLASS=Unclassified
+ACCESS=App Administrator,All Users
+PROGRAMTYPE=Client Program
+WORKINGDIR=\winnt\system32\
+
+[IF_SCHOOL_ROLES]
+IF_SCHOOL_ROLE_1=App Administrator
+IF_SCHOOL_ROLE_2=All Users
+
+[IF_SCHOOL_ROLE_1]
+TITLE=App Administrator
+LOCK_OVERRIDE=1
+
+[IF_SCHOOL_ROLE_2]
+TITLE=All Users
+LOCK_OVERRIDE=0
+
+[DB_SCHOOL]
+GROUP=DB_SCHOOL
+SERVER=hostname
+UNIX_GROUP=sybase
+ICON_FILE=\ntcss2\resource\icon_d.dll
+ICON_INDEX=6
+VERSION=1.0
+RELEASE_DATE=990921.0000
+CLIENT_LOCATION=
+SERVER_LOCATION=
+APP_ENV_FILE=
+PROCESS_STATUS_FLAG=
+BATCH_USER=
+TERMINATION_SIGNAL=9
+
+[DB_SCHOOL_PROG]
+DB_SCHOOL_PROG_1=DB_SCHOOL_PROG_1
+DB_SCHOOL_PROG_2=DB_SCHOOL_PROG_2
+
+[DB_SCHOOL_PROG_1]
+PROGRAM=DB Utils (telnet)
+EXEFILE=telnet
+ICONFILE=\ntcss2\resource\icon_d.dll
+ICONINDEX=6
+COMMANDLINE=hostname
+SECURITYCLASS=Unclassified-Sensitive
+ACCESS=App Administrator,op user
+PROGRAMTYPE=Client Program
+WORKINGDIR=\winnt\system32\
+
+[DB_SCHOOL_PROG_2]
+PROGRAM=Sybase Central
+EXEFILE=scview.exe
+ICONFILE=\sybtools\win32\scview.exe
+ICONINDEX=0
+COMMANDLINE=
+SECURITYCLASS=Unclassified-Sensitive
+ACCESS=App Administrator,Sybase Central User
+PROGRAMTYPE=Client Program
+WORKINGDIR=\sybtools\win32\
+
+[DB_SCHOOL_ROLES]
+DB_SCHOOL_ROLE_1=App Administrator
+DB_SCHOOL_ROLE_2=op user
+DB_SCHOOL_ROLE_3=Sybase Central User
+
+[DB_SCHOOL_ROLE_1]
+TITLE=App Administrator
+LOCK_OVERRIDE=1
+
+[DB_SCHOOL_ROLE_2]
+TITLE=op user
+LOCK_OVERRIDE=0
+
+[DB_SCHOOL_ROLE_3]
+TITLE=Sybase Central User
+LOCK_OVERRIDE=0
+
+[CS_SCHOOL]
+GROUP=CS_SCHOOL
+SERVER=hostname
+UNIX_GROUP=atlass_ms
+ICON_FILE=\ntcss2\resource\icon_d.dll
+ICON_INDEX=10
+VERSION=1.0
+RELEASE_DATE=990917.0000
+CLIENT_LOCATION=
+SERVER_LOCATION=
+APP_ENV_FILE=/h/ATLASS_MS/scripts/atlass_ms.env
+PROCESS_STATUS_FLAG=/h/ATLASS_MS/scripts/atlass_ms.psp
+BATCH_USER=atlbtusr
+TERMINATION_SIGNAL=16
+
+[CS_SCHOOL_PDJ]
+CS_SCHOOL_PDJ_1=CS_SCHOOL_PDJ_1
+
+[CS_SCHOOL_PDJ_1]
+TITLE=Class Setup
+GROUP=CS_SCHOOL
+COMMAND_LINE=/h/ATLASS_MS/scripts/setup_class.sh
+ACCESS=App Administrator
+JOBTYPE=Scheduled Job
+SCHEDULE=
+
+[CS_SCHOOL_PROG]
+CS_SCHOOL_PROG_1=CS_SCHOOL_PROG_1
+
+[CS_SCHOOL_PROG_1]
+PROGRAM=Class Setup
+EXEFILE=xterm
+ICONFILE=\ntcss2\resource\icon_d.dll
+ICONINDEX=0
+COMMANDLINE=-T "Class Setup" -e /h/ATLASS_MS/scripts/setup_class.sh
+SECURITYCLASS=Unclassified
+ACCESS=App Administrator,All Users
+PROGRAMTYPE=Server Program
+WORKINGDIR=/usr/bin/X11/
+
+[CS_SCHOOL_ROLES]
+CS_SCHOOL_ROLE_1=App Administrator
+CS_SCHOOL_ROLE_2=All Users
+
+[CS_SCHOOL_ROLE_1]
+TITLE=App Administrator
+LOCK_OVERRIDE=1
+
+[CS_SCHOOL_ROLE_2]
+TITLE=All Users
+LOCK_OVERRIDE=0
+
+[HOSTS]
+HOST_1=HOST_1
+
+[HOST_1]
+NAME=hostname
+IPADDR=
+TYPE=Master Server
+REPL=NO
+

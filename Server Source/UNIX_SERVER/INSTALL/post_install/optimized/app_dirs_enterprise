@@ -1,0 +1,18 @@
+# NTCSS II Application Directories File
+#
+# Add a new line for each application which has a directory on this host
+# where it can place data files for copying to/from tapes using the NTCSS II
+# server device interface utility.  The first item is the application name
+# while the second item is the full path of the directory.  Use the following
+# lines as examples:
+#
+# MRMS      /usr/MRMS/data/sdi
+# SUPPLY    /home/SUPPLY/DATA
+#
+RSUPPLY      /h/RSUPPLY/data
+OMMSNG       /h/OMMSNG/data
+RADM         /h/RADM/data
+Utilities    /h/Utilities/data
+Sybase_Utils /h/Sybase_Utils/data
+NALCOMIS        /h/NALCOMIS/data
+NTCSS_APP       /h/NTCSS_APP/data

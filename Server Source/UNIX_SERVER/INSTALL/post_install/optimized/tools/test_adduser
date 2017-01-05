@@ -1,0 +1,201 @@
+#!/bin/sh
+#
+#
+#              Copyright(c)2002 Northrop Grumman Corporation
+#
+#                          All Rights Reserved
+#
+#
+#    This material may be reproduced by or for the U.S. Government pursuant
+#    to the copyright license under the clause at Defense Federal Acquisition
+#    Regulation Supplement (DFARS) 252.227-7013 (NOV 1995).
+#
+#
+
+#---------------------------------------------------------------#
+#                                                               #
+# test_adduser                                                  #
+#                                                               #
+# Add a user to Win-NT via adduser program.                     #
+#                                                               #
+# user_config calls /h/NTCSSS/bin/adduser to add       #
+# the user to the NT domain.  "test_user_config" will           #
+# test the user_config script which calls the adduser program.  #
+#                                                               #
+# NOTE-1: This script must be executed from the NTCSS Xterm     #
+#         in the NTCSS group of the Desktop.                    #
+#                                                               #
+# NOTE-2: Invoke this script with an arg of 'local' to test     #
+#          using a local PC.                                    #
+#---------------------------------------------------------------#
+
+initialize()
+{
+	clear
+	NTCSSDATADIR="/h/NTCSSS/database"
+	NTCSSBINDIR="/h/NTCSSS/bin"
+
+
+        sys_line=`grep "NTUSERDIR" ${NTCSSDATADIR}/SYS_CONF`
+	if [ -n "${sys_line}" ]
+	then
+       		home_dir=`echo ${sys_line} | sed -n "s/[^:]*.[ ]*\(.*\)$/\1/p"`
+        	if [ -z "${home_dir}" ]
+        	then
+                	echo "No WIN-NT User directory entry in SYS_CONF file"
+                	exit 1
+        	fi
+	fi
+
+        sys_line=`grep "NTTMPUSER" ${NTCSSDATADIR}/SYS_CONF`
+        if [ -n "${sys_line}" ]
+        then
+                tmpuser=`echo ${sys_line} | sed -n "s/[^:]*.[ ]*\(.*\)$/\1/p"`
+                if [ -z "${tmpuser}" ]
+                then
+                        echo "No WIN-NT Template User entry in SYS_CONF file"
+                        exit 1
+                fi
+        fi
+
+        sys_line=`grep "NTPROFDIR" ${NTCSSDATADIR}/SYS_CONF`
+        if [ -n "${sys_line}" ]
+        then
+                prof_dir=`echo ${sys_line} | sed -n "s/[^:]*.[ ]*\(.*\)$/\1/p"`
+                if [ -z "${prof_dir}" ]
+                then
+                        echo "No WIN-NT Profile directory entry in SYS_CONF file"
+                        exit 1
+                fi
+        fi
+
+	if [ -n "${DISPLAY}" ]
+	then
+	        disp=`echo ${DISPLAY} | sed -n "s/\([^:]*\).*/\1/p"`
+	else
+		echo "DISPLAY env variable not present"
+		exit 1
+	fi
+
+
+echo "                 TESTING NTCSS USER CONFIGURATION"
+echo ">>>>>> This script must be invoked from the 'NTCSS' Xterm Window <<<<<<"
+echo " "
+echo "	----------   ---------   test_adduser       ----------   ------------"
+echo "	! NTCSS  !   ! user_ !     here             ! adduser!   ! Desktop   !"
+echo "	! GUI    !   ! config!      |               ! prog   !   ! (frame)   !"
+echo "	! Admin  !---! script!----------------------!        !---!  and      !"
+echo "	!        !   !       !                      !        !   ! Win-NT    !"
+echo "	----------   ---------                      ----------   -------------"
+echo ">>>NOTE:<<< To test the adduser funtionality on a local PC,"
+echo "      invoke the script as follows: 'test_adduser local'"
+echo "      ---The following variables must exist in"
+echo "      ---the /h/NTCSSS/database/SYS_CONF file:"
+echo "           NTTMPUSER (e.g. IT-21)"
+echo "           NTUSERDIR (e.g. ^^CVN65UBD01\NTUSERS)"
+echo "           NTPROFDIR (e.g. ^^CVN65UPD01\profiles)"
+echo " "
+echo "      'NTUSERS' and 'profiles' are share names"
+echo " "
+echo "      Additionally, an 'NTCSS' group must exist on the PC/Domain"
+echo " "
+echo "Hit any key to continue..."
+read x
+}
+
+add()
+{
+	echo "Enter a user name to add to the NT domain: "
+	read username
+
+	echo "Enter the password for the test user: "
+	read ctpwd
+
+	echo "Enter the User description for this user, e.g. 'Fred Flintstone': "
+	read userdesc
+
+	$NTCSSBINDIR/adduser "${disp}" /ADDEXT "$username" "$ctpwd" "$userdesc" ${home_dir}\\${username} ${tmpuser} ${prof_dir}\\${username} $DOMAIN_FLAG
+}
+
+addfixed()
+{
+	username="ntcssusr"
+	ctpwd="ntcssii"
+	userdesc="User added to test user_config"
+
+        $NTCSSBINDIR/adduser "${disp}" /ADDEXT "$username" "$ctpwd" "$userdesc" ${home_dir}\\${username} ${tmpuser} ${prof_dir}\\${username} $DOMAIN_FLAG
+}
+
+delete()
+{
+	echo " ";echo " "
+	echo "Enter the user name to delete from the NT domain: "
+	read username
+
+	$NTCSSBINDIR/adduser "${disp}" /DEL "$username" $DOMAIN_FLAG
+}
+
+cpw()
+{
+	echo " ";echo " "
+	echo "Enter the user name to change the password: "
+	read username
+	echo "Enter the new NT domain password: "
+	read ctpwd
+
+        $NTCSSBINDIR/adduser "${disp}" /PWD "$username" $DOMAIN_FLAG
+}
+
+# Start here
+
+	initialize
+
+	if [ "${1}" = "local" ]
+	then
+		DOMAIN_FLAG="NODOMAIN"
+	else
+		DOMAIN_FLAG="DOMAIN"
+	fi
+
+	echo " ";echo " ";echo " "; echo " "
+	echo "add = Add User to NT domain."
+	echo " "
+	echo "addfixed = user=    'ntcssusr' (to be added to NT domain"
+	echo ".......... pass=    'ntcssii'"
+	echo ".......... longname='This user added to test user_config'"
+	echo " "
+	echo "delete = Delete User from NT domain."
+	echo " "
+	echo "cpw = Change NT password."
+	echo " "
+	echo "exit = quit."
+	echo " "
+	echo " "; echo " "
+	echo "Enter option: "
+
+	read function
+
+	case $function in
+
+		"exit")
+			exit 0	
+		;;
+		"add")
+			add
+		;;
+		"addfixed")
+			addfixed
+		;;
+		"delete")
+			delete
+		;;
+		"cpw")
+			cpw
+		;;
+	esac
+
+echo " ";echo " ";echo " "
+echo "At this point, you may execute the Windows NT domain User"
+echo "Administration program to check if the user 'ntcssusr' was"
+echo "correctly added to, or deleted from, the domain."
+echo " "

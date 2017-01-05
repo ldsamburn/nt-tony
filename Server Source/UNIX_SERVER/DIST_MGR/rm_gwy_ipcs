@@ -1,0 +1,15 @@
+#!/bin/sh
+
+
+#for gwyIPCId in `ipcs -sa | grep gwy | cut  -d" " -f 3`
+for gwyIPCId in `ipcs -sa | grep gwy | sed -n "s/s[ 	]*\([^ 	]*\).*/\1/p"`
+do
+	echo "removing Shared Semaphore Id   $gwyIPCId\n"
+	ipcrm -s $gwyIPCId
+done
+
+for gwyIPCId in `ipcs -m | grep gwy | sed -n "s/m[ 	]*\([^ 	]*\).*/\1/p"`
+do
+	echo "removing Shared Memory Id   $gwyIPCId\n"
+	ipcrm -m $gwyIPCId
+done

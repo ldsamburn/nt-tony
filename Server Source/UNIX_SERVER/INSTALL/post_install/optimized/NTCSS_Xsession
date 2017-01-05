@@ -1,0 +1,72 @@
+#!/bin/csh
+#
+#
+#              Copyright(c)2002 Northrop Grumman Corporation
+#
+#                          All Rights Reserved
+#
+#
+#    This material may be reproduced by or for the U.S. Government pursuant
+#    to the copyright license under the clause at Defense Federal Acquisition
+#    Regulation Supplement (DFARS) 252.227-7013 (NOV 1995).
+#
+#
+# SNAP COE X-Windows Desktop X session.
+# INRI, 1992 
+#
+# File History: 
+# March 1993 (WLB): converted to csh to source snap_coe environment
+# May 1993 (WLB):   modified for NTCSS
+
+set PRODUCT="snap"
+
+set SNAPPATH = /snap 
+set SNAPIPATH = /snapi 
+set SNAPIIPATH = /snapii 
+set SNAPIIIPATH = /snapiii 
+set PRODUCTPATH=$PRODUCT 
+
+# set up fifo for pipe files
+
+set warnfile=/tmp/${DISPLAY}.wpid
+set fifofile=/tmp/${DISPLAY}.fifo 
+# 7/10/98, fgr
+#/usr/local/bin/catch_warn $warnfile $fifofile
+
+if ( -e $SNAPPATH/env/SnapXdefaults ) then
+	xrdb -load $SNAPPATH/env/SnapXdefaults
+endif
+
+if ( -e $PRODUCT/env/SnapXdefaults ) then
+	xrdb -load $PRODUCTPATH=$PRODUCT/env/SnapXdefaults
+endif
+
+if ( -e /usr/local/NTCSS/xdm/NTCSS_Xresourc ) then
+	xrdb -load /usr/local/NTCSS/xdm/NTCSS_Xresourc
+endif
+
+if ( -e $SNAPIIPATH/env/.xmodmaprc ) then
+	 xmodmap $SNAPIIPATH/env/.xmodmaprc  # Set keysym values for F11-F16
+					     # for snapii.
+endif
+
+if ( -e /usr/local/NTCSS/env/snapmodmap ) then
+         xmodmap /usr/local/NTCSS/env/snapmodmap # Set keysym values for
+                                                     # F11-F16 for snap.
+endif
+mwm&
+sleep 3
+xset m 5
+
+/usr/local/NTCSS/bin/desktop
+
+# added to support and terminate the message system interface
+
+# 7/10/98, fgr
+#set wpid=`cat $warnfile` >& /dev/null
+#if (${?wpid} != 0) then
+#	kill -9 $wpid
+#    rm -f $warnfile
+#    rm -f $fifofile 
+#endif
+

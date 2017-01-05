@@ -1,0 +1,367 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\r\n"
+    "#ifdef _WIN32\r\n"
+    "LANGUAGE 9, 1\r\n"
+    "#pragma code_page(1252)\r\n"
+    "#endif\r\n"
+    "#include ""res\\AppPrintConfig.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""afxres.rc""         // Standard components\r\n"
+    "#endif\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON    DISCARDABLE     "res\\AppPrintConfig.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOG DISCARDABLE  0, 0, 217, 55
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "About AppPrintConfig"
+FONT 8, "MS Sans Serif"
+BEGIN
+    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
+    LTEXT           "NTCSS AppPrintConfig Version 1.0.7",IDC_STATIC,40,10,
+                    119,8,SS_NOPREFIX
+    LTEXT           "Copyright INRI, 1997",IDC_STATIC,40,25,119,8
+    DEFPUSHBUTTON   "OK",IDOK,178,7,32,14,WS_GROUP
+END
+
+IDD_APPPRINTCONFIG_DIALOG DIALOGEX 0, 0, 374, 212
+STYLE DS_MODALFRAME | WS_MINIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
+    WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "Application Printer Config"
+MENU IDR_MENU1
+FONT 8, "MS Sans Serif"
+BEGIN
+    LISTBOX         IDC_APPLIST,13,22,87,62,LBS_SORT | LBS_NOINTEGRALHEIGHT | 
+                    WS_VSCROLL | WS_TABSTOP
+    CONTROL         "List1",IDC_OUTPUTLIST,"SysListView32",LVS_REPORT | 
+                    LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_SORTASCENDING | 
+                    WS_BORDER | WS_TABSTOP,110,23,248,61
+    DEFPUSHBUTTON   "Apply",IDAPPLY,65,186,50,14
+    PUSHBUTTON      "Quit",IDCANCEL,249,186,50,14
+    GROUPBOX        "Output Type List",IDC_STATIC,105,12,256,80
+    GROUPBOX        "Network Printer List",IDC_STATIC,10,99,350,84
+    CONTROL         "List2",IDC_PRINTERLIST,"SysListView32",LVS_REPORT | 
+                    LVS_SHOWSELALWAYS | LVS_SORTASCENDING | WS_BORDER | 
+                    WS_TABSTOP,13,108,342,70
+    GROUPBOX        "Application List",IDC_STATIC,9,12,95,80
+END
+
+IDD_MODIFYOT DIALOG DISCARDABLE  0, 0, 369, 174
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "EDIT OUTPUT TYPE"
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDC_NAME,91,25,104,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_DESCRIPTION,91,70,104,14,ES_AUTOHSCROLL
+    LISTBOX         IDC_PRINTERLIST,213,24,133,107,LBS_SORT | 
+                    LBS_MULTIPLESEL | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | 
+                    WS_TABSTOP
+    COMBOBOX        IDC_DEFAULTPRINTER,91,91,104,53,CBS_DROPDOWNLIST | 
+                    CBS_SORT | WS_DISABLED | WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "OK",IDOK,214,143,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,278,143,50,14
+    LTEXT           "NAME:",IDC_STATIC,17,30,24,8
+    LTEXT           "APPLICATION:",IDC_STATIC,17,52,50,8
+    LTEXT           "DEFAULT PRINTER:",IDC_STATIC,17,94,70,8
+    LTEXT           "DESCRIPTION:",IDC_STATIC,17,74,52,8
+    CONTROL         "BATCH PRINT",IDC_BATCHPRINT,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,92,110,64,10
+    EDITTEXT        IDC_APPLICATION,91,45,104,14,ES_AUTOHSCROLL | 
+                    ES_READONLY
+    GROUPBOX        "NETWORK PRINTER LIST",IDC_STATIC,208,13,144,122
+    GROUPBOX        "",IDC_STATIC,14,13,187,122
+END
+
+IDD_LOGFILE DIALOG DISCARDABLE  0, 0, 408, 247
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "LOG FILE VIEWER"
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDC_EDIT1,7,15,388,217,ES_MULTILINE | ES_AUTOVSCROLL | 
+                    ES_AUTOHSCROLL | WS_VSCROLL
+END
+
+IDD_LOCKEDAPPWARNDLG DIALOG DISCARDABLE  0, 0, 186, 138
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "App_Prt Warning!!"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,66,113,50,14
+    LTEXT           " WARNING: The Following Application\n                     Groups are Not Available:",
+                    IDC_STATIC,15,12,156,24
+    LISTBOX         IDC_LIST1,54,46,74,47,LBS_SORT | LBS_NOINTEGRALHEIGHT | 
+                    WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "",IDC_STATIC,47,36,87,63
+END
+
+
+#ifndef _MAC
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904B0"
+        BEGIN
+            VALUE "CompanyName", "\0"
+            VALUE "FileDescription", "APPPRINTCONFIG MFC Application\0"
+            VALUE "FileVersion", "1, 0, 0, 1\0"
+            VALUE "InternalName", "APPPRINTCONFIG\0"
+            VALUE "LegalCopyright", "Copyright © 1997\0"
+            VALUE "LegalTrademarks", "\0"
+            VALUE "OriginalFilename", "APPPRINTCONFIG.EXE\0"
+            VALUE "ProductName", "APPPRINTCONFIG Application\0"
+            VALUE "ProductVersion", "1, 0, 0, 1\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+#endif    // !_MAC
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 210
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 48
+    END
+
+    IDD_APPPRINTCONFIG_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 367
+        TOPMARGIN, 6
+        BOTTOMMARGIN, 205
+    END
+
+    IDD_MODIFYOT, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 362
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 167
+    END
+
+    IDD_LOGFILE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 401
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 240
+    END
+
+    IDD_LOCKEDAPPWARNDLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 179
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 134
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MENU1 MENU DISCARDABLE 
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "Apply",                       ID_APPLY
+        MENUITEM "View Change Log",             ID_VIEWLOG
+        MENUITEM "Quit",                        ID_QUIT
+        MENUITEM "Refresh",                     ID_REFRESH
+    END
+    POPUP "&Output Type"
+    BEGIN
+        MENUITEM "&Add",                        ID_OTADD
+        MENUITEM "&Edit",                       ID_OTEDIT
+        MENUITEM "&Delete",                     ID_OTDELETE
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&Desktop Help Topics\tF1",    ID_DESKTOPHELP
+        MENUITEM SEPARATOR
+        MENUITEM "&Getting Help",               ID_GETTINGHELP
+        MENUITEM "&Window Help\tCtrl+F1",       ID_WINDOWHELP
+        MENUITEM "&Field Help\tShift+F1",       ID_FIELDHELP
+        MENUITEM SEPARATOR
+        POPUP "&Books"
+        BEGIN
+            MENUITEM "User Guide\tF1",              ID_USERGUIDE
+            MENUITEM "Interface Design Document",   ID_IDD
+            MENUITEM "System Administration (NTCSS)", ID_SYSADM
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "&Technical Support",          ID_TECHSUPPORT
+        MENUITEM "&Version",                    ID_VERSION
+    END
+END
+
+IDR_RIGHTCLICK MENU DISCARDABLE 
+BEGIN
+    POPUP "dummy"
+    BEGIN
+        MENUITEM "Add",                         ID_RC_ADD
+        MENUITEM "Edit",                        ID_RC_EDIT
+        MENUITEM "Delete",                      ID_RC_DELETE
+        MENUITEM "View Change Log",             ID_RC_VIEW
+        MENUITEM "Refresh",                     ID_REFRESH
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDR_HELP ACCELERATORS DISCARDABLE 
+BEGIN
+    VK_F1,          ID_USERS_GUIDE,         VIRTKEY, NOINVERT
+    VK_F1,          ID_WINDOW_HELP,         VIRTKEY, CONTROL, NOINVERT
+    VK_F1,          ID_FIELD_HELP,          VIRTKEY, SHIFT, NOINVERT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_OTYPE               BITMAP  DISCARDABLE     "res\\otype.bmp"
+IDB_PRINTERS            BITMAP  DISCARDABLE     "res\\printer.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_ABOUTBOX            "&About AppPrintConfig..."
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    AFX_IDS_APP_TITLE       "NTCSS Print Config"
+END
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE 9, 1
+#pragma code_page(1252)
+#endif
+#include "res\AppPrintConfig.rc2"  // non-Microsoft Visual C++ edited resources
+#include "afxres.rc"         // Standard components
+#endif
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

@@ -1,0 +1,368 @@
+#!/bin/sh
+#comd#		Backup File System
+#head#
+#	Files backed up with "backup" are restored using "restore".
+#
+stty echo
+
+. /usr/hvx_scripts/sysadmsh.cmd
+
+genprg="hvx_gcos"
+for i in $genprg
+do
+       genstr=`ps -e | grep $i | egrep -v "ps -e" | egrep -v "grep ${i}"`
+       if [ -n "$genstr" ]
+       then
+              /usr/hvx_scripts/msgdsp "HVX is Enabled"
+              exit 0;
+       fi
+done
+
+PRIDEV=/dev/rst2
+PRIDEVN=/dev/nrst2
+SECDEV=/dev/rst0
+SECDEVN=/dev/nrst0
+TRIDEV=/dev/rst1
+TRIDEVN=/dev/nrst1
+
+
+echo " Compressing hvxvols filesystem"
+echo " Compressing nalc00"
+echo
+compress  < /hvxvols/nalc00 > /backup/nalc00.Z
+echo " Compressing nalc01"
+echo
+compress  < /hvxvols/nalc01 > /backup/nalc01.Z
+echo " Compressing nalc02"
+echo
+compress  < /hvxvols/nalc02 > /backup/nalc02.Z
+echo " Compressing nalc03"
+echo
+compress  < /hvxvols/nalc03 > /backup/nalc03.Z
+echo " Compressing nalc04"
+echo
+compress  < /hvxvols/nalc04 > /backup/nalc04.Z
+echo " Compressing fepc11"
+echo
+compress  < /hvxvols/fepc11 > /backup/fepc11.Z 
+
+/usr/hvx_scripts/msgdsp "You may now bring HVX back online for use"
+
+trap 'rm .exclude 2> /dev/null;exit 0' 2 15
+
+#
+#  Establish system-specific commands.
+#
+
+echo ""
+state=0
+next_state=0
+while  true
+do
+	case $state in
+	0)
+		$TPUTCUP 5 0
+		tput ed
+		echo ""
+		#fslist=`/etc/mount | grep "^/dev/" 2> /dev/null | sed 's/.* on / /' | sed 's/ type .*//' | egrep -v "/$" | sort  | pr -l6 -w80 -t -4`
+		fslist=`/etc/mount | sed 's/^\([^ ]*\).*/\1/p' | egrep -v "/$" | sort  | pr -l6 -w80 -t -4`
+#		/etc/mount | egrep -v "^/dev/" 2> /dev/null | sed 's/.* on //' | sed 's/ type .*//' | pr -t > .exclude
+
+		echo "/bin/tar" > .exclude
+		echo " File Systems Available for Archiving:"
+		echo ""
+		echo "${fslist}" 
+		echo ""
+		echo ""
+		echo "Enter file system, path/filename,"
+		$ECHO_N "or 'D' for daily backup ('q' to quit) : "$NONL
+		state=INP
+		next_state=1
+		;;
+	1)
+		dflag=
+		if [ -n "$ans" ]
+		then
+		   if [ "$ans" = 'D' -o "$ans" = 'd' ]
+		   then
+			dflag=Yes
+			filesys="Daily Backup "
+			state=2
+		   else
+			fsok=`echo "$fslist" | sed -n "s;^\([ 	]*${ans}\)$;\1;p"`
+			fsok1=`cat .exclude | grep "$ans"`
+			#if [ ! -d "${ans}" -o -z "$fsok" ]
+			if [ ! -d "${ans}" -o -n "$fsok1" ]
+			then
+				ERRSTR="Error, No such directory, try again"
+				state=ERR
+				next_state=0
+			else
+				filesys=$ans
+				state=2
+			fi
+		   fi
+		else
+			ERRSTR="Illegal entry, try again"
+			state=ERR
+			next_state=0
+		fi
+		;;
+	2)
+		$TPUTCUP 5 0
+		tput ed
+		$TPUTCUP 6 0
+		echo "---ARCHIVE of '$filesys' "
+		if [ -n "$dflag" ]
+		then
+		echo "               Includes:  SNAP Data, /var, /u, password, group"
+		fi
+		echo ""
+		echo "Enter a Volume Name "
+		$ECHO_N "for the archive('q' to quit):"$NONL
+		state=INP
+		next_state=3
+		;;
+	3)
+		vol_name=$ans
+		$TPUTCUP 9 23
+		tput el
+		echo ": "$vol_name
+		state=3.1
+		;;
+	3.1)
+		$TPUTCUP 10 0
+		tput ed
+		echo "Enter Backup Media Type: "
+		echo "   (4)MM DAT Tape"
+		echo "   (8)MM DAT Tape"
+		echo "   (S)treamer Tape"
+		echo "   (Q)uit"
+		$TPUTCUP 10 24
+		state=INP
+		next_state=3.2
+		;;
+	3.2)
+		if [ -n "$ans" ]	
+		then
+			state=4
+			if [ "$ans" = 8 ]
+			then
+				savedevn=$PRIDEVN
+				savedev=$PRIDEV
+			elif [ "$ans" = s -o "$ans" = S ]
+			then
+				savedev=$SECDEV
+				savedevn=$SECDEVN
+			elif [ "$ans" = 4 ]
+			then
+				savedev=$TRIDEV
+				savedevn=$TRIDEVN
+			else
+				ERRSTR="Invalid media type, try again."
+				state=ERR
+				next_state=3.1
+			fi
+		else
+			ERRSTR="Invalid media type, try again."
+			state=ERR
+			next_state=3.1
+		fi	
+		;;
+		
+		
+	4)
+		$TPUTCUP 5 0
+		tput ed
+		$TPUTCUP 6 0
+		echo "--- ARCHIVE DESCRIPTION ---"
+		echo ""
+		echo "FILE SYSTEM : "$filesys
+		if [ -n "$dflag" ]
+		then
+			echo "              Includes:  SNAP Data, /var, /u, /wp, password, group"
+		fi
+		echo "VOLUME NAME : "$vol_name
+		echo "DATE        : "`date +%D`
+		echo "TIME        : "`date +%T`
+		$ECHO_N "MEDIA       : "$NONL
+		if [ "$savedev" = "$PRIDEV" ]
+		then
+			echo "8MM DAT"
+		elif [ "$savdev" = "$SECDEV" ]
+		then
+			echo "Streamer Tape"
+		else
+			echo "4MM DAT"
+		fi
+		echo ""
+		$ECHO_N "Confirm Backup of '${filesys}' (Y/N/Q):"$NONL
+		state=INP
+		next_state=5
+		;;
+	5)
+		if [ -n "$ans" ]
+		then
+			if [ "$ans" = Y -o "$ans" = y ] 
+			then
+
+				echo "VOLUME NAME : "$vol_name > .header
+				echo "DATE        : "`date +%D` >> .header
+				echo "TIME        : "`date +%T` >> .header
+
+				echo ""
+				echo "Place a cartridge tape in the tape drive and "
+				$ECHO_N "press RETURN to continue...."$NONL
+				state=INP
+				next_state=7
+			elif [ "$ans" = n -o "$ans" = N ]
+			then
+				state=8
+			else
+				state=ERR
+				next_state=4
+				ERRSTR="Error, illegal entry, try again."
+			fi
+		else
+			state=ERR
+			next_state=4
+			ERRSTR="Error, illegal entry, try again."
+		fi
+		;;
+	5.5)
+		$TPUTCUP 16 0
+		tput ed
+		$ECHO_N "Retension the tape (Y/N/Q) : "$NONL
+		state=INP
+		next_state=5.6
+		;;
+	5.6)
+		if [ "$ans" = "y" -o "$ans" = "Y" ]
+		then
+			state=6
+		elif [ "$ans" = "n" -o "$ans" = "N" ]
+		then
+			state=7
+		else
+			ERRSTR="ERROR, Illegal input, try again."
+			state=ERR
+			next_state=5.5
+		fi
+		;;
+		
+	6)
+		$TPUTCUP 5 0
+		tput ed
+		$TPUTCUP 6 0
+		$ECHO_N "Retensioning Tape, please wait..."$NONL
+		if mt -f ${PRIDEV} retension > /dev/null
+		then
+			echo "complete."
+			state=7
+		else
+			echo ""
+			echo ""
+			echo "*** Error Retension Operation"
+			echo ""
+			echo "    Check :"
+			echo "		- Proper insertion of tape "
+			echo "		- Correct media type (DAT 4/8mm type/DC6150 Streamer tape) used"
+			echo "		- Defective/damaged tape"
+			echo ""
+			$ECHO_N "Press RETURN key to continue.."$NONL
+			state=INP
+			next_state=8
+		fi
+		;;
+	7)
+		echo ""
+		echo "Archiving Files..."
+		( echo "*** MANUAL BACKUP ERROR REPORT ***"
+		  echo "TAPE DESCRIPTION:"
+		  echo "   VOLUME NAME : "$vol_name > .header
+		  echo "   DATE        : "`date +%D` >> .header
+		  echo "   TIME        : "`date +%T` >> .header
+		  echo "" ) > .bu_log
+
+		
+		
+		tar -cvf ${savedevn} /u/admin/menu/UTILS/ADM_SYSTEM/BACKUP_UTILS/.header 2>> .bu_log
+		if [ $? -eq 0 -a -n "$dflag" ]
+		then
+			tar -cvf ${savedev} `cat $ADMENU/.hvx_include` 2>> .bu_log
+		else
+			tar -cvf ${savedev} ${filesys} 2>> .bu_log
+		fi
+		if [ $? -eq 0 ]
+		then
+			cat .bu_log | mail root
+			rm -f .bu_log 
+			mt -f ${savedev} offline
+
+
+			echo "complete."
+			sleep 2
+			state=8
+		else
+			rm .bu_log 2> /dev/null
+			$TPUTCUP 5 0
+			tput ed
+			echo ""
+			echo ""
+			echo "*** Error in Backup of '$filesys'.. "
+			echo ""
+			echo "    Check :"
+			echo "		- Write protection active"
+			echo "		- Correct media type (DAT 4/8mm type/DC6150 Streamer tape) used"
+			echo "		- Defective/damaged tape"
+			echo ""
+			$ECHO_N "Press RETURN key to continue.."$NONL
+			state=INP
+			next_state=8
+		fi
+		;;
+	8)
+		clear
+		grep "#head#" .DESC | sed -n "s/#head#//p"	
+		echo "Backup File System"
+		state=0
+		;;
+	ERR)
+		$TPUTCUP 22 4 
+		tput ed 
+		tput bel
+		$ECHO_N $ERRSTR$NONL
+		sleep 3
+		$TPUTCUP 22 4 
+		tput ed 
+		if [ "$next_state" = BYE ]
+		then 
+			state=BYE
+		else
+			state=$next_state
+		fi 
+		;;
+	INP)
+		stty echo
+		read ans
+		stty -echo
+
+		if [ -n "$ans" ]
+		then 
+			if [ "$ans" = 'q' -o "$ans" = 'Q' -o "$ans" = '^' ]
+			then
+				state=BYE
+			else
+				state=$next_state
+			fi 
+		else
+			state=$next_state
+		fi
+		;;
+	BYE)
+		sleep 1
+		rm .exclude 2> /dev/null
+		exit 0
+		;;
+	esac
+done

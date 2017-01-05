@@ -1,0 +1,11 @@
+Class Setup
+xterm
+\ntcss2\resource\icon_d.dll
+0
+-T "Class Setup" -e /h/ATLASS_MS/scripts/setup_class.sh
+CS_SCHOOL
+1
+4
+1
+/usr/bin/X11/
+

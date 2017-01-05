@@ -1,0 +1,115 @@
+NTCSS
+App Administrator
+1
+1
+
+NTCSS
+Security Admin
+2
+1
+
+NTCSS
+Operator
+3
+1
+
+SCHOOL01
+App Administrator
+1
+1
+
+SCHOOL01
+All Users
+2
+0
+
+SCHOOL01
+Test User
+3
+1
+
+IF_SCHOOL01
+App Administrator
+1
+1
+
+IF_SCHOOL01
+All Users
+2
+0
+
+DB_SCHOOL01
+App Administrator
+1
+1
+
+DB_SCHOOL01
+op user
+2
+0
+
+DB_SCHOOL01
+Sybase Central User
+3
+0
+
+CS_SCHOOL01
+App Administrator
+1
+1
+
+CS_SCHOOL01
+All Users
+2
+0
+
+SCHOOL02
+App Administrator
+1
+1
+
+SCHOOL02
+All Users
+2
+0
+
+SCHOOL02
+Test User
+3
+1
+
+IF_SCHOOL02
+App Administrator
+1
+1
+
+IF_SCHOOL02
+All Users
+2
+0
+
+DB_SCHOOL02
+App Administrator
+1
+1
+
+DB_SCHOOL02
+op user
+2
+0
+
+DB_SCHOOL02
+Sybase Central User
+3
+0
+
+CS_SCHOOL02
+App Administrator
+1
+1
+
+CS_SCHOOL02
+All Users
+2
+1
+

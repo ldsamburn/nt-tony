@@ -1,0 +1,116 @@
+PRODUCT: NTCSS II
+
+COMPANY: INRI
+
+DESCRIPTION: The NTCSSII directory contains programs, scripts, and configuration
+             files which provide NTCSS applications with a complete client/
+             server environment with X-Motif and MS Windows system administra-
+             tion utilities.
+
+VERSION: 3.0.0
+
+HISTORY:
+   0.0.0  12/29/94  ACA  Created NTCSSII directory containing programs such as
+                    EJT  the user administration utility (users_conf) and the
+                         RPC servers (ntcssdsksrv and ntcssServer); established
+                         directory hierarchy for NTCSS II;
+
+   0.1.1  04/10/95  ACA  Changed over from RPC servers to socket based servers;
+                    EJT  all servers launched using one program (gen_se);
+                         created server initiation and termination programs
+                         (ntcss_init and ntcss_halt); improved database priming
+                         by allowing prime_db program to be rerun until it logs
+                         no errors; minor changes to the user administration
+                         utility (users_conf);
+
+   0.2.0  06/09/95  ACA  Implemented print queue server to track print requests;
+                    EJT  added printer configuration (app_prtcnf and prt_conf)
+                         utilities and user administration utility (users_conf);
+                         improved database priming so it works with existing
+                         database tables without destroying data; added printing
+                         capability from client to server-controlled printers;
+                         added access roles to determine which users get access
+                         to which programs;
+
+   0.3.0  07/20/95  ACA  Altered application-specific printer configuration
+                    EJT  parameters; added print request suspension capability
+                         and means to release suspended requests; printers can
+                         be attached to any server not just the NTCSS server;
+                         enhanced functionality of LPR proxy program (ntlpd);
+
+   0.4.0  09/14/95  ACA  Added file system backup/restore utility (fs_archive)
+                    EJT  and companion programs; implemented server process
+                    GWY  queue server to track server processes; added server
+                         file printing; added server print program (ntcss_lp);
+
+   0.5.0  01/16/96  ACA  Added server device interface utility (srv_dev) and
+                    EJT  accompanying programs (sdi_in and sdi_out); added
+                    WSP  system monitor utility (sys_mon) and companion
+                         programs; administration programs now handle UNIX user
+                         and group accounts;
+
+   1.0.0  03/22/96  EJT  Added menu and menu configuration programs (adm_menu
+                         and conf_menu) similar to NTCSS I desktop;
+          06/20/96  EJT  Added setup Windows utility for configuring program
+                    WSP  groups and NTCSS servers and checking system status;
+          07/15/96  ACA  Added file transfer capability to all programs;
+          08/31/96  EJT  Added command-line utility (ntcss_cmd) which allows
+                         administrators to perform many needed tasks; added
+                         UNIX user/group administration utility (unix_uga);
+          09/02/96  CBK  Added predefined job configuration utility (pdj_conf)
+                         and added some UNIX C APIs which are located in the
+                         libs directory;
+          09/12/96  EJT  Redid server process control and added many new
+                    ACA  features including queueing, approval, and scheduling
+                    WSP  of jobs;
+
+   1.0.1  03/31/97  EJT  Added new fields "shared password" and "link data" to
+                         the NTCSS II database;
+          03/31/97  ACA  Added new feature for handling the formatting of
+                         Windows-like INI files to assist with printer and help
+                         operations for Windows NT clients;
+
+   1.0.2  05/12/97  EJT  Fixed NIS "+" line problem in program "unix_uga"; ex-
+                         tended "ntcss_cmd" to handle the registering of new
+                         applications;
+          05/12/97  CBK  Added Windows help to all the X-Motif system admini-
+                         stration utilities;
+          05/12/97  ACA  Added new Windows NT printer handling features to the
+                         database server;
+          05/19/97  EJT  Added UNIX batch user feature; Printer and predefined
+                    ACA  job administration now handled thru Windows utilities
+                         with special INI file program on UNIX end which inter-
+                         faces the Windows admin. utilities with the database;
+                         Expanded "prime_db" to add batch users; Extended
+                         "ntcss_cmd" to handle conversion of the "progrps" file
+                         format from version 1.0.1 to 1.0.2;
+          05/19/97  CBK  Added server-side APIs for performing message bulletin
+                         board operations; Added schedule string to predefined
+                         jobs;
+
+   1.0.3  07/28/97  EJT  Added multi-user capability to "users_conf" so mult-
+                         iple administrators can add users simultaneously; Added
+                         PC-side APIs for examining the contents of server text
+                         files; Reworked "ntcss_init" so it checks waiting
+                         server processes after launching the NTCSS daemons;
+                         Redid the way in which server processes are killed in
+                         the command daemon and "ntcss_halt"; Reworked daemons
+                         so app link data is given one value per host even if
+                         different applications reside on the host;
+                    ACA  Made NTCSS file transfer protocol more streamlined and
+                         faster; Fixed printer security classification problem;
+                    DWB  Created "print_users" program to display current users;
+
+   1.0.4  08/11/97  ACA  Added options to "ntcss_lp" and associated APIs; Fixed
+                    CBK  title field problem for message bulletin boards; Fixed
+                         bug in PSP environment;
+                    JGJ  Added file review capability through PC-side APIs;
+
+   1.0.5  09/09/97  ACA  
+
+   1.0.6  10/15/97  ACA  
+
+   1.0.7  05/18/98  ACA  
+
+   3.0.0  07/21/98  ACA  
+

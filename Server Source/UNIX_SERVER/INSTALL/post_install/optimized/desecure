@@ -1,0 +1,178 @@
+#!/bin/sh
+#
+#
+#              Copyright(c)2002 Northrop Grumman Corporation
+#
+#                          All Rights Reserved
+#
+#
+#    This material may be reproduced by or for the U.S. Government pursuant
+#    to the copyright license under the clause at Defense Federal Acquisition
+#    Regulation Supplement (DFARS) 252.227-7013 (NOV 1995).
+#
+#
+#################################################
+# Call this script as shown"
+#   NIS MASTER:  desecure MASTER
+#   NIS SLAVE:   desecure SLAVE
+#################################################
+
+SECPWD=/.secure/etc/passwd
+DSTPWD=/etc/passwd.tmp
+SRCPWD=/etc/passwd
+
+####
+# procedure to move passwords from secure to regular password file
+####
+move_passwords()
+{
+rs=`expr 0`
+
+while [ $rs -eq 0 ]
+do
+
+	read pline
+	rs=$?
+	if [ $rs -ne 0 ]
+	then
+		echo "EOF"
+		exit
+	fi
+
+	pw_uname=`echo $pline | cut -d: -f1`
+	pw_oldpass=`echo $pline | cut -d: -f2`
+	pw_uid=`echo $pline | cut -d: -f3`
+	pw_gid=`echo $pline | cut -d: -f4`
+	pw_gecos=`echo $pline | cut -d: -f5`
+	pw_dir=`echo $pline | cut -d: -f6`
+	pw_sh=`echo $pline | cut -d: -f7`
+
+	if [ "${pw_oldpass}" = "*" -a "${pw_uname}" != "+" ]
+	then
+		echo "        .... $pw_uname ...."
+
+		spline=`grep "${pw_uname}:" $SECPWD`
+
+		if [ -n "${spline}" ]
+		then
+			sp=`echo $spline | cut -d: -f2`
+
+			if [ "$sp" = "*" ]
+			then
+				sec_pass=$sp
+			else
+				sec_pass=`echo $sp | sed -n "s/^\([^,]*\).*/\1/p"`
+		        fi
+
+ed - $DSTPWD <<EOF > /dev/null
+/^${pw_uname}:
+c
+${pw_uname}:${sec_pass}:${pw_uid}:${pw_gid}:${pw_gecos}:${pw_dir}:${pw_sh}
+.
+w
+q
+EOF
+		fi
+	fi
+
+done < $SRCPWD
+}
+
+####
+# Get ready to work
+####
+initialize()
+{
+	rm -f $DSTPWD
+	cp $SRCPWD $DSTPWD
+}
+
+####
+# Move/Remove secure directories
+####
+move_secure_dirs()
+{
+	if [ -d /.secure ]
+	then
+		mv /.secure /secure
+	fi
+
+	if [ -d /sd0c/.secure ]
+	then
+		mv /sd0c/.secure /sd0c/old_secure
+	fi
+
+	if [ -d /usr/spool/cron/.cronaids ]
+	then
+			mv /usr/spool/cron/.cronaids /usr/spool/cron/cronaids
+			mv /usr/spool/cron/.ataids /usr/spool/cron/ataids
+	fi
+
+}
+
+####
+# Kill the audit daemons
+####
+kill_audit_daemons()
+{
+	if [ -f /usr/local/NTCSS/bin/irskill ]
+	then
+		/usr/local/NTCSS/bin/irskill 2> /dev/null
+	fi
+}
+
+####
+# Recover some old programs
+####
+move_old_programs()
+{
+	# move back original password file
+	if [ -f /bin/passwd_old ]
+	then
+		cp /bin/passwd /bin/passwd_sec
+		cp /bin/passwd_old /bin/passwd
+		chmod u+s /bin/passwd
+	fi
+
+	# Replace /etc/yp/net_push with /bin/true
+	if [ -f /etc/yp/net_push ]
+	then
+		cp /etc/yp/net_push /etc/yp/net_push_sec
+		cp /bin/true /etc/yp/net_push
+	fi
+}
+
+finish_up()
+{
+	cp $SRCPWD $SRCPWD.sec
+	cp $DSTPWD $SRCPWD
+}
+
+####
+# Main Routine
+####
+
+mstate=$1
+
+echo "Initializing De-Securing Process...as $mstate"
+initialize
+
+echo "Recovering Users Secure Passwords..."
+if [ -d /.secure ]
+then
+	move_passwords
+fi
+
+echo "Recovering Old Programs..."
+move_old_programs
+
+echo "Killing Audit Daemons..."
+kill_audit_daemons
+
+echo "Moving Secure Directories..."
+move_secure_dirs
+
+echo "Cleaning Up..."
+finish_up
+
+echo "System Update Complete, Security Components Removed."

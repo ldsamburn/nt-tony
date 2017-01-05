@@ -1,0 +1,129 @@
+#!/bin/sh
+#
+#
+#              Copyright(c)2002 Northrop Grumman Corporation
+#
+#                          All Rights Reserved
+#
+#
+#    This material may be reproduced by or for the U.S. Government pursuant
+#    to the copyright license under the clause at Defense Federal Acquisition
+#    Regulation Supplement (DFARS) 252.227-7013 (NOV 1995).
+#
+#
+
+NALC_SRCHST=/etc/hosts
+DSTHST=/tmp/hosts
+NALC_SRCPC=/etc/printcap
+DSTPC=/tmp/printcap
+LCLHST=/etc/hosts
+
+############
+# Initialize a few platform vars
+############
+
+    settings="/etc/ntcss_system_settings.ini"
+
+    ntcssdir=`grep "^HOME_DIR=" "$settings" | cut -d= -f2`
+    
+    bindir=`grep "NTCSS_BIN_DIR" "$settings" | cut -d= -f2`
+    bindir="$ntcssdir/$bindir"
+
+    gps="$bindir/GetProfileString"
+
+    appinst=`$gps Strings APP_INST "applications/data/install" $settings`
+    appinst="$ntcssdir/$appinst"
+
+    postdir="$appinst/post_install"
+
+. $appinst/getOSinfo.sh
+
+
+########
+# NIS Push
+########
+nispush()
+{
+        #ypline=`ps -ef | grep ypserv | egrep -v grep`
+        #if [ -n "${ypline}" ]
+	if [ `ypwhich -m passwd.byname` = `hostname` ]
+        then
+                curdir=`pwd`
+                cd $NISDIR
+                /bin/make -f Makefile
+                cd $curdir
+        fi
+}
+
+##########
+# Get old files
+#########
+copy_files()
+{
+	/usr/local/NTCSSII/bin/net_xfer get $srchst /etc/printcap /tmp/printcap
+	if [ $? -ne 0 ]
+	then
+		echo "Unable to get Nalcomis Printcap file, aborting!"
+		exit 1
+	fi
+
+	/usr/local/NTCSSII/bin/net_xfer get $srchst /etc/hosts /tmp/hosts
+	if [ $? -ne 0 ]
+	then
+		echo "Unable to get Nalcomis Host file, aborting!"
+		exit 1
+	fi
+}
+
+process_files()
+{
+	rs=`expr 0`
+	while [ $rs -eq 0 ]
+	do
+		read pline
+		rs=$?
+		if [ $rs -ne 0 ]
+		then
+			break	
+		fi
+
+		pc_pname=`echo $pline | sed -n "s/^\([^|]*\).*/\1/p"`
+		if [ -n "$pc_pname" ]
+		then
+				hst_hline=`grep "[       ]*${pc_pname}[  ]*" /tmp/hosts | egrep -v "^#"`
+				if [ -n "$hst_hline" ]
+				then
+					lcl_hstline=`grep "[       ]*${pc_pname}[  ]*" /etc/hosts | egrep -v "^#"`
+					if [ -z "$lcl_hstline" ]
+					then
+						echo "Adding Host for Printer <$pc_pname>"
+						echo $hst_hline >> /etc/hosts
+					fi
+				else
+					echo "Warning: Printcap entry found with NO corresponding host file entry!"
+				fi
+		fi
+	
+	done < /tmp/printcap
+}
+
+########
+# Main #
+########
+
+rm -f /tmp/printcap
+rm -f /tmp/hosts
+
+if [ -z "$1" ]
+then
+	echo "Usage:  getnalchost hostname"
+	exit 0
+fi
+
+srchst=$1
+echo "----- Contacting $srchst..."
+copy_files
+echo "----- Processing Files..."
+process_files
+echo "----- Pushing Resources..."
+nis_push

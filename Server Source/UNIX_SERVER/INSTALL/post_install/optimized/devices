@@ -1,0 +1,14 @@
+# NTCSS II Devices File
+#
+# Add a new line for each device connected to this host.  The second
+# item in each line must be the name of the "no rewind" device file
+# while the third item is reserved for the generic name of the device.
+# Use the following lines as examples:
+#
+# DRIVE  /dev/rmt/0mn  4 mm DAT
+# DRIVE  /dev/nrst1    Streamer Tape Drive
+#
+DRIVE /dev/rmt/4mmn 4 mm DAT
+DRIVE /dev/rmt/8mmn 8 mm DAT
+FILE  /h/USERS/ntcssii/backups/NTCSSII.BAK NTCSS BACKUP TO DISK
+

@@ -1,0 +1,475 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\r\n"
+    "#ifdef _WIN32\r\n"
+    "LANGUAGE 9, 1\r\n"
+    "#pragma code_page(1252)\r\n"
+    "#endif\r\n"
+    "#include ""res\\NtcssDll.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""afxres.rc""         // Standard components\r\n"
+    "#endif\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+#ifndef _MAC
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904B0"
+        BEGIN
+            VALUE "CompanyName", "\0"
+            VALUE "FileDescription", "NtcssDll DLL\0"
+            VALUE "FileVersion", "1, 0, 0, 1\0"
+            VALUE "InternalName", "NtcssDll\0"
+            VALUE "LegalCopyright", "Copyright (C) 1998\0"
+            VALUE "LegalTrademarks", "\0"
+            VALUE "OriginalFilename", "NtcssDll.DLL\0"
+            VALUE "ProductName", "NtcssDll Dynamic Link Library\0"
+            VALUE "ProductVersion", "1, 0, 0, 1\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+#endif    // !_MAC
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_VIEWSERVERFILE DIALOG DISCARDABLE  0, 0, 314, 142
+STYLE WS_MAXIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
+CAPTION "View Server File"
+FONT 8, "MS Sans Serif"
+BEGIN
+    PUSHBUTTON      "Cancel",IDCANCEL,132,114,50,14
+    EDITTEXT        IDC_SERVERFILEDITBOX,14,14,286,86,ES_MULTILINE | 
+                    WS_VSCROLL | WS_HSCROLL
+END
+
+IDD_VIEWFILEDLG DIALOG DISCARDABLE  0, 0, 278, 198
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Select Server File"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,22,174,50,14,WS_DISABLED
+    PUSHBUTTON      "Cancel",IDCANCEL,205,174,50,14
+    PUSHBUTTON      "Delete",IDC_DELETE,83,174,50,14,WS_DISABLED
+    GROUPBOX        "",IDC_STATIC,13,13,248,158
+    LTEXT           "Directory:",IDC_STATIC,17,26,31,8
+    EDITTEXT        IDC_DIRNAME,56,24,180,14,ES_AUTOHSCROLL | WS_DISABLED
+    LTEXT           "FileName:",IDC_STATIC,17,45,32,8
+    EDITTEXT        IDC_FILENAME,56,42,180,14,ES_AUTOHSCROLL
+    CONTROL         "List1",IDC_LISTCTRL,"SysListView32",LVS_REPORT | 
+                    LVS_SINGLESEL | WS_BORDER | WS_TABSTOP,26,63,226,102
+    PUSHBUTTON      "Refresh",IDC_REFRESH,144,174,50,14
+END
+
+IDD_SCHEDULE_DLG DIALOG DISCARDABLE  0, 0, 305, 230
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "NTCSS II Schedule "
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",ID_DONE,61,213,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,128,213,50,14
+    PUSHBUTTON      "Sun",IDC_HEADING_SUN,13,64,20,10
+    PUSHBUTTON      "Mon",IDC_HEADING_MON,33,64,20,10
+    PUSHBUTTON      "Tue",IDC_HEADING_TUE,53,64,20,10
+    PUSHBUTTON      "Wed",IDC_HEADING_WED,73,64,20,10
+    PUSHBUTTON      "Thur",IDC_HEADING_THUR,93,64,20,10
+    PUSHBUTTON      "Fri",IDC_HEADING_FRI,113,64,20,10
+    PUSHBUTTON      "Sat",IDC_HEADING_SAT,133,64,20,10
+    CONTROL         "",IDC_DAY01,"Button",BS_OWNERDRAW | WS_TABSTOP,14,77,20,
+                    17
+    CONTROL         "",IDC_DAY2,"Button",BS_OWNERDRAW | WS_TABSTOP,34,77,20,
+                    17
+    CONTROL         "",IDC_DAY3,"Button",BS_OWNERDRAW | WS_TABSTOP,53,77,20,
+                    17
+    CONTROL         "",IDC_DAY4,"Button",BS_OWNERDRAW | WS_TABSTOP,73,77,20,
+                    17
+    CONTROL         "",IDC_DAY5,"Button",BS_OWNERDRAW | WS_TABSTOP,93,77,20,
+                    17
+    CONTROL         "",IDC_DAY6,"Button",BS_OWNERDRAW | WS_TABSTOP,113,77,20,
+                    17
+    CONTROL         "",IDC_DAY7,"Button",BS_OWNERDRAW | WS_TABSTOP,133,77,20,
+                    17
+    CONTROL         "",IDC_DAY8,"Button",BS_OWNERDRAW | WS_TABSTOP,14,93,20,
+                    17
+    CONTROL         "",IDC_DAY9,"Button",BS_OWNERDRAW | WS_TABSTOP,34,93,20,
+                    17
+    CONTROL         "",IDC_DAY10,"Button",BS_OWNERDRAW | WS_TABSTOP,53,93,20,
+                    17
+    CONTROL         "",IDC_DAY11,"Button",BS_OWNERDRAW | WS_TABSTOP,73,93,20,
+                    17
+    CONTROL         "",IDC_DAY12,"Button",BS_OWNERDRAW | WS_TABSTOP,93,93,20,
+                    17
+    CONTROL         "",IDC_DAY13,"Button",BS_OWNERDRAW | WS_TABSTOP,113,93,
+                    20,17
+    CONTROL         "",IDC_DAY14,"Button",BS_OWNERDRAW | WS_TABSTOP,133,93,
+                    20,17
+    CONTROL         "",IDC_DAY15,"Button",BS_OWNERDRAW | WS_TABSTOP,14,109,
+                    20,17
+    CONTROL         "",IDC_DAY16,"Button",BS_OWNERDRAW | WS_TABSTOP,34,109,
+                    20,17
+    CONTROL         "",IDC_DAY17,"Button",BS_OWNERDRAW | WS_TABSTOP,53,109,
+                    20,17
+    CONTROL         "",IDC_DAY18,"Button",BS_OWNERDRAW | WS_TABSTOP,73,109,
+                    20,17
+    CONTROL         "",IDC_DAY19,"Button",BS_OWNERDRAW | WS_TABSTOP,93,109,
+                    20,17
+    CONTROL         "",IDC_DAY20,"Button",BS_OWNERDRAW | WS_TABSTOP,113,109,
+                    20,17
+    CONTROL         "",IDC_DAY21,"Button",BS_OWNERDRAW | WS_TABSTOP,133,109,
+                    20,17
+    CONTROL         "",IDC_DAY22,"Button",BS_OWNERDRAW | WS_TABSTOP,14,125,
+                    20,17
+    CONTROL         "",IDC_DAY23,"Button",BS_OWNERDRAW | WS_TABSTOP,34,125,
+                    20,17
+    CONTROL         "",IDC_DAY24,"Button",BS_OWNERDRAW | WS_TABSTOP,53,125,
+                    20,17
+    CONTROL         "",IDC_DAY25,"Button",BS_OWNERDRAW | WS_TABSTOP,73,125,
+                    20,17
+    CONTROL         "",IDC_DAY26,"Button",BS_OWNERDRAW | WS_TABSTOP,93,125,
+                    20,17
+    CONTROL         "",IDC_DAY27,"Button",BS_OWNERDRAW | WS_TABSTOP,113,125,
+                    20,17
+    CONTROL         "",IDC_DAY28,"Button",BS_OWNERDRAW | WS_TABSTOP,133,125,
+                    20,17
+    CONTROL         "",IDC_DAY29,"Button",BS_OWNERDRAW | WS_TABSTOP,14,141,
+                    20,17
+    CONTROL         "",IDC_DAY30,"Button",BS_OWNERDRAW | WS_TABSTOP,34,141,
+                    20,17
+    CONTROL         "",IDC_DAY31,"Button",BS_OWNERDRAW | WS_TABSTOP,53,141,
+                    20,17
+    CONTROL         "",IDC_DAY32,"Button",BS_OWNERDRAW | WS_TABSTOP,73,141,
+                    20,17
+    CONTROL         "",IDC_DAY33,"Button",BS_OWNERDRAW | WS_TABSTOP,93,141,
+                    20,17
+    CONTROL         "",IDC_DAY34,"Button",BS_OWNERDRAW | WS_TABSTOP,113,141,
+                    20,17
+    CONTROL         "",IDC_DAY35,"Button",BS_OWNERDRAW | WS_TABSTOP,133,141,
+                    20,17
+    CONTROL         "",IDC_DAY36,"Button",BS_OWNERDRAW | WS_TABSTOP,14,157,
+                    20,17
+    CONTROL         "",IDC_DAY37,"Button",BS_OWNERDRAW | WS_TABSTOP,34,157,
+                    20,17
+    CONTROL         "",IDC_DAY38,"Button",BS_OWNERDRAW | WS_TABSTOP,53,157,
+                    20,17
+    CONTROL         "",IDC_DAY39,"Button",BS_OWNERDRAW | WS_TABSTOP,73,157,
+                    20,17
+    CONTROL         "",IDC_DAY40,"Button",BS_OWNERDRAW | WS_TABSTOP,93,157,
+                    20,17
+    CONTROL         "",IDC_DAY41,"Button",BS_OWNERDRAW | WS_TABSTOP,113,157,
+                    20,17
+    CONTROL         "",IDC_DAY42,"Button",BS_OWNERDRAW | WS_TABSTOP,133,157,
+                    20,17
+    EDITTEXT        IDC_MONTH_TEXT,46,47,25,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "<",IDC_MONTH_DOWN,34,47,11,12
+    PUSHBUTTON      ">",IDC_MONTH_UP,72,47,11,12
+    EDITTEXT        IDC_YEAR_TEXT,102,47,25,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "<",IDC_YEAR_DOWN,90,47,11,12
+    PUSHBUTTON      ">",IDC_YEAR_UP,128,47,11,12
+    COMBOBOX        IDC_SCHEDULE_TYPE,47,23,78,80,CBS_DROPDOWN | WS_VSCROLL | 
+                    WS_TABSTOP
+    CTEXT           "                Frequency:",IDC_STATIC,31,9,75,10
+    LISTBOX         IDC_ENTRY_LIST,177,23,106,97,LBS_SORT | 
+                    LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Schedule Entries:",IDC_STATIC,170,12,62,10
+    RTEXT           "Time:",IDC_STATIC,25,181,61,10
+    SCROLLBAR       IDC_HOUR_SCROLL,87,185,9,12,SBS_VERT
+    EDITTEXT        IDC_HOUR_VALUE,97,185,12,12,ES_AUTOHSCROLL | ES_READONLY
+    CTEXT           ":",IDC_STATIC,109,188,8,10
+    PUSHBUTTON      "Save",IDC_SAVE_ENTRY,179,129,30,15
+    PUSHBUTTON      "Discard",IDC_DISCARD_ENTRY_CHANGES,179,154,30,15
+    PUSHBUTTON      "Delete",IDC_DELETE_ENTRY,179,180,30,15
+    LTEXT           "Save entry changes",IDC_STATIC,214,132,66,9
+    LTEXT           "Discard entry changes",IDC_STATIC,214,157,73,9
+    LTEXT           "Delete entry",IDC_STATIC,214,182,66,9
+    EDITTEXT        IDC_MINUTE_VALUE,117,185,12,12,ES_AUTOHSCROLL | 
+                    ES_READONLY
+    SCROLLBAR       IDC_MIN_SCROLL,129,185,9,12,SBS_VERT
+    CONTROL         "",IDC_STATIC,"Static",SS_BLACKFRAME,4,7,160,198
+    CONTROL         "",IDC_STATIC,"Static",SS_BLACKFRAME,169,7,124,198
+    PUSHBUTTON      "Help",IDC_NEED_HELP,195,213,50,14
+END
+
+IDD_PSFDIALOG DIALOG DISCARDABLE  0, 0, 356, 202
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "NTCSS II Print Server File Dialog"
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDC_FILEEDIT,18,51,117,12,ES_AUTOHSCROLL
+    COMBOBOX        IDC_FILECOMBO,18,174,117,89,CBS_DROPDOWNLIST | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_PRINTEREDIT,253,18,83,12,ES_AUTOHSCROLL | 
+                    ES_READONLY
+    PUSHBUTTON      "Select",IDSELECT,270,40,50,14
+    DEFPUSHBUTTON   "Help",IDC_NEED_HELP,291,181,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,291,157,50,14
+    EDITTEXT        IDC_DIREDIT,18,24,117,12,ES_AUTOHSCROLL | ES_READONLY | 
+                    NOT WS_TABSTOP
+    LTEXT           "Directory",1011,19,12,35,11
+    LTEXT           "File Name",1007,19,41,61,10
+    LTEXT           "List Files of Type",1008,17,161,61,10
+    DEFPUSHBUTTON   "OK",IDOK,291,132,50,14
+    GROUPBOX        "Printer",-1,242,1,102,65
+    GROUPBOX        "File",-1,9,1,221,195
+    CONTROL         "List1",IDC_LISTCTRL,"SysListView32",LVS_REPORT | 
+                    LVS_SHOWSELALWAYS | WS_BORDER | WS_TABSTOP,18,70,202,90
+END
+
+IDD_PSETUP DIALOG DISCARDABLE  3, 20, 285, 175
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION
+CAPTION "NTCSS II Select Printer"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LISTBOX         IDC_REMOTE_PRINTERS,14,82,169,41,LBS_SORT | 
+                    LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_COPIES,224,54,40,12,ES_AUTOHSCROLL
+    CONTROL         "Spin1",IDC_SPIN1,"msctls_updown32",UDS_WRAP | 
+                    UDS_SETBUDDYINT | UDS_ALIGNLEFT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS | UDS_NOTHOUSANDS,212,53,11,14
+    CONTROL         "Use Banner",IDC_BANNER,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,214,18,52,9
+    LISTBOX         IDC_LOCAL_PRINTERS,13,24,169,43,LBS_SORT | 
+                    LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "OK",IDOK,214,85,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,214,121,50,14
+    DEFPUSHBUTTON   "Setup",IDOPTIONS,214,139,50,14,WS_DISABLED
+    EDITTEXT        IDC_DEFAULT_PRINTER,15,138,168,12,ES_AUTOHSCROLL | 
+                    ES_READONLY
+    LTEXT           "Local",IDC_STATIC,8,14,31,8
+    LTEXT           "NTCSS",IDC_STATIC,9,70,31,8
+    GROUPBOX        "Printers",IDC_STATIC,3,2,193,169
+    LTEXT           "NTCSS Default",IDC_STATIC,9,126,53,8
+    DEFPUSHBUTTON   "Help",IDC_NEED_HELP,214,157,50,14
+    GROUPBOX        "Banner",IDC_STATIC,206,2,68,37
+    GROUPBOX        "Copies",IDC_STATIC,206,41,68,37
+    PUSHBUTTON      "Network",IDNETWORK,214,103,50,14
+END
+
+IDD_PRINT_FILE DIALOG DISCARDABLE  0, 0, 210, 103
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "NTCSS II Print Client File"
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDC_FILENAME,61,14,70,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "Browse",IDC_BROWSE_FILE,143,14,50,14
+    EDITTEXT        IDC_PRINTER_NAME,61,37,70,14,ES_AUTOHSCROLL | 
+                    ES_READONLY
+    PUSHBUTTON      "Select",IDC_BROWSE_PRINTER,143,37,50,14
+    DEFPUSHBUTTON   "OK",IDOK,14,79,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,74,79,50,14
+    LTEXT           "Filename",-1,12,15,34,10
+    LTEXT           "Printer Name",-1,12,39,44,10
+    PUSHBUTTON      "Help",IDC_NEED_HELP,134,79,50,14
+END
+
+IDD_ATLASSFILE DIALOG DISCARDABLE  0, 0, 186, 87
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "EDIT FILE NAME"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,32,60,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,100,59,50,14
+    LTEXT           "File Name:",IDC_STATIC,15,13,61,8
+    EDITTEXT        IDC_ATLASSFNAME,14,25,157,14,ES_AUTOHSCROLL
+    CONTROL         "Append to File",IDC_RBAPPEND,"Button",
+                    BS_AUTORADIOBUTTON | WS_GROUP,26,43,61,10
+    CONTROL         "OverWrite File",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,
+                    102,43,61,10
+END
+
+IDC_VALIDATEUSER DIALOG DISCARDABLE  0, 0, 186, 92
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Validate NTCSS User"
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDC_UserName,70,18,93,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_Password,70,38,94,14,ES_PASSWORD | ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK",IDOK,34,62,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,103,62,50,14
+    LTEXT           "Login Name:",IDC_STATIC,19,20,41,8
+    LTEXT           "Password:",IDC_STATIC,20,41,34,8
+    GROUPBOX        "",IDC_STATIC,7,7,171,78
+END
+
+IDD_FTPDLG DIALOG DISCARDABLE  0, 0, 186, 66
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "NTCSS FTP"
+FONT 8, "MS Sans Serif"
+BEGIN
+    PUSHBUTTON      "Cancel",IDCANCEL,121,38,50,14
+    CONTROL         "Progress1",IDC_PROGRESS1,"msctls_progress32",WS_BORDER,
+                    20,22,150,8
+    LTEXT           "File Transfer Progress",IDC_STATIC,11,9,69,8
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_VIEWSERVERFILE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 307
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 135
+    END
+
+    IDD_VIEWFILEDLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 271
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 191
+    END
+
+    IDD_PSFDIALOG, DIALOG
+    BEGIN
+        RIGHTMARGIN, 351
+    END
+
+    IDD_ATLASSFILE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 179
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 80
+    END
+
+    IDC_VALIDATEUSER, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 179
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 85
+    END
+
+    IDD_FTPDLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 179
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 57
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_PSFDIALOG DLGINIT
+BEGIN
+    IDC_FILECOMBO, 0x403, 4, 0
+0x2e2a, 0x002a, 
+    IDC_FILECOMBO, 0x403, 6, 0
+0x2e2a, 0x7874, 0x0074, 
+    IDC_FILECOMBO, 0x403, 6, 0
+0x2e2a, 0x756f, 0x0074, 
+    0
+END
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE 9, 1
+#pragma code_page(1252)
+#endif
+#include "res\NtcssDll.rc2"  // non-Microsoft Visual C++ edited resources
+#include "afxres.rc"         // Standard components
+#endif
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

@@ -1,0 +1,768 @@
+report
+OMMSNG
+General Printing
+lj4jd
+1
+
+report
+RADM
+General Printing
+lj4jd
+1
+
+report
+RSUPPLY
+General Printing
+lj4jd
+1
+
+X31Laser1
+RSUPPLY
+Picking Tickets
+lj4jd
+1
+
+X31Laser3
+RSUPPLY
+Picking Tickets
+lj4jd
+1
+
+X37Laser1
+RSUPPLY
+Picking Tickets
+lj4jd
+1
+
+X37Laser3
+RSUPPLY
+Picking Tickets
+lj4jd
+1
+
+BC1Laser1
+RSUPPLY
+Picket Tickets
+lj4jd
+1
+
+BC1Laser3
+RSUPPLY
+Picking Tickets
+lj4jd
+1
+
+BC1Laser2
+RSUPPLY
+Picking Tickets
+lj4lt
+1
+
+X31Laser2
+RSUPPLY
+Picking Tickets
+lj4lt
+1
+
+X37Laser2
+RSUPPLY
+Picking Tickets
+lj4lt
+1
+
+A9B02401
+NALCOMIS
+hcn printer
+lj5_400pc
+1
+
+A9B45001
+NALCOMIS
+hcn printer
+lj5_400pc
+1
+
+A9B40001
+NALCOMIS
+hcn printer
+lj5_400pc
+1
+
+A9B41101
+NALCOMIS
+hcn printer
+lj5_400pc
+1
+
+A9B41201
+NALCOMIS
+hcn printer
+lj5_400pc
+1
+
+A9B41501
+NALCOMIS
+hcn printer
+lj5_400pc
+1
+
+A9B41N01
+NALCOMIS
+hcn printer
+lj5_400pc
+1
+
+CCSDCU01
+NALCOMIS
+1348-1 printer
+lj5_dcu
+1
+
+A9B04A01
+NALCOMIS
+hcn printer
+lj5_qa
+1
+
+A9B04C01
+NALCOMIS
+hcn printer
+lj5_qa
+1
+
+CTDLIB01
+NALCOMIS
+hcn printer
+lj5_qa
+1
+
+IMRLMG01
+NALCOMIS
+hcn printer
+lj5_qa
+1
+
+IMRLMG02
+NALCOMIS
+hcn printer
+lj5_qa
+1
+
+DCUFRM01
+NALCOMIS
+1348-1 printer
+lj5_dcu
+1
+
+A9B05001
+NALCOMIS
+hcn printer
+lj5_mainpc
+1
+
+LOGREC01
+NALCOMIS
+hcn printer
+lj5_400pc
+1
+
+report
+NALCOMIS
+report batch printer
+mop_comprm
+1
+
+A9B44001
+NALCOMIS
+hcn printer
+lj5_400pc
+1
+
+1348HCWC
+NALCOMIS
+1348 printer for backfit
+lj5_dcu
+1
+
+A9B62C01
+NALCOMIS
+hcn printer
+lj5_battlkr
+1
+
+A9B62D01
+NALCOMIS
+hcn printer
+lj5_battlkr
+1
+
+A9B80001
+NALCOMIS
+hcn printer for mafs
+lj5_800pc
+1
+
+A9B05D01
+NALCOMIS
+hcn printer
+lj5_mainpc
+1
+
+A9B81C01
+NALCOMIS
+hcn printer
+lj5_800pc
+1
+
+A9B81B01
+NALCOMIS
+hcn printer
+lj5_800pc
+1
+
+A9B81A01
+NALCOMIS
+hcn printer
+lj5_800pc
+1
+
+A9BALS01
+NALCOMIS
+hcn printer
+lj5_800pc
+1
+
+A9B02801
+NALCOMIS
+hcn printer
+lj5_800pc
+1
+
+ISDADP01
+NALCOMIS
+ZAW NOTICE
+mop_comprm
+1
+
+CCSRMS01
+NALCOMIS
+1348-1 printer
+lj5_dcu
+1
+
+A9B43001
+NALCOMIS
+hcn printer
+lj5_400pc
+1
+
+A9B41L01
+NALCOMIS
+hcn printer
+lj5_400pc
+1
+
+LOC3**01
+NALCOMIS
+1348-1 printer
+lj5_awp
+1
+
+A9B02701
+NALCOMIS
+hcn printer
+lj5_74c
+1
+
+A9B74C01
+NALCOMIS
+hcn printer
+lj5_74c
+1
+
+A9B74Z01
+NALCOMIS
+hcn printer
+lj5_74c
+1
+
+A9B74001
+NALCOMIS
+hcn printer
+lj5_74c
+1
+
+LOC7**01
+NALCOMIS
+hcn printer
+lj5_srs
+1
+
+CCSMDU01
+NALCOMIS
+hcn printer
+lj5_srs
+1
+
+CCSRPU01
+NALCOMIS
+hcn printer
+lj5_srs
+1
+
+SSCSRS01
+NALCOMIS
+hcn printer
+lj5_srs
+1
+
+A9B02501
+NALCOMIS
+hcn printer
+mop_500pc
+1
+
+A9B51E01
+NALCOMIS
+hcn printer
+mop_500pc
+1
+
+A9B53001
+NALCOMIS
+hcn printer
+mop_500pc
+1
+
+A9B51C01
+NALCOMIS
+hcn printer
+mop_500pc
+1
+
+A9B52001
+NALCOMIS
+hcn printer
+mop_500pc
+1
+
+A9B51F01
+NALCOMIS
+hcn printer
+mop_500pc
+1
+
+A9B51D01
+NALCOMIS
+hcn printer
+mop_500pc
+1
+
+A9B51A01
+NALCOMIS
+hcn printer
+mop_500pc
+1
+
+A9B51001
+NALCOMIS
+hcn printer
+mop_500pc
+1
+
+A9B50001
+NALCOMIS
+hcn printer
+mop_500pc
+1
+
+A9B02901
+NALCOMIS
+hcn printer
+mop_900pc
+1
+
+A9B90001
+NALCOMIS
+hcn printer
+mop_900pc
+1
+
+A9B90101
+NALCOMIS
+hcn printer
+mop_900pc
+1
+
+A9B90201
+NALCOMIS
+hcn printer
+mop_900pc
+1
+
+A9B90301
+NALCOMIS
+hcn printer
+mop_900pc
+1
+
+A9B90A01
+NALCOMIS
+hcn printer
+mop_900pc
+1
+
+A9B90C01
+NALCOMIS
+hcn printer
+mop_900pc
+1
+
+A9B91001
+NALCOMIS
+hcn printer
+mop_900pc
+1
+
+A9B92001
+NALCOMIS
+hcn printer
+mop_900pc
+1
+
+A9B92A01
+NALCOMIS
+hcn printer
+mop_900pc
+1
+
+A9B92D01
+NALCOMIS
+hcn printer
+mop_900pc
+1
+
+A9B93001
+NALCOMIS
+hcn printer
+mop_900pc
+1
+
+A9B94001
+NALCOMIS
+hcn printer
+mop_900pc
+1
+
+A9B95001
+NALCOMIS
+hcn printer
+mop_900pc
+1
+
+A9B98001
+NALCOMIS
+hcn printer
+mop_900pc
+1
+
+A9B99001
+NALCOMIS
+hcn printer
+mop_900pc
+1
+
+A9BX5001
+NALCOMIS
+hcn printer
+mop_900pc
+1
+
+A9BX5101
+NALCOMIS
+hcn printer
+mop_900pc
+1
+
+A9BX5201
+NALCOMIS
+hcn printer
+mop_900pc
+1
+
+A9B92101
+NALCOMIS
+hcn printer
+mop_900pc
+1
+
+DEFAULT
+NALCOMIS
+hcn printer
+mop_comprm
+1
+
+A9BMIR01
+NALCOMIS
+hcn printer
+lj5_amsu
+1
+
+A9B05E01
+NALCOMIS
+hcn printer
+lj5_amsu
+1
+
+A9B05A01
+NALCOMIS
+hcn printer
+lj5_amsu
+1
+
+02805A01
+NALCOMIS
+hcn printer
+lj5_amsu
+1
+
+02605A01
+NALCOMIS
+hcn printer
+lj5_amsu
+1
+
+02505A01
+NALCOMIS
+hcn printer
+lj5_amsu
+1
+
+02405A01
+NALCOMIS
+hcn printer
+lj5_amsu
+1
+
+LOC8**01
+NALCOMIS
+hcn printer
+lj5_srs
+1
+
+A9B65A01
+NALCOMIS
+hcn printer
+lj5_mainpc
+1
+
+A9BMAM01
+NALCOMIS
+hcn printer
+lj5_mainpc
+1
+
+A9B69501
+NALCOMIS
+hcn printer
+lj5_mainpc
+1
+
+A9B69C01
+NALCOMIS
+hcn printer
+lj5_mainpc
+1
+
+A9B69B01
+NALCOMIS
+hcn printer
+lj5_mainpc
+1
+
+A9B69A01
+NALCOMIS
+hcn printer
+lj5_mainpc
+1
+
+A9B69001
+NALCOMIS
+hcn printer
+lj5_mainpc
+1
+
+A9B65B01
+NALCOMIS
+hcn printer
+lj5_mainpc
+1
+
+A9B65101
+NALCOMIS
+hcn printer
+lj5_mainpc
+1
+
+A9B62F01
+NALCOMIS
+hcn printer
+lj5_mainpc
+1
+
+A9B62E01
+NALCOMIS
+hcn printer
+lj5_mainpc
+1
+
+A9B62B01
+NALCOMIS
+hcn printer
+lj5_mainpc
+1
+
+A9B62A01
+NALCOMIS
+hcn printer
+lj5_mainpc
+1
+
+A9B62001
+NALCOMIS
+hcn printer
+lj5_mainpc
+1
+
+A9B61D01
+NALCOMIS
+hcn printer
+lj5_mainpc
+1
+
+A9B61B01
+NALCOMIS
+hcn printer
+lj5_mainpc
+1
+
+A9B61A01
+NALCOMIS
+hcn printer
+lj5_mainpc
+1
+
+A9B61001
+NALCOMIS
+hcn printer
+lj5_mainpc
+1
+
+A9B60A01
+NALCOMIS
+hcn printer
+lj5_mainpc
+1
+
+A9B02601
+NALCOMIS
+hcn printer
+lj5_mainpc
+1
+
+A9B62M01
+NALCOMIS
+hcn printer
+lj5_mainpc
+1
+
+A9BX5501
+NALCOMIS
+hcn printer
+lj5_mainpc
+1
+
+A9B02001
+NALCOMIS
+hcn printer
+lj5_mainpc
+1
+
+A9B66001
+NALCOMIS
+hcn printer
+lj5_mainpc
+1
+
+A9B65H01
+NALCOMIS
+hcn printer
+lj5_mainpc
+1
+
+A9B65F01
+NALCOMIS
+hcn printer
+lj5_mainpc
+1
+
+A9B65001
+NALCOMIS
+hcn printer
+lj5_mainpc
+1
+
+A9B64B01
+NALCOMIS
+hcn printer
+lj5_mainpc
+1
+
+A9B64A01
+NALCOMIS
+hcn printer
+lj5_mainpc
+1
+
+A9BCEC01
+NALCOMIS
+hcn printer
+lj5_mainpc
+1
+
+02905A01
+NALCOMIS
+hcn printer
+mop_900pc
+1
+
+A9B04001
+NALCOMIS
+hcn printer
+lj5_qa
+1
+
+A9BMPT01
+NALCOMIS
+hcn printer
+lj5_mainpc
+1
+
+A9BNAL01
+NALCOMIS
+hcn printer
+lj5_qa
+1
+
+A9BOCA01
+NALCOMIS
+hcn printer
+lj5_mainpc
+1
+
+A9BPAX01
+NALCOMIS
+hcn printer
+lj5_mainpc
+1
+

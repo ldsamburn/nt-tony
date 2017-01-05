@@ -1,0 +1,64 @@
+NTCSS
+ntcssii
+Base NTCSS User
+***
+***
+4
+0
+
+DB_SCHOOL
+sybase
+Sybase Admin
+
+sybase
+28
+0
+
+SCHOOL
+atlbtusr
+ATLASS Boot User
+
+atlbtusr
+12
+0
+
+SCHOOL
+spawar
+Seed User
+
+spawar
+12
+0
+
+DB_SCHOOL
+spawar
+Seed User
+
+spawar
+12
+0
+
+IF_SCHOOL
+spawar
+Seed User
+
+spawar
+12
+0
+
+CS_SCHOOL
+spawar
+Seed User
+
+spawar
+12
+0
+
+NTCSS
+spawar
+Seed User
+
+spawar
+4
+0
+

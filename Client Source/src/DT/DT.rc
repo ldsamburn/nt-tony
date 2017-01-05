@@ -1,0 +1,429 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\r\n"
+    "#ifdef _WIN32\r\n"
+    "LANGUAGE 9, 1\r\n"
+    "#pragma code_page(1252)\r\n"
+    "#endif //_WIN32\r\n"
+    "#include ""res\\DT.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""afxres.rc""         // Standard components\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON    DISCARDABLE     "res\\ANCHOR.ICO"
+IDI_NTCSS               ICON    DISCARDABLE     "res\\DESKTOP.ICO"
+IDI_SEARCH256           ICON    DISCARDABLE     "res\\search256.ico"
+IDI_NEXT256             ICON    DISCARDABLE     "res\\next256.ico"
+IDI_BACK256             ICON    DISCARDABLE     "res\\back256.ico"
+IDI_BACK257             ICON    DISCARDABLE     "res\\back257.ico"
+IDI_NEXT257             ICON    DISCARDABLE     "res\\next257.ico"
+IDI_HELP256             ICON    DISCARDABLE     "res\\question256.ico"
+IDI_USER256             ICON    DISCARDABLE     "res\\User256.ico"
+IDI_EXPLODE             ICON    DISCARDABLE     "res\\EXPLODE_.ICO"
+IDI_BACK258             ICON    DISCARDABLE     "res\\back258.ico"
+IDI_NEXT258             ICON    DISCARDABLE     "res\\next258.ico"
+IDI_MENU256             ICON    DISCARDABLE     "res\\Menu.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOG DISCARDABLE  0, 0, 235, 55
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "About DT"
+FONT 8, "MS Sans Serif"
+BEGIN
+    ICON            IDI_NTCSS,IDC_STATIC,11,17,20,20
+    LTEXT           "Ntcss ToolBar Version ",IDC_STATIC,40,10,73,8,
+                    SS_NOPREFIX
+    LTEXT           "Copyright (C) 2001",IDC_STATIC,40,25,114,8
+    DEFPUSHBUTTON   "OK",IDOK,178,7,50,14,WS_GROUP
+    LTEXT           "International Research Institute Inc.",IDC_STATIC,40,38,
+                    125,8
+    EDITTEXT        IDC_VERSION,115,10,53,12,ES_AUTOHSCROLL | ES_READONLY | 
+                    NOT WS_BORDER
+END
+
+IDD_DT_DIALOG DIALOGEX 0, 0, 108, 166
+STYLE WS_MINIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU | 
+    WS_THICKFRAME
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "NTCSS TOOLBAR"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    PUSHBUTTON      "",IDC_FORWARD,1,0,13,11
+    PUSHBUTTON      "",IDC_BACK,27,0,13,11
+    PUSHBUTTON      "",IDC_SEARCH,14,0,13,11
+    PUSHBUTTON      "",IDC_HELPBUTTON,53,0,13,11
+    PUSHBUTTON      "",IDC_MENUBUTTON,40,0,13,11
+END
+
+IDD_LOGON_BANNER DIALOG DISCARDABLE  0, 0, 342, 178
+STYLE DS_MODALFRAME | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | 
+    WS_CAPTION | WS_SYSMENU
+CAPTION "NTCSS II Login"
+FONT 8, "MS Sans Serif"
+BEGIN
+    CTEXT           "Naval Tactical Command Support System",IDC_LINE1,7,14,
+                    328,23
+    CTEXT           "Common Support Environment",IDC_LINE2,7,37,323,12
+    CTEXT           "Authorized Use IAW US CODE 1050 Only!",IDC_LINE3,11,52,
+                    324,12
+    EDITTEXT        IDC_USER_NAME,83,73,219,19,ES_AUTOHSCROLL
+    EDITTEXT        IDC_PASSWORD,84,98,218,19,ES_PASSWORD | ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK",IDOK,61,138,90,21,WS_DISABLED
+    PUSHBUTTON      "Exit",IDCANCEL,177,138,88,21
+    RTEXT           "User Name",IDC_STATIC_NAME,17,76,58,13
+    RTEXT           "Password",IDC_STATIC_PASSWORD,11,102,63,13
+END
+
+IDD_SEARCH DIALOG DISCARDABLE  0, 0, 137, 95
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Application Lookup"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,13,72,50,14,WS_DISABLED
+    PUSHBUTTON      "Cancel",IDCANCEL,74,72,50,14
+    EDITTEXT        IDC_PGEDITBOX,36,11,73,14,ES_AUTOHSCROLL
+    LISTBOX         IDC_PGLISTBOX,36,26,73,40,LBS_SORT | 
+                    LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_HSCROLL | 
+                    WS_TABSTOP
+    ICON            IDI_SEARCH256,IDC_STATIC,13,9,21,20
+END
+
+IDD_CHGPASSDLG DIALOG DISCARDABLE  0, 0, 186, 135
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Change User Password"
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDC_OLDPASS,82,35,92,14,ES_PASSWORD | ES_AUTOHSCROLL
+    EDITTEXT        IDC_NEWPASSWRD,82,58,92,14,ES_PASSWORD | ES_AUTOHSCROLL
+    EDITTEXT        IDC_VERIFYPASS,82,80,92,14,ES_PASSWORD | ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK",IDOK,36,106,50,14,WS_DISABLED
+    PUSHBUTTON      "Cancel",IDCANCEL,100,106,50,14
+    EDITTEXT        IDC_USERNAME,82,15,92,14,ES_AUTOHSCROLL | WS_DISABLED
+    LTEXT           "User Name:",IDC_STATIC,39,17,39,8
+    LTEXT           "New Password:",IDC_STATIC,28,60,50,8
+    LTEXT           "Confirm Password:",IDC_STATIC,19,82,59,8
+    ICON            IDI_USER256,IDC_STATIC,12,11,21,20
+    LTEXT           "Old Password:",IDC_STATIC,32,38,46,8
+END
+
+IDD_SELECTHOST DIALOGEX 0, 0, 144, 73
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION
+EXSTYLE WS_EX_NOPARENTNOTIFY | WS_EX_CONTROLPARENT
+CAPTION "Select Host Dialog"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    COMBOBOX        IDC_SELHOSTCOMBO,23,24,95,45,CBS_DROPDOWN | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "OK",IDOK,19,44,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,74,44,50,14
+    LTEXT           "Select Host>",IDC_STATIC,14,11,42,8
+END
+
+IDD_PROGPROP DIALOG DISCARDABLE  0, 0, 186, 167
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Server Program Properties"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,37,141,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,102,141,50,14
+    ICON            IDI_EXPLODE,IDC_STATIC,14,13,20,20
+    LTEXT           "Program",IDC_STATIC,11,34,27,8
+    LTEXT           "Program",IDC_STATIC,11,60,27,8
+    LTEXT           "Program",IDC_STATIC,11,88,27,8
+    LTEXT           "Working",IDC_STATIC,11,115,28,8
+    EDITTEXT        IDC_PGTITLE,49,35,128,14,ES_AUTOHSCROLL | WS_DISABLED
+    EDITTEXT        IDC_PGFILE,49,61,128,14,ES_AUTOHSCROLL | WS_DISABLED
+    EDITTEXT        IDC_PGARGS,49,89,128,14,ES_AUTOHSCROLL | WS_DISABLED
+    EDITTEXT        IDC_WORKINGDIR,49,118,128,14,ES_AUTOHSCROLL | 
+                    WS_DISABLED
+    LTEXT           "Arguments:",IDC_STATIC,11,96,36,8
+    LTEXT           " Title:",IDC_STATIC,8,42,18,8
+    LTEXT           " Directory:",IDC_STATIC,10,123,33,8
+    LTEXT           " File:",IDC_STATIC,9,68,16,8
+END
+
+
+#ifndef _MAC
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,1,0,0
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "Comments", "\0"
+            VALUE "CompanyName", "\0"
+            VALUE "FileDescription", "DT MFC Application\0"
+            VALUE "FileVersion", "1, 2, 0, 0\0"
+            VALUE "InternalName", "DT\0"
+            VALUE "LegalCopyright", "Copyright (C) 2001\0"
+            VALUE "LegalTrademarks", "\0"
+            VALUE "OriginalFilename", "DT.EXE\0"
+            VALUE "PrivateBuild", "\0"
+            VALUE "ProductName", "DT Application\0"
+            VALUE "ProductVersion", "1, 0, 0, 1\0"
+            VALUE "SpecialBuild", "\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+#endif    // !_MAC
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 228
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 48
+    END
+
+    IDD_DT_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 100
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 159
+    END
+
+    IDD_LOGON_BANNER, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 335
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 171
+    END
+
+    IDD_SEARCH, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 130
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 88
+        HORZGUIDE, 59
+        HORZGUIDE, 71
+    END
+
+    IDD_CHGPASSDLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 179
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 128
+    END
+
+    IDD_SELECTHOST, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 137
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 66
+    END
+
+    IDD_PROGPROP, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 179
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 160
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_IMAGELIST           BITMAP  DISCARDABLE     "res\\imageList.bmp"
+IDB_BACK                BITMAP  DISCARDABLE     "res\\bitmap1.bmp"
+IDB_FORWARD             BITMAP  DISCARDABLE     "res\\bmp00001.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Cursor
+//
+
+IDC_NODRAGGING          CURSOR  DISCARDABLE     "res\\nodraggi.cur"
+IDC_HANDCUR             CURSOR  DISCARDABLE     "res\\icr_hand.cur"
+IDC_DRAGGING            CURSOR  DISCARDABLE     "res\\dragging.cur"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_CONTEXT MENU DISCARDABLE 
+BEGIN
+    POPUP "Dummy"
+    BEGIN
+        MENUITEM "App Print Config",            ID_APC
+        MENUITEM "Predefined Job Config",       ID_PDJ
+        MENUITEM SEPARATOR
+        MENUITEM "Print Request Queue",         ID_PRQ
+        MENUITEM "Batch Job Queue",             ID_BJQ
+        MENUITEM "Message Boards",              ID_MSGBRDS
+        MENUITEM SEPARATOR
+        MENUITEM "Change Password",             ID_PASSCHG
+        MENUITEM SEPARATOR
+    END
+END
+
+IDR_HELP MENU DISCARDABLE 
+BEGIN
+    POPUP "dummy"
+    BEGIN
+        MENUITEM "Screen Help",                 ID_SH
+        MENUITEM "Field Help",                  ID_FH
+        MENUITEM "About NTCSS",                 ID_ABOUT
+        MENUITEM "Release Notes",               ID_RN
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_ABOUTBOX            "&About DT..."
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_APC                  "Run the App Print Config program"
+    ID_PDJ                  "Run the Predefined Job Config program"
+    ID_PRQ                  "Run the Print Request Queue Program"
+    ID_BJQ                  "Run the Batch Job Queue Program"
+    ID_MSGBRDS              "Run the Message Boards Program"
+    ID_CHGPASS              "Change Password"
+    ID_PASSCHG              "Change User Password"
+    ID_PROGPROP             "Program Properties"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_SH                   "Activate Screen Help"
+    ID_FH                   "Activate Field Help"
+    ID_ABOUT                "Displays the program information and copyrights"
+    ID_RN                   "Display NTCSS toolbar release notes"
+    ID_LOCKEDAPPS           "Show Locked Applications"
+END
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE 9, 1
+#pragma code_page(1252)
+#endif //_WIN32
+#include "res\DT.rc2"  // non-Microsoft Visual C++ edited resources
+#include "afxres.rc"         // Standard components
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

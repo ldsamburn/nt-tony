@@ -1,0 +1,39 @@
+#!/bin/sh
+#
+#
+#              Copyright(c)2002 Northrop Grumman Corporation
+#
+#                          All Rights Reserved
+#
+#
+#    This material may be reproduced by or for the U.S. Government pursuant
+#    to the copyright license under the clause at Defense Federal Acquisition
+#    Regulation Supplement (DFARS) 252.227-7013 (NOV 1995).
+#
+#
+
+# Check each directory in /h for a good .cshrc
+
+curdir=`pwd`
+
+cd /h/USERS
+
+for i in `ls`
+do
+    if [ -d "${i}" ]
+    then
+        echo "Checking directory: "$i
+        diff "${i}" /h/NTCSSS/applications/data/unix_uga/shell/.cshrc
+        if [ $? != 0 ]
+        then
+            echo "Directory '${i}': invalid .cshrc"
+        fi
+        diff "${i}" /h/NTCSSS/applications/data/unix_uga/shell/.login
+        if [ $? != 0 ]
+        then
+            echo "Directory '${i}': invalid .login"
+        fi
+    fi
+done
+
+cd $curdir

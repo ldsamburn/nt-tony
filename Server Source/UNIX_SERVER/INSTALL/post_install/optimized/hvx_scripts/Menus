@@ -1,0 +1,101 @@
+### root ###
+root:	Utilities; \
+Send Users Message;1;xterm -T USR_MSG -e /u/admin/sysadm /u/admin/menu/UTILS/adm_xsnd; \
+Mail> \
+Read Mail;1;xterm -T Read_Mail -e /u/admin/sysadm /u/admin/menu/MAIL_UTILS/mail_get; \
+Send Mail;1;xterm -T Send_Mail -e /u/admin/sysadm /u/admin/menu/MAIL_UTILS/mail_send; \
+Add Alias;1;xterm -T Add_Alias -e /u/admin/sysadm /u/admin/menu/MAIL_UTILS/malias_add; \
+Delete Alias;1;xterm -T Del_Alias -e /u/admin/sysadm /u/admin/menu/MAIL_UTILS/malias_del; \
+List Alias;1;xterm -T Lst_Alias -e /u/admin/sysadm /u/admin/menu/MAIL_UTILS/malias_lst; \
+Modify Alias;1;xterm -T Mod_Alias -e /u/admin/sysadm /u/admin/menu/MAIL_UTILS/malias_mod;; \
+Backup Restore> \
+Backup Files System;1;xterm -T Backup_File_System -e /u/admin/sysadm /u/admin/menu/UTILS/ADM_SYSTEM/BACKUP_UTILS/backup; \
+Backup HVX Files System;nalcomis;xterm -T Backup_File_System -e /usr/hvx_scripts/hvx-backup; \
+List Archive Contents;1;xterm -T List_Tape_Contents -e /u/admin/sysadm /u/admin/menu/UTILS/ADM_SYSTEM/BACKUP_UTILS/dir_backup; \
+Disable Auto-Backup;1;xterm -T Disable_Auto-Backup -e /u/admin/sysadm /u/admin/menu/UTILS/ADM_SYSTEM/BACKUP_UTILS/dis_auto; \
+Enable Auto-Backup;1;xterm -T Enable_Auto-Backup -e /u/admin/sysadm /u/admin/menu/UTILS/ADM_SYSTEM/BACKUP_UTILS/enb_auto; \
+Restore Backup;1;xterm -T Restore_Backup -e /u/admin/sysadm /u/admin/menu/UTILS/ADM_SYSTEM/BACKUP_UTILS/restore; \
+Restore HVX Files System;nalcomis;xterm -T Restore_File_System -e /usr/hvx_scripts/hvx-restore; \
+Change Auto-Backup Time;1;xterm -T Change_Auto-Backup_Time -e /u/admin/sysadm /u/admin/menu/UTILS/ADM_SYSTEM/BACKUP_UTILS/set_butm; \
+Audit Files Backup;1;xterm -T System_Acct_Backup -e /u/admin/sysadm /u/admin/menu/UTILS/ADM_SYSTEM/BACKUP_UTILS/sys_pms;; \
+Printer Utilities> \
+Add Network Printer;1;xterm -T Add_Network_Printer -e /u/admin/sysadm /u/admin/menu/UTILS/ADM_SYSTEM/PRINTER_MGMT/add_print; \
+Delete Printer;1;xterm -T Delete_Printer -e /u/admin/sysadm /u/admin/menu/UTILS/ADM_SYSTEM/PRINTER_MGMT/del_printer; \
+Disable Printer;1;xterm -T Disable_Printer -e /u/admin/sysadm /u/admin/menu/UTILS/ADM_SYSTEM/PRINTER_MGMT/dis_printer; \
+Enable Printer;1;xterm -T Enable_Printer -e /u/admin/sysadm /u/admin/menu/UTILS/ADM_SYSTEM/PRINTER_MGMT/enb_printer; \
+List Printers;1;xterm -T List_Printers -e /u/admin/sysadm /u/admin/menu/UTILS/ADM_SYSTEM/PRINTER_MGMT/list_printer; \
+Display Print Queue;1;xterm -T Display_Printer_Queue -e /u/admin/sysadm /u/admin/menu/UTILS/ADM_SYSTEM/PRINTER_MGMT/que_printer; \
+Move Print Queue;1;xterm -T Move_Printer_Queue -e /u/admin/sysadm /u/admin/menu/UTILS/ADM_SYSTEM/PRINTER_MGMT/mvque; \
+Delete Print Queue;1;xterm -T Remove_Printer_Queue -e /u/admin/sysadm /u/admin/menu/UTILS/ADM_SYSTEM/PRINTER_MGMT/rmque;; \
+System/Security Monitor;1;/usr/local/NTCSS/bin/sys_monitor; \
+System Reports> \
+System Activity;1;xterm -T System_Activity_Reports -e /u/admin/sysadm /u/admin/menu/UTILS/ADM_SYSTEM/act_rpts; \
+Disk Report;1;xterm -T Disk_Activity_Reports -e /u/admin/sysadm /u/admin/menu/UTILS/ADM_SYSTEM/disk_rpts; \
+Process Activity;1;xterm -T Process_Activity_Reports -e /u/admin/sysadm /u/admin/menu/UTILS/ADM_SYSTEM/proc_rpts;; \
+User/Group Management> \
+Add New User;1;xterm -T Add_New_User -e /u/admin/sysadm /u/admin/menu/UTILS/ADM_SYSTEM/USER_MGMT/user_add; \
+List Users;1;xterm -T List_Users -e /u/admin/sysadm /u/admin/menu/UTILS/ADM_SYSTEM/USER_MGMT/user_lst; \
+Modify User;1;xterm -T Modify_Users_Configuration -e /u/admin/sysadm /u/admin/menu/UTILS/ADM_SYSTEM/USER_MGMT/user_mod; \
+Change Users Password;1;xterm -T Change_Users_Password -e /u/admin/sysadm /u/admin/menu/UTILS/adm_passwd; \
+Delete User;1;xterm -T Delete_User -e /u/admin/sysadm /u/admin/menu/UTILS/ADM_SYSTEM/USER_MGMT/user_del; \
+Add New Group;1;xterm -T Add_New_Group -e /u/admin/sysadm /u/admin/menu/UTILS/ADM_SYSTEM/USER_MGMT/group_add; \
+List Group;1;xterm -T List_Groups -e /u/admin/sysadm /u/admin/menu/UTILS/ADM_SYSTEM/USER_MGMT/group_lst; \
+Group User List;1;xterm -T Modify_Groups_Userlist -e /u/admin/sysadm /u/admin/menu/UTILS/ADM_SYSTEM/USER_MGMT/group_usr;; \
+Set Date/Time;1;xterm -T SET_DATETM -e /u/admin/sysadm /u/admin/menu/UTILS/ADM_SYSTEM/set_datetm; \
+NIS Distribution Utilities;1;xterm -T NIS_DIST -e /u/admin/sysadm /u/admin/menu/UTILS/ADM_SYSTEM/util_push; \
+MRMS Administration;mrmsadm;/usr/local/bin/start_mrmsadm; \
+Product Maintenance Utilities> \
+Extract Product;1;xterm -T EXT_PRODUCT -e /u/admin/sysadm /u/admin/menu/UTILS/ADM_SYSTEM/PROD_UTILS/get_inst;;; \
+Tools; \
+xterm;1;xterm -T XTERM -ls -vb; \
+BIGWIN;1;xterm -fn -sony-fixed-medium-r-normal--24-170-100-100-c-120-iso8859-1 -ls -vb; \
+GCOS Terminal;hvxterm;xterm -T GCOS_Terminal -e su gcos6; \
+HVX Initiation;nalcomis;xterm -T GCOS_Console -e /usr/hvx_scripts/nalc_gen;; \
+Help; \
+System Security;1;xterm -e more /usr/local/NTCSS/desktop/C2_secure.doc;;
+### default ###
+default:	Applications; \
+Maintenance> \
+Resource Management System (MRMS);mrms;/usr/local/bin/start_mrms; \
+MRMS Administration;mrmsadm;/usr/local/bin/start_mrmsadm; \
+Maintenance Data Subsystem (MDS);mds;start_snap snap_xterm MDS /snapii/bin/snapii mds rps0; \
+Organizational Maintenance Management System (OMMS)> \
+User;omms_usr;xterm -T OMMS_USER -e /u/admin/sysadm /u/admin/menu/USER_APPS/MAINT/omms_usr -geometry 80x24; \
+Functional Area Supervisor (FAS);omms_fas;xterm -T OMMS_FAS -e /u/admin/sysadm /u/admin/menu/USER_APPS/MAINT/omms_fas -geometry 80x24; \
+Operator Batch Executive (OBE);omms_adp;xterm -T OMMS_OBE -e /u/admin/sysadm /u/admin/menu/USER_APPS/MAINT/omms_obe -geometry 80x24;;; \
+Personnel Administration (ADM);padm;start_snap snap_xterm ADM /snapii/bin/snapii adm rps0; \
+Supply (SUADPS)> \
+User;suadps_usr;xterm -T SUADPS_USER -e /u/admin/sysadm /u/admin/menu/USER_APPS/SUPPLY/suadps_usr -geometry 80x24; \
+Functional Area Supervisor (FAS);suadps_fas;xterm -T SUADPS_FAS -e /u/admin/sysadm /u/admin/menu/USER_APPS/SUPPLY/suadps_fas -geometry 80x24; \
+Operator Batch Executive (OBE);suadps_adp;xterm -T SUADPS_OBE -e /u/admin/sysadm /u/admin/menu/USER_APPS/SUPPLY/suadps_obe -geometry 80x24;; \
+Supply/Financial (SFM);sfm;start_snap snap_xterm SFM /snapii/bin/snapii sfm rps0; \
+System Management Subsystem (SMS);sms;start_snap snap_xterm SMS /snapii/bin/snapii sms rps0; \
+Mobile Logistics Support (MLS);mls;start_snap snap_xterm MLS /snapii/bin/snapii mls rps0; \
+Wizard Works> \
+LEVELS;wworks;xterm -T WIZARD_WORKS_LEVELS -e /SPOOL/WW/LEVELS/start_up.ec; \
+ALT;wworks;xterm -T WIZARD_WORKS_ALT -e /SPOOL/WW/ALT11/start_up.ec; \
+RPT58;wworks;xterm -T WIZARD_WORKS_RPT58 -e /SPOOL/WW/RPT58/start_up.ec;;; \
+Utilities; \
+Mail> \
+Read Mail;mail;xterm -T Read_Mail -e /u/admin/sysadm /u/admin/menu/MAIL_UTILS/mail_get; \
+Send Mail;mail;xterm -T Send_Mail -e /u/admin/sysadm /u/admin/menu/MAIL_UTILS/mail_send; \
+Add Alias;mail;xterm -T Add_Alias -e /u/admin/sysadm /u/admin/menu/MAIL_UTILS/malias_add; \
+Delete Alias;mail;xterm -T Del_Alias -e /u/admin/sysadm /u/admin/menu/MAIL_UTILS/malias_del; \
+List Alias;mail;xterm -T Lst_Alias -e /u/admin/sysadm /u/admin/menu/MAIL_UTILS/malias_lst; \
+Modify Alias;mail;xterm -T Mod_Alias -e /u/admin/sysadm /u/admin/menu/MAIL_UTILS/malias_mod;; \
+Xterm;term;xterm; \
+GCOS Terminal;hvxterm;xterm -T GCOS_Terminal -e su gcos6; \
+Change Password;1;xterm -T Password -e /u/admin/sysadm /u/admin/menu/UTILS/adm_passwd; \
+Datafile Mgmt;data_fm;start_snap snap_xterm Datafiles /snapii/bin/snapii utilities rps0; \
+GEN Utilities> \
+Start Host GEN;suadps_adp;xterm -T START_HOST_I -e /u/admin/sysadm /u/admin/menu/UTILS/GEN_UTILS/snapi_astart; \
+Stop Host GEN;suadps_adp;xterm -T STOP_HOST_I -e /u/admin/sysadm /u/admin/menu/UTILS/GEN_UTILS/snapi_astop; \
+Host GEN Status;suadps_adp;xterm -T HOST_GEN_STATUS -e /u/admin/sysadm /u/admin/menu/UTILS/GEN_UTILS/snapi_gen; \
+Batch Job Status;suadps_adp;xterm -T BATCH_JOB_STATUS -e /u/admin/sysadm /u/admin/menu/UTILS/GEN_UTILS/snapi_bjs; \
+Enable SUADPS/OMMS Subsystem;suadps_adp;xterm -T ENB_SUBSYS -e /u/admin/sysadm /u/admin/menu/UTILS/GEN_UTILS/snapi_menb; \
+Disable SUADPS/OMMS Subsystem;suadps_adp;xterm -T DIS_SUBSYS -e /u/admin/sysadm /u/admin/menu/UTILS/GEN_UTILS/snapi_sdis; \
+Backup Journal;suadps_adp;xterm -T BACKUP_JRNL -e /u/admin/sysadm /u/admin/menu/UTILS/GEN_UTILS/snapi_jrnl; \
+Distribute HOST Files;suadps_adp;xterm -T DIST_FILES -e /u/admin/sysadm /u/admin/menu/UTILS/GEN_UTILS/snapi_dist; \
+X52 Update;navmass;xterm -T X52_UPD -e /u/admin/sysadm /u/admin/menu/UTILS/GEN_UTILS/snapi_x52;;; \
+Help; \
+System Security;1;xterm -e more /usr/local/NTCSS/desktop/C2_secure.doc;;

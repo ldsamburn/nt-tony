@@ -1,0 +1,20 @@
+Lantronix
+P1 S1
+lantronix_setup
+
+Microplex200
+P1 S1
+microplex_setup
+
+Microplex202
+P1 P2 S1 S2
+microplex_setup
+
+JetDirect
+P1
+std_bootp_setup
+
+Generic
+P1
+std_bootp_setup
+

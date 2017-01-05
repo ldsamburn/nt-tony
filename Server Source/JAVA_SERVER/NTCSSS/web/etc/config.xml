@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE Configure PUBLIC  "-//Mort Bay Consulting//DTD Configure 1.1//EN" 
+"http://jetty.mortbay.org/configure_1_2.dtd">
+
+<Configure class="org.mortbay.jetty.Server"> 
+
+  <Call name="addListener">
+    <Arg>
+      <New class="org.mortbay.http.SocketListener">
+        <Set name="Port" type="int">8080</Set>
+      </New>
+    </Arg>
+  </Call>
+
+
+  <Call name="addContext">
+    <Arg>/</Arg> 
+    <Set name="ResourceBase"><SystemProperty name="jetty.home" default="." />/syb_web/htdocs</Set>
+    <Call name="addHandler">
+      <Arg>
+        <New class="org.mortbay.http.handler.ResourceHandler"/>            
+      </Arg>
+    </Call>
+  </Call>
+
+  <Call name="addContext">
+    <Arg>/images/*</Arg> 
+    <Set name="ResourceBase"><SystemProperty name="jetty.home" default="." />/syb_web/images</Set>
+    <Call name="addHandler">
+      <Arg>
+        <New class="org.mortbay.http.handler.ResourceHandler"/> 
+      </Arg>
+    </Call>
+  </Call>
+
+  <Call name="addContext">
+    <Arg>/cgi-bin</Arg> 
+    <Set name="ResourceBase"><SystemProperty name="jetty.home" default="." />/syb_web/cgi-bin/</Set>
+    <Call name="addServlet">
+      <Arg>NTCSS Common Gateway Interface</Arg> 
+      <Arg>/</Arg> 
+      <Arg>ntcsss.web.NtcssCGI</Arg> 
+      <Put name="Path">d:\perl\bin</Put> 
+    </Call>
+  </Call>
+
+  <Call name="addRealm">
+    <Arg>
+      <New class="org.mortbay.http.HashUserRealm">
+        <Arg>NTCSS Web</Arg> 
+        <Arg><SystemProperty name="jetty.home" default="." />/etc/access.properties</Arg>
+      </New>
+    </Arg>
+  </Call>
+
+  <Call name="addContext">
+    <Arg>/cgi-bin/syb_utils/*</Arg> 
+
+    <Set name="Realm">NTCSS Web</Set> 
+
+    <Call name="addAuthConstraint">
+      <Arg>/</Arg> 
+      <Arg>server-administrator</Arg> 
+    </Call>
+
+    <Set name="ResourceBase">
+      <SystemProperty name="jetty.home" default="." />/syb_web/cgi-bin/syb_utils</Set>
+
+    <Call name="addServlet">
+      <Arg>NTCSS Common Gateway Interface</Arg> 
+      <Arg>/</Arg> 
+      <Arg>ntcsss.web.NtcssCGI</Arg> 
+      <Put name="Path">d:\perl\bin</Put> 
+    </Call>
+
+  </Call>
+
+</Configure>

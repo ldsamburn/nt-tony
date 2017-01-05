@@ -1,0 +1,60 @@
+09-05-2001	Lastest update:		9/5/2001
+		Logicon-INRI release:	3.0.6
+		SPAWAR Release		806-01.01.20
+		1. changed jetdirect script to cause all adapter types
+		   to be "unknown".
+		2. Change web server to accomodate Sybase web administration
+		   as per requests from SPAWAR- specifically an error was
+		   in the httpd.conf and httpd.master files that defined
+		   "DSQUERY" as "MEF6REP" instead of "HOSTNAME" in a previous
+		   release.
+
+---------------------------------------------------------------------------
+
+
+
+
+06-27-2000	Released 806-01.01.11 to CM for TCT and concurrent release
+		to Camp Lejeune. This release of NTCSS is intended to enhance
+		the user account configuration in a variety of ways.  Other
+		improvements and corrections are included and are listed below.
+
+			· Faster user list loading.  Spec'd at 4000 users in
+			  less than 5 seconds on a PII-90 with 20MB RAM.
+                        · Specifying users home and profile directory by
+			  BDC/PDC through the UserConfig utility.
+			· GUI updated to be more accurate information on
+			  login status.
+			· Importing users will now either place all home
+			  directories on a specified BDC/PDC or prompt the
+			  users for each account entry.
+			· NIS pull on HP was cached and not retrievable. 
+			  This has been corrected by overriding the native
+			  NIS pull with a custom pull.
+			· Users will no longer be removed from the NTCSS Master
+			  if the user is not in a group on the Master host.
+			· A conflict in using a temporary DB file was found. 
+			  This could have possibly led to database corruption.
+			· Adapters may no longer be deleted that have a
+			  hostname of an NTCSS host.
+			· NTCSS_INIT/HALT have been changed to START/STOP
+			  respectively.
+			· Ntcss_start now adds lines in the database/progrps.ini
+			  file that specify the master NTCSS server name
+			  (section MASTER, tag MASTER).
+			· Ntcss_make_and_push_nis_maps now use the MASTER tag
+			  in the database/progrps.ini file to speed up the NIS
+			  push process.
+			· Trailing spaces in user names are no longer a problem.
+			· Increased number of program groups per user from 64
+			  to 400.
+			· User import process updated to include DC
+			  specification for users (global or individual).
+			· User's Unix home directories group ownership is now
+			  set to ntcss.
+
+
+ 
+06-27-2000	Report from TCT (Jim North) that the install script reports back
+		that install.hp1020 "command not found". Modified install
+		script to put "./" preceeding install command.

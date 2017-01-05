@@ -1,0 +1,64 @@
+#!/bin/sh
+#
+#
+#              Copyright(c)2002 Northrop Grumman Corporation
+#
+#                          All Rights Reserved
+#
+#
+#    This material may be reproduced by or for the U.S. Government pursuant
+#    to the copyright license under the clause at Defense Federal Acquisition
+#    Regulation Supplement (DFARS) 252.227-7013 (NOV 1995).
+#
+#
+
+# Check each directory in /h/USERS for a good .cshrc
+
+curdir=`pwd`
+
+cd /h/USERS
+
+for i in `ls`
+do
+    if [ -d "${i}" ]
+    then
+        echo "Processing directory: $i"
+        # Ignore global and local directories installed by COE
+        x=`echo "${i}" | grep -E "global|local"`
+        if [ $? != "0" ]
+        then
+            # Not global or local, Save the old .cshrc and .login
+            if [ -f "${i}"/.cshrc ]
+            then
+                cp -p "${i}"/.cshrc "${i}"/.cshrc.old
+            fi
+
+            # Save the old .login
+            if [ -f "${i}"/.login ]
+            then
+                cp -p "${i}"/.login "${i}"/.login.old
+            fi
+
+            # If the .cshrc refers to the old directory path, fix it.
+            x=`grep NTCSSII "${i}"/.cshrc`
+            if [ $? = "0" ]
+            then
+                ed - $i/.cshrc <<EOF
+1,\$s#/usr/local/NTCSSII#/h/NTCSSS#g
+w
+q
+EOF
+                echo "...$i changed to NTCSSS"
+            else
+                echo "...$i, No NTCSSII references"
+            fi
+            chmod 755 "${i}"/.cshrc "${i}"/.login
+       else
+            # Either global or local
+            echo "Directory: <$i> ignored"
+       fi # End global or local check
+    fi # End if-directory check
+done
+
+cd $curdir
+

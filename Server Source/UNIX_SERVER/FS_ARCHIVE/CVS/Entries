@@ -1,0 +1,19 @@
+/Makefile/8.5.2.5/Wed Oct 16 19:59:18 2002//TCampLejeune_0218_Upd
+/NtcssHelp.c/8.1.2.1/Wed Oct 16 19:59:18 2002//TCampLejeune_0218_Upd
+/backup_tape.c/8.7.2.1/Wed Oct 16 19:59:18 2002//TCampLejeune_0218_Upd
+/callbacks.c/8.6.2.2/Wed Oct 16 19:59:18 2002//TCampLejeune_0218_Upd
+/cron_tar_fcts.c/8.5.2.1/Wed Oct 16 19:59:18 2002//TCampLejeune_0218_Upd
+/file_sel_box.c/8.6.2.1/Wed Oct 16 19:59:18 2002//TCampLejeune_0218_Upd
+/fs_archive.c/8.5.2.1/Wed Oct 16 19:59:18 2002//TCampLejeune_0218_Upd
+/fs_archive.h/8.6.2.1/Wed Oct 16 19:59:18 2002//TCampLejeune_0218_Upd
+/fs_archive_help.h/8.0.8.1/Wed Oct 16 19:59:18 2002//TCampLejeune_0218_Upd
+/misc_fcts.c/8.7.2.1/Wed Oct 16 19:59:18 2002//TCampLejeune_0218_Upd
+/problem_defs.c/8.1.8.1/Wed Oct 16 19:59:18 2002//TCampLejeune_0218_Upd
+/problem_defs.h/8.0.8.1/Wed Oct 16 19:59:18 2002//TCampLejeune_0218_Upd
+/read_header.c/8.3.2.1/Wed Oct 16 19:59:18 2002//TCampLejeune_0218_Upd
+/restore_tape.c/8.5.2.1/Wed Oct 16 19:59:18 2002//TCampLejeune_0218_Upd
+/tape_info.h/8.3.2.1/Wed Oct 16 19:59:19 2002//TCampLejeune_0218_Upd
+/tarlist_fcts.c/8.3.2.1/Wed Oct 16 19:59:19 2002//TCampLejeune_0218_Upd
+/widgets.c/8.6.2.1/Wed Oct 16 19:59:19 2002//TCampLejeune_0218_Upd
+/xpm_backres.h/8.1.2.1/Wed Oct 16 19:59:19 2002//TCampLejeune_0218_Upd
+D

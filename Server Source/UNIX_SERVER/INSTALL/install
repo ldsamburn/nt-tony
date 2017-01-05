@@ -1,0 +1,56 @@
+#!/bin/csh
+
+#
+#
+### This routine is used for SNAP I Ported, and Enterprise multi-unix systems. 
+        echo " "
+        set ncline=`ps -ef | grep "progd" | grep -v "grep"`
+        if ( "${ncline}" != "" ) then
+                set ncpid=`echo $ncline | sed -n "s/[^0-9]*\([^     ]*\).*/\1/p"`
+                if ( "${ncpid}" != "" ) then
+                        echo "ncpid = $ncpid"
+                        echo "progd being killed"
+                        kill -9 "$ncpid"
+                endif
+        endif
+
+# This is a full install, so remove the patch checksum files
+if (-d /h/NTCSSS/bin) then
+   /bin/rm -f /h/NTCSSS/bin/.ckfile.*
+endif
+
+
+umask 000
+# Figure out which platform we're on
+if (`uname` == "SunOS") then
+    set PLATFORM = sol27
+endif
+
+if (`uname` == "Linux") then
+    set PLATFORM = linux22
+endif
+
+if  (`uname` == "HP-UX") then
+    set MAJ_VERSION = `uname -r | sed -n "s/^..\(..\).*/\1/p"`
+    set MIN_VERSION = `uname -r | sed -n "s/^.....\(..\).*/\1/p"`
+
+    if ("${MAJ_VERSION}" == "10") then
+        set VERSION = 10${MIN_VERSION}
+    else if ("${MAJ_VERSION}" == "11") then
+        set VERSION = 1100
+    else
+        set VERSION = 90
+    endif
+
+    set PLATFORM = hp${VERSION}
+endif
+
+# Prompt the user for the name of the tar file
+echo "Enter tape device name:"
+setenv TARFILE $<
+
+# Extract the correct install program from the specified tar file
+tar xvf ${TARFILE} install.${PLATFORM}
+
+# Run the install program
+./install.${PLATFORM} -d ${TARFILE}

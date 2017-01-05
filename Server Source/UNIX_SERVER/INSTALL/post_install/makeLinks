@@ -1,0 +1,23 @@
+#!/bin/sh
+
+# Reads the contents of the "links" file in the given directory and
+# makes the requested symbolic links. It is assumed that the paths
+# to the directory where the symbolic link will live already exists
+
+{
+   while (true)
+   do
+
+      # If the last line of the file is reached, exit
+      read line
+      if [ $? != 0 ]; then
+         exit
+      fi
+
+      link=`echo $line | sed -n "s/\([^ ]*\) [^ ]*/\1/p"`
+      dir=`echo $line | sed -n "s/[^ ]* \([^ ]*\)/\1/p"`
+
+      `ln -s $dir $1/$link`
+   done
+
+} < $1/links

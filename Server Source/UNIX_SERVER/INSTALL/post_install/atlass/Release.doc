@@ -1,0 +1,10 @@
+   The following is new for a release to contain the automatic
+   addition of new servers into an atlass configuration
+
+post_install/add_batch_users.sh  (chgd ntcss_bin_dir to bindir env-var)
+post_install/AddNewAtlassSrvr.sh (new shell to add new servers to atlass)
+post_install/do_web.sh (chgd ntcss_bin_dir to bindir env-var)
+post_install/select_servers.sh (modified to supports AddNewAtlassSrvr.sh)
+post_install/define_variables.sh (new shell to consolodate env-vars) 
+post_install/detect_newsrvr.sh (new shell to support AddNewAtlassSrvr.sh)
+post_install/cleanup.sh (new shell to support AddNewAtlassSrvr.sh)

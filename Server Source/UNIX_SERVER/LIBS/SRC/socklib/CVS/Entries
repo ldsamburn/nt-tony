@@ -1,0 +1,13 @@
+/DBUF_from_text.c/8.1.4.1/Wed Oct 16 20:02:57 2002//TCampLejeune_0218_Upd
+/DBUF_to_text.c/8.4.2.1/Wed Oct 16 20:02:57 2002//TCampLejeune_0218_Upd
+/Makefile/8.2.2.2/Wed Oct 16 20:02:57 2002//TCampLejeune_0218_Upd
+/SockLibP.h/8.1.4.1/Wed Oct 16 20:02:57 2002//TCampLejeune_0218_Upd
+/cnt_client.c/8.10.2.1/Wed Oct 16 20:02:57 2002//TCampLejeune_0218_Upd
+/cnt_server.c/8.6.2.1/Wed Oct 16 20:02:57 2002//TCampLejeune_0218_Upd
+/get_master.c/8.4.2.3/Wed Oct 16 20:02:57 2002//TCampLejeune_0218_Upd
+/net_xfer.c/8.14.2.2/Wed Oct 16 20:02:57 2002//TCampLejeune_0218_Upd
+/pack_ops.c/8.5.2.1/Wed Oct 16 20:02:57 2002//TCampLejeune_0218_Upd
+/read_sock.c/8.6.2.1/Wed Oct 16 20:02:57 2002//TCampLejeune_0218_Upd
+/send_msg.c/8.5.2.2/Wed Oct 16 20:02:57 2002//TCampLejeune_0218_Upd
+/sock_init.c/8.5.2.2/Wed Oct 16 20:02:57 2002//TCampLejeune_0218_Upd
+D

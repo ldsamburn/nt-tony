@@ -1,0 +1,35 @@
+#!/bin/sh
+#
+#
+#              Copyright(c)2002 Northrop Grumman Corporation
+#
+#                          All Rights Reserved
+#
+#
+#    This material may be reproduced by or for the U.S. Government pursuant
+#    to the copyright license under the clause at Defense Federal Acquisition
+#    Regulation Supplement (DFARS) 252.227-7013 (NOV 1995).
+#
+#
+
+if [ $# -ne 1 ]
+then
+	echo "Usage: push_file <filename>"
+	exit 1
+fi
+
+hostid=/h/NTCSSS/database/HOST_ID
+bindir=/h/NTCSSS/bin
+
+for i in `cat $hostid`
+do
+	if [ "$i" != `hostname` ]
+	then
+		echo "Updating $i...."
+		$bindir/net_xfer put $i $1 $1
+		if [ "$?" -ne 0 ]
+		then
+			echo "	Problem with Transfer, try later."
+		fi
+	fi
+done

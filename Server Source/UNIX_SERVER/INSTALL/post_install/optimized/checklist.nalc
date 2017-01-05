@@ -1,0 +1,9 @@
+
+#######################
+# Added by NTCSS II Installation
+#   2/25/97 - Added timeout, retrans and soft switches to
+#             allow NALCOMIS to run w/o mounts.     ACA
+#######################
+srv0:/u   /u nfs rw,suid,retrans=2,timeo=4,soft 0 0 8224 0
+srv0:/usr/mail   /usr/mail nfs rw,suid,retrans=2,timeo=4,soft 0 0 8224 0
+

@@ -1,0 +1,65 @@
+#!/bin/sh
+#
+#
+#              Copyright(c)2002 Northrop Grumman Corporation
+#
+#                          All Rights Reserved
+#
+#
+#    This material may be reproduced by or for the U.S. Government pursuant
+#    to the copyright license under the clause at Defense Federal Acquisition
+#    Regulation Supplement (DFARS) 252.227-7013 (NOV 1995).
+#
+#
+###############################################
+# Called by u2n_convert to clean up ported legacy 
+# groups in the group file
+# WARNING: This should only be run on the systems
+#          that have the optimized setting in the
+#          app_map.ini file.
+##############################################
+
+
+GRPFILE="/etc/group"
+
+if [ -x "/usr/local/NTCSSII/bin/GetProfileString" ]
+then
+    gps="/usr/local/NTCSSII/bin/GetProfileString"
+    gsv="/usr/local/NTCSSII/bin/GetSectionValues"
+else
+    gps="/h/NTCSSS/bin/GetProfileString"
+    gsv="/h/NTCSSS/bin/GetSectionValues"
+fi
+
+conv_type=`$gps CONFIG CONVERT_TYPE PORTED ./app_map.ini`
+
+echo ""
+
+if [ "${conv_type}" != "opt" -a "${conv_type}" != "OPT" ]
+then
+	echo "Not an Optimized convert, Aborting!"
+	exit
+fi
+
+group_str=`$gsv GROUPS ./old_group.ini`
+
+for i in ${group_str}
+do
+	ti=`echo $i | sed -n "s/\([^0-9]*\).*/\1/p"`
+	gline=`$gps GROUPS_LINK ${ti} NONE ./app_map.ini`
+
+	if [ ${ti} != ${gline} ]
+	then
+		grent=`grep ^${i}: $GRPFILE`
+		if [ -n "$grent" ]
+		then
+			echo "Removing Group ... $i"
+ed - $GRPFILE <<EOF 2>&1 > /dev/null
+/^${i}:
+d
+w
+q
+EOF
+		fi
+	fi
+done

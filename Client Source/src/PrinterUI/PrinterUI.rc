@@ -1,0 +1,716 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\r\n"
+    "#ifdef _WIN32\r\n"
+    "LANGUAGE 9, 1\r\n"
+    "#pragma code_page(1252)\r\n"
+    "#endif\r\n"
+    "#include ""res\\PrinterUI.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""afxres.rc""         // Standard components\r\n"
+    "#endif\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAMEsav        ICON    DISCARDABLE     "res\\PrinterUI.ico"
+IDR_PRINTER             ICON    DISCARDABLE     "res\\printer.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MAINFRAME MENU PRELOAD DISCARDABLE 
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "View Log File",               ID_FILE_OPEN
+        MENUITEM SEPARATOR
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit",                       ID_APP_EXIT
+    END
+    POPUP "&View"
+    BEGIN
+        MENUITEM "&Status Bar",                 ID_VIEW_STATUS_BAR
+        MENUITEM "Refresh",                     ID_REFRESH
+    END
+    POPUP "&Printer"
+    BEGIN
+        MENUITEM "Add",                         ID_PRINT_ADD
+        MENUITEM "Edit",                        ID_PRINT_EDIT
+        MENUITEM "Delete",                      ID_PRINT_DELETE
+    END
+    POPUP "&Adapter"
+    BEGIN
+        MENUITEM "Add",                         ID_ADAPTER_ADD
+        MENUITEM "Edit",                        ID_ADAPTER_EDIT
+        MENUITEM "Delete",                      ID_ADAPTER_DELETE
+    END
+    POPUP "&Status"
+    BEGIN
+        MENUITEM "&Halt Printer",               ID_STATUS_HALTPRINTER
+        MENUITEM "&Enable Printer",             ID_STATUS_ENABLEPRINTER
+        MENUITEM "&Disable Queueing",           ID_STATUS_DISABLEQUEUEING
+        MENUITEM "Enable &Queueing",            ID_STATUS_ENABLEQUEUEING
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&Desktop Topics\tF1",         ID_DESKTOPTOPICS
+        MENUITEM SEPARATOR
+        MENUITEM "&Getting Help",               ID_GETTINGHELP
+        MENUITEM "&Window Help\tCtrl+F1",       ID_WINDOWHELP
+        MENUITEM "&Field Help\tShift+F1",       ID_FIELDHELP
+        MENUITEM SEPARATOR
+        MENUITEM SEPARATOR
+        POPUP "&Books"
+        BEGIN
+            MENUITEM "User Guide",                  ID_USERSGUIDE
+            MENUITEM "Interface Design Document",   ID_IDD
+            MENUITEM "System Administration (NTCSS)", ID_SYSADM
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "&Technical Support",          ID_TECHSUPPORT
+        MENUITEM "&Version",                    ID_APP_ABOUT
+    END
+END
+
+IDR_PRINTER_RC MENU DISCARDABLE 
+BEGIN
+    POPUP "dummy"
+    BEGIN
+        MENUITEM "&Add Printer",                ID_PRINT_ADD
+        MENUITEM "&Edit Printer",               ID_PRINT_EDIT
+        MENUITEM "&Delete Printer",             ID_PRINT_DELETE
+        MENUITEM "&Halt Printer",               ID_STATUS_HALTPRINTER
+        MENUITEM "Enable Printer",              ID_STATUS_ENABLEPRINTER
+        MENUITEM "Disable Queueing",            ID_STATUS_DISABLEQUEUEING
+        MENUITEM "Enable Queueing",             ID_STATUS_ENABLEQUEUEING
+        MENUITEM "&View Change Log",            ID_FILE_OPEN
+        MENUITEM "Refresh",                     ID_REFRESH
+    END
+END
+
+IDR_ADAPTER_RC MENU DISCARDABLE 
+BEGIN
+    POPUP "dummy"
+    BEGIN
+        MENUITEM "&Add Adapter",                ID_ADAPTER_ADD
+        MENUITEM "&Edit Adapter",               ID_ADAPTER_EDIT
+        MENUITEM "&Delete Adapter",             ID_ADAPTER_DELETE
+        MENUITEM "&View Change Log",            ID_FILE_OPEN
+        MENUITEM "Refresh",                     ID_REFRESH
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDR_MAINFRAME ACCELERATORS PRELOAD MOVEABLE PURE 
+BEGIN
+    "C",            ID_EDIT_COPY,           VIRTKEY, CONTROL, NOINVERT
+    "N",            ID_FILE_NEW,            VIRTKEY, CONTROL, NOINVERT
+    "O",            ID_FILE_OPEN,           VIRTKEY, CONTROL, NOINVERT
+    "S",            ID_FILE_SAVE,           VIRTKEY, CONTROL, NOINVERT
+    "V",            ID_EDIT_PASTE,          VIRTKEY, CONTROL, NOINVERT
+    VK_BACK,        ID_EDIT_UNDO,           VIRTKEY, ALT, NOINVERT
+    VK_DELETE,      ID_EDIT_CUT,            VIRTKEY, SHIFT, NOINVERT
+    VK_F5,          ID_REFRESH,             VIRTKEY, NOINVERT
+    VK_F6,          ID_NEXT_PANE,           VIRTKEY, NOINVERT
+    VK_F6,          ID_PREV_PANE,           VIRTKEY, SHIFT, NOINVERT
+    VK_INSERT,      ID_EDIT_COPY,           VIRTKEY, CONTROL, NOINVERT
+    VK_INSERT,      ID_EDIT_PASTE,          VIRTKEY, SHIFT, NOINVERT
+    "X",            ID_EDIT_CUT,            VIRTKEY, CONTROL, NOINVERT
+    "Z",            ID_EDIT_UNDO,           VIRTKEY, CONTROL, NOINVERT
+END
+
+IDR_HELP ACCELERATORS DISCARDABLE 
+BEGIN
+    VK_F1,          ID_USERS_GUIDE,         VIRTKEY, NOINVERT
+    VK_F1,          ID_WINDOW_HELP,         VIRTKEY, CONTROL, NOINVERT
+    VK_F1,          ID_FIELD_HELP,          VIRTKEY, SHIFT, NOINVERT
+END
+
+IDR_REFRESH ACCELERATORS DISCARDABLE 
+BEGIN
+    VK_F5,          ID_REFRESH,             VIRTKEY, NOINVERT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOG DISCARDABLE  0, 0, 217, 55
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "About PrinterUI"
+FONT 8, "MS Sans Serif"
+BEGIN
+    ICON            IDR_MAINFRAMEsav,IDC_STATIC,11,17,20,20
+    LTEXT           "NTCSS PrinterUI Version 1.0.7",IDC_STATIC,40,10,119,8,
+                    SS_NOPREFIX
+    LTEXT           "Copyright INRI,1997",IDC_STATIC,40,25,119,8
+    DEFPUSHBUTTON   "OK",IDOK,178,7,32,14,WS_GROUP
+END
+
+IDD_PRINTERUI_FORM DIALOG DISCARDABLE  0, 0, 418, 277
+STYLE WS_CHILD
+FONT 8, "MS Sans Serif"
+BEGIN
+    CONTROL         "List1",IDC_PrinterList,"SysListView32",LVS_REPORT | 
+                    LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_SORTASCENDING | 
+                    WS_BORDER | WS_TABSTOP,14,13,190,105
+    CONTROL         "List5",IDC_AdapterList,"SysListView32",LVS_REPORT | 
+                    LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_SORTASCENDING | 
+                    WS_BORDER | WS_TABSTOP,15,140,188,106
+    PUSHBUTTON      "Apply",IDC_Apply,106,256,50,14
+    PUSHBUTTON      "Quit",IDCANCEL,238,256,50,14
+    GROUPBOX        "NETWORK PRINTER LIST",IDC_STATIC,10,1,201,124
+    GROUPBOX        "PRINTER ADAPTER LIST",IDC_STATIC,10,128,201,126
+    LTEXT           "LOCATION:",IDC_STATIC,221,12,39,8
+    LTEXT           "MAX REQUEST SIZE:",IDC_STATIC,220,29,73,8
+    LTEXT           "PRINTER CLASS:",IDC_STATIC,222,47,60,8
+    LTEXT           "ADAPTER IP:",IDC_STATIC,221,86,46,8
+    LTEXT           "ADAPTER TYPE:",IDC_STATIC,221,105,58,8
+    LTEXT           "ADAPTER PORT:",IDC_STATIC,221,124,59,8
+    LTEXT           "SUSPEND STATE:",IDC_STATIC,219,142,63,8
+    LTEXT           "REDIRECT PRINTER:",IDC_STATIC,221,160,74,8
+    EDITTEXT        IDC_EDIT1,298,9,106,14,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_EDIT2,298,27,106,14,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_EDIT3,298,45,106,14,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_EDIT4,298,83,106,14,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_EDIT5,298,102,106,14,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_EDIT6,298,121,106,14,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_EDIT7,298,139,106,14,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_EDIT8,298,157,106,14,ES_AUTOHSCROLL | ES_READONLY
+    GROUPBOX        "",IDC_STATIC,214,1,197,174
+    GROUPBOX        "APPLICATION LIST",IDC_STATIC,213,176,198,78
+    EDITTEXT        IDC_EDIT9,298,64,106,14,ES_AUTOHSCROLL | ES_READONLY
+    LTEXT           "ACCESS:",IDC_STATIC,222,66,31,8
+    CONTROL         "List1",IDC_APPLICATIONCTRL,"SysListView32",LVS_REPORT | 
+                    LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_SORTDESCENDING | 
+                    WS_BORDER | WS_TABSTOP,219,186,187,61
+END
+
+IDD_EDITPRINTER DIALOG DISCARDABLE  0, 0, 442, 277
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "EDIT NTCSS PRINTER"
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDC_NAME,99,15,84,12,ES_AUTOHSCROLL
+    COMBOBOX        IDC_CLASSIFICATION,99,34,84,59,CBS_DROPDOWNLIST | 
+                    CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_NTDRIVER,99,53,83,12,ES_AUTOHSCROLL | ES_READONLY
+    COMBOBOX        IDC_PrinterAccess,99,71,84,63,CBS_DROPDOWNLIST | 
+                    CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_LOCATION,99,89,84,14,ES_AUTOHSCROLL
+    EDITTEXT        MAXREQUESTSIZE,99,109,84,14,ES_AUTOHSCROLL
+    COMBOBOX        IDC_PRINTERCLASS,99,128,84,56,CBS_DROPDOWNLIST | 
+                    CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_ADAPTERPORT,99,147,84,57,CBS_DROPDOWNLIST | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_SUSPENDSTATE,99,163,84,64,CBS_DROPDOWNLIST | 
+                    CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_REDIRECTPRINTER,99,179,84,12,ES_AUTOHSCROLL | 
+                    ES_READONLY
+    EDITTEXT        IDC_FILENAME,99,195,84,14,ES_AUTOHSCROLL | NOT 
+                    WS_VISIBLE
+    CONTROL         "Overwrite File",IDC_OVERWRITE,"Button",
+                    BS_AUTORADIOBUTTON | NOT WS_VISIBLE | WS_GROUP,33,217,59,
+                    10
+    CONTROL         "Append to File",IDC_APPEND,"Button",BS_AUTORADIOBUTTON | 
+                    NOT WS_VISIBLE,102,217,61,10
+    CONTROL         "List1",IDC_PrinterAdapterList,"SysListView32",
+                    LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | 
+                    LVS_SORTASCENDING | WS_BORDER | WS_TABSTOP,206,15,208,
+                    126
+    LISTBOX         IDC_APPLICATION_LIST,208,164,207,62,LBS_SORT | 
+                    LBS_MULTIPLESEL | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | 
+                    WS_TABSTOP
+    PUSHBUTTON      "OK",IDOK,60,240,50,14
+    PUSHBUTTON      "Redirect",IDC_REDIRECT,195,240,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,330,240,50,14
+    LTEXT           "NAME:",IDC_STATIC,66,17,24,8
+    LTEXT           "CLASSIFICATION:",IDC_STATIC,30,36,60,8
+    LTEXT           "PRINTER ACCESS:",IDC_STATIC,25,74,65,8
+    LTEXT           "LOCATION:",IDC_STATIC,51,92,39,8
+    LTEXT           "MAX REQUEST SIZE:",IDC_STATIC,17,113,73,8
+    LTEXT           "PRINTER CLASS:",IDC_STATIC,30,131,60,8
+    LTEXT           "ADAPTER PORT:",IDC_STATIC,31,150,59,8
+    LTEXT           "SUSPEND STATE:",IDC_STATIC,27,166,63,8
+    LTEXT           "REDIRECT PRINTER:",IDC_STATIC,16,181,74,8
+    GROUPBOX        "",IDC_STATIC,14,1,171,232
+    GROUPBOX        "PRINTER ADAPTER LIST",IDC_STATIC,194,1,229,147
+    GROUPBOX        "APPLICATION LIST",IDC_STATIC,194,153,229,80
+    PUSHBUTTON      "NTDriver",IDC_NTBUTTON,40,53,50,14
+    LTEXT           "FILE NAME:",IDC_FILENAMETEXT,50,198,40,8,NOT WS_VISIBLE
+END
+
+IDD_EditAdapterDlg DIALOG DISCARDABLE  0, 0, 182, 146
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Edit Print Adapter"
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDC_HOSTNAME_ADAPTER_EDIT,74,17,97,14,ES_AUTOHSCROLL
+    CONTROL         "IPAddress1",IDC_IPADDR,"SysIPAddress32",WS_TABSTOP,74,
+                    36,97,14
+    EDITTEXT        IDC_MachineAddress,74,57,97,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_LOCATION_ADAPTER_EDIT,74,77,97,14,ES_AUTOHSCROLL
+    COMBOBOX        IDC_TypeCombo,74,97,97,56,CBS_DROPDOWNLIST | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "OK",IDOK,29,123,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,96,123,50,14
+    LTEXT           "HostName:",IDC_STATIC,36,20,36,8
+    LTEXT           "IPAddress:",IDC_STATIC,37,40,35,8
+    LTEXT           "Machine Address:",IDC_STATIC,14,61,58,8
+    LTEXT           "Location:",IDC_STATIC,42,80,30,8
+    LTEXT           "Type:",IDC_STATIC,53,99,19,8
+    CONTROL         156,IDC_STATIC,"Static",SS_BITMAP,12,11,21,20
+END
+
+IDD_LOGFILE DIALOG DISCARDABLE  0, 0, 408, 247
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "LOG FILE VIEWER"
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDC_EDIT1,7,15,388,217,ES_MULTILINE | ES_AUTOVSCROLL | 
+                    ES_AUTOHSCROLL | WS_VSCROLL
+END
+
+IDD_REDIRECTDIALOG DIALOG DISCARDABLE  0, 0, 266, 124
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "NTCSS Redirect Printer"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,19,96,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,187,96,50,14
+    PUSHBUTTON      "Clear",IDC_CLEAR,104,96,50,14
+    CONTROL         "List2",IDC_LIST2,"SysListView32",LVS_REPORT | WS_BORDER | 
+                    WS_TABSTOP,41,14,176,76
+END
+
+IDD_ADDNTPRINTER DIALOG DISCARDABLE  0, 0, 327, 165
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Select NT Printer"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,24,137,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,245,137,50,14
+    LISTBOX         IDC_LIST1,23,29,101,78,LBS_SORT | LBS_NOINTEGRALHEIGHT | 
+                    WS_VSCROLL | WS_TABSTOP
+    LISTBOX         IDC_LIST2,130,29,177,78,LBS_SORT | LBS_NOINTEGRALHEIGHT | 
+                    WS_VSCROLL | WS_HSCROLL | WS_TABSTOP
+    PUSHBUTTON      "&Select INF ",IDC_NEWINSTALL,136,137,50,14
+    LTEXT           "Manufacturers:",IDC_STATIC,28,17,51,8
+    LTEXT           "Printers:",IDC_STATIC,134,18,26,8
+    LTEXT           "Current INF:",IDC_STATIC,115,119,39,8
+    EDITTEXT        IDC_CURRENTINF,160,114,148,14,ES_AUTOHSCROLL
+END
+
+IDD_INSTALLFROMDISK DIALOG DISCARDABLE  0, 0, 300, 94
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Install From Disk"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,243,7,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,243,24,50,14
+    LTEXT           "Copy manufactures files from ",IDC_STATIC,17,66,92,8
+    COMBOBOX        IDC_DRIVES,119,65,48,55,CBS_DROPDOWN | CBS_SORT | 
+                    WS_TABSTOP
+    PUSHBUTTON      "BROWSE",IDC_BROWSE,242,72,50,14
+    LTEXT           "Insert the manufacturer's disk into the drive selected, and then click OK.",
+                    IDC_STATIC,45,18,137,18
+END
+
+IDD_PRINT2FILE DIALOG DISCARDABLE  0, 0, 186, 98
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "NTCSS PRINT TO FILE"
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDC_EDIT1,15,25,160,14,ES_AUTOHSCROLL
+    CONTROL         "OverWrite File",IDC_OVERWRITE,"Button",
+                    BS_AUTORADIOBUTTON | WS_GROUP,22,47,61,10
+    CONTROL         "Append to File",IDC_APPEND,"Button",BS_AUTORADIOBUTTON,
+                    100,47,61,10
+    DEFPUSHBUTTON   "OK",IDOK,71,66,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,123,66,50,14
+    LTEXT           "FileName:",IDC_STATIC,15,14,32,8
+END
+
+IDD_SELECTSHARE DIALOGEX 0, 0, 225, 218
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "NTCSS Select NT Share"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,88,187,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,158,187,50,14
+    PUSHBUTTON      "Refresh",IDC_REFRESH,18,187,50,14
+    CONTROL         "Tree1",IDC_TREECTRL,"SysTreeView32",TVS_HASBUTTONS | 
+                    TVS_HASLINES | TVS_SHOWSELALWAYS | WS_BORDER | 
+                    WS_TABSTOP,35,41,146,137,WS_EX_DLGMODALFRAME
+    LTEXT           "Printer:",IDC_STATIC,12,12,23,8
+    EDITTEXT        IDC_PRINTERLB,35,22,145,14,ES_AUTOHSCROLL | ES_READONLY
+END
+
+
+#ifndef _MAC
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "CompanyName", "\0"
+            VALUE "FileDescription", "PRINTERUI MFC Application\0"
+            VALUE "FileVersion", "1, 0, 0, 1\0"
+            VALUE "InternalName", "PRINTERUI\0"
+            VALUE "LegalCopyright", "Copyright © 1997\0"
+            VALUE "OriginalFilename", "PRINTERUI.EXE\0"
+            VALUE "ProductName", "PRINTERUI Application\0"
+            VALUE "ProductVersion", "1, 0, 0, 1\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+#endif    // !_MAC
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 210
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 48
+    END
+
+    IDD_PRINTERUI_FORM, DIALOG
+    BEGIN
+        LEFTMARGIN, 1
+        RIGHTMARGIN, 416
+        TOPMARGIN, 1
+        BOTTOMMARGIN, 276
+    END
+
+    IDD_EDITPRINTER, DIALOG
+    BEGIN
+        LEFTMARGIN, 9
+        RIGHTMARGIN, 423
+        TOPMARGIN, 1
+        BOTTOMMARGIN, 261
+    END
+
+    IDD_EditAdapterDlg, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 175
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 139
+    END
+
+    IDD_LOGFILE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 401
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 240
+    END
+
+    IDD_REDIRECTDIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 259
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 117
+    END
+
+    IDD_ADDNTPRINTER, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 318
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 158
+    END
+
+    IDD_INSTALLFROMDISK, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 293
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 87
+    END
+
+    IDD_PRINT2FILE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 179
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 91
+    END
+
+    IDD_SELECTSHARE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 218
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 211
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_ADAPTER             BITMAP  DISCARDABLE     "res\\adapter.bmp"
+IDB_GROUP               BITMAP  DISCARDABLE     "res\\grp.bmp"
+IDB_PRINTER             BITMAP  DISCARDABLE     "res\\printer.bmp"
+IDB_NETPRINTER          BITMAP  DISCARDABLE     "res\\netprinter.bmp"
+IDB_PORT                BITMAP  DISCARDABLE     "res\\port.bmp"
+IDB_SHARETREECTRL       BITMAP  DISCARDABLE     "res\\bitmap2.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE PRELOAD DISCARDABLE 
+BEGIN
+    IDR_MAINFRAME           "PrinterUI\n\nPrinte\n\n\nPrinterUI.Document\nPrinte Document"
+END
+
+STRINGTABLE PRELOAD DISCARDABLE 
+BEGIN
+    AFX_IDS_APP_TITLE       "NTCSS PRTUI"
+    AFX_IDS_IDLEMESSAGE     "Ready"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_INDICATOR_EXT        "EXT"
+    ID_INDICATOR_CAPS       "CAP"
+    ID_INDICATOR_NUM        "NUM"
+    ID_INDICATOR_SCRL       "SCRL"
+    ID_INDICATOR_OVR        "OVR"
+    ID_INDICATOR_REC        "REC"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_FILE_NEW             "Create a new document\nNew"
+    ID_FILE_OPEN            "Open an existing document\nOpen"
+    ID_FILE_CLOSE           "Close the active document\nClose"
+    ID_FILE_SAVE            "Save the active document\nSave"
+    ID_FILE_SAVE_AS         "Save the active document with a new name\nSave As"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_APP_ABOUT            "Display program information, version number and copyright\nAbout"
+    ID_APP_EXIT             "Quit the application; prompts to save documents\nExit"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_FILE_MRU_FILE1       "Open this document"
+    ID_FILE_MRU_FILE2       "Open this document"
+    ID_FILE_MRU_FILE3       "Open this document"
+    ID_FILE_MRU_FILE4       "Open this document"
+    ID_FILE_MRU_FILE5       "Open this document"
+    ID_FILE_MRU_FILE6       "Open this document"
+    ID_FILE_MRU_FILE7       "Open this document"
+    ID_FILE_MRU_FILE8       "Open this document"
+    ID_FILE_MRU_FILE9       "Open this document"
+    ID_FILE_MRU_FILE10      "Open this document"
+    ID_FILE_MRU_FILE11      "Open this document"
+    ID_FILE_MRU_FILE12      "Open this document"
+    ID_FILE_MRU_FILE13      "Open this document"
+    ID_FILE_MRU_FILE14      "Open this document"
+    ID_FILE_MRU_FILE15      "Open this document"
+    ID_FILE_MRU_FILE16      "Open this document"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_NEXT_PANE            "Switch to the next window pane\nNext Pane"
+    ID_PREV_PANE            "Switch back to the previous window pane\nPrevious Pane"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_WINDOW_SPLIT         "Split the active window into panes\nSplit"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_EDIT_CLEAR           "Erase the selection\nErase"
+    ID_EDIT_CLEAR_ALL       "Erase everything\nErase All"
+    ID_EDIT_COPY            "Copy the selection and put it on the Clipboard\nCopy"
+    ID_EDIT_CUT             "Cut the selection and put it on the Clipboard\nCut"
+    ID_EDIT_FIND            "Find the specified text\nFind"
+    ID_EDIT_PASTE           "Insert Clipboard contents\nPaste"
+    ID_EDIT_REPEAT          "Repeat the last action\nRepeat"
+    ID_EDIT_REPLACE         "Replace specific text with different text\nReplace"
+    ID_EDIT_SELECT_ALL      "Select the entire document\nSelect All"
+    ID_EDIT_UNDO            "Undo the last action\nUndo"
+    ID_EDIT_REDO            "Redo the previously undone action\nRedo"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_VIEW_TOOLBAR         "Show or hide the toolbar\nToggle ToolBar"
+    ID_VIEW_STATUS_BAR      "Show or hide the status bar\nToggle StatusBar"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    AFX_IDS_SCSIZE          "Change the window size"
+    AFX_IDS_SCMOVE          "Change the window position"
+    AFX_IDS_SCMINIMIZE      "Reduce the window to an icon"
+    AFX_IDS_SCMAXIMIZE      "Enlarge the window to full size"
+    AFX_IDS_SCNEXTWINDOW    "Switch to the next document window"
+    AFX_IDS_SCPREVWINDOW    "Switch to the previous document window"
+    AFX_IDS_SCCLOSE         "Close the active window and prompts to save the documents"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    AFX_IDS_SCRESTORE       "Restore the window to normal size"
+    AFX_IDS_SCTASKLIST      "Activate Task List"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_PRINT_ADD            "Add new NTCSS Printer"
+    ID_PRINT_EDIT           "Edit current NTCSS printer"
+    ID_PRINT_DELETE         "Delete current NTCSS printer"
+    ID_ADAPTER_ADD          "Add new NTCSS print adapter"
+    ID_ADAPTER_EDIT         "Edit current NTCSS print adapter"
+    ID_ADAPTER_DELETE       "Delete current NTCSS print adapter"
+    ID_DESKTOPTOPICS        "Show the Desktop Topics"
+    ID_GETTINGHELP          "Show how to get help"
+    ID_WINDOWHELP           "Show help on current Window"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_FIELDHELP            "Show help on current Field"
+    ID_USERSGUIDE           "Show the Users Guide"
+    ID_IDD                  "Show the Interface Design Document"
+    ID_SYSADM               "Shows the System Administration Document  for NTCSS"
+    ID_TECHSUPPORT          "Shows how to get technical support"
+    ID_VERSION              "Display program info"
+    ID_REFRSH               "Refresh from Server"
+END
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE 9, 1
+#pragma code_page(1252)
+#endif
+#include "res\PrinterUI.rc2"  // non-Microsoft Visual C++ edited resources
+#include "afxres.rc"         // Standard components
+#endif
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

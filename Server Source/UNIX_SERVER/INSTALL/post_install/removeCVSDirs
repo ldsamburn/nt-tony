@@ -1,0 +1,29 @@
+#!/bin/sh
+
+# Recurively removes CVS directories starting at the given directory.
+# Also, any ".empty" files are removed. 
+#
+# NOTE: the directory given must be the full path
+
+recurse() {
+   cd $1
+
+   for file in `ls -a1`
+   do
+      if [ $file = "." -o $file = ".." ]; then
+         continue;
+      fi
+
+      if [ -d $1/$file ]; then
+         if [ $file = "CVS" ]; then
+            /bin/rm -rf $1/$file
+         else
+            recurse $1/$file
+         fi
+      elif [ -f $1/$file -a $file = ".empty" ]; then
+         /bin/rm -rf $1/$file
+      fi
+   done
+}
+
+recurse $1

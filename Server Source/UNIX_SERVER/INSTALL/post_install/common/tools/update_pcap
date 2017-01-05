@@ -1,0 +1,46 @@
+#!/bin/sh
+#
+#
+#              Copyright(c)2002 Northrop Grumman Corporation
+#
+#                          All Rights Reserved
+#
+#
+#    This material may be reproduced by or for the U.S. Government pursuant
+#    to the copyright license under the clause at Defense Federal Acquisition
+#    Regulation Supplement (DFARS) 252.227-7013 (NOV 1995).
+#
+#
+
+# change the old printcap file spool directories to the new directories
+
+PCAP=/etc/printcap
+
+read_stat=`expr 0`
+
+while [ $read_stat -eq 0 ]
+do
+    read ans
+    read_stat=$?
+
+    if [ $read_stat -ne 0 ]
+    then
+        echo "EOF DETECTED"
+        exit
+    fi
+
+	prname=`echo $ans | sed -n "s/\([^\|]*\).*/\1/p"`
+	sd=`echo $ans | sed -n "s/.*\sd=\([^:]*\).*/\1/p"`
+	if [ "${sd}" = "/usr/spool/${prname}" ]
+	then
+ed - $PCAP <<EOF
+/^${prname}|/
+.s/sd=\/usr\/spool\/${prname}/sd=\/usr\/spool\/lp\/request\/${prname}/
+w
+q
+EOF
+		echo $ans
+		echo ""
+		echo $newpcap
+	fi
+done < $PCAP

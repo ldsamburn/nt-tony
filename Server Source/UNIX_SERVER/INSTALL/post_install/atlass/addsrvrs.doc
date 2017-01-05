@@ -1,0 +1,52 @@
+UPDATING THE MASTER SERVER for ATLASS
+
+1. telnet to msysco
+2. Login as root
+3. cd /usr/local/bin
+4. ./ypupdate  (THIS FILE UPDATES THE YPSERVERS FILE)
+
+
+ADDING UNIX SERVERS TO ATLASS
+
+---Do this after running ypupdate and bringing NTCSSII (ntcss_halt) 
+   down on all machines.
+
+****NOTE**** BRING DOWN PAXFERD (THROUGH IF_SERVERNAME - SOFTKILL THE PROCESS)
+             AND INTERFACES (through the application) ON ALL SERVERS..MAKE
+             SURE AFTER YOU BRING DOWN THE GENS THAT THESE PROCESSES ARE
+             DOWN ALONG WITH THE HARDCOPY NOTICE.
+
+RUN ./status_chk
+
+
+1. Log in as root on the NTCSSII master (msysco).
+
+2. cd /h/NTCSSS/applications/data/install/post_install
+
+3. ./AddNewAtlassSrvr.sh
+
+       and answer the questions asked about the new server(s)
+
+
+4. When the above shell completes, there will be an updated
+   progrps.ini file in the /h/NTCSSS/init_data directory
+   containing the new server(s). There will be a backup of
+   the original progrps.ini file named progrps.bak in the
+   same directory should you have to recover.
+
+5. NTCSSII must be started on each machine (ntcss_init). Start with
+   the master server and then progress to the other machines. When
+   ntcss_init is run on each slave machine, it will fetch a copy of
+   the progrps.ini file from the master server, compare it to the
+   progrps.ini file on its own machine, and if the file is newer on
+   the master server, it will be copied to the slave server, and 
+   initialization will continue.
+
+6. At this time the systems should be up..MAKE SURE PAXFERD, INTERFACES
+   AND HARDCOPY NOTICE IS STARTED ON EACH SERVER.
+
+RUN ./status_chk
+
+DO BELOW PROCESS ON msysco ONLY:
+cd /h/NTCSSS/bin
+./ntcss_make_and_push_nis_maps PUSH

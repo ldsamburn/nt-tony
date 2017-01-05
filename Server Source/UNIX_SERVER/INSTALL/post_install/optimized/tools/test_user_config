@@ -1,0 +1,240 @@
+#!/bin/sh
+#
+#
+#              Copyright(c)2002 Northrop Grumman Corporation
+#
+#                          All Rights Reserved
+#
+#
+#    This material may be reproduced by or for the U.S. Government pursuant
+#    to the copyright license under the clause at Defense Federal Acquisition
+#    Regulation Supplement (DFARS) 252.227-7013 (NOV 1995).
+#
+#
+
+#------------------------------------------------------------#
+#                                                            #
+# test_user_config                                           #
+#                                                            #
+# Add a user to Unix and Win-NT via user_config script       #
+# mainly to test the addition of users to the NT domain.     #
+#                                                            #
+# user_config calls /h/NTCSSS/bin/adduser to add    #
+# the user to the NT domain.  "test_adduser" will            #
+# test the adduser program.                                  #
+#                                                            #
+# NOTE: This script must be executed from the NTCSS Xterm    #
+#       in the NTCSS group of the Desktop.                   #
+#                                                            #
+#------------------------------------------------------------#
+
+initialize()
+{
+	clear
+
+	sys_line=`grep "NTCSS HOME DIR" ${NTCSSDATADIR}/SYS_CONF`
+	if [ -n "${sys_line}" ]
+	then
+       		home_dir=`echo ${sys_line} | sed -n "s/[^:]*.\(.*\)$/\1/p"`
+        	if [ -z "${home_dir}" ]
+        	then
+                	echo "No home directory entry in SYS_CONF file"
+                	exit 1
+        	fi
+	fi
+
+        home="/h/NTCSSS"
+        PATH="$PATH:$home/bin";export PATH
+        NTCSSDATADIR="$home/database"
+        NTCSSUCDIR="$home/applications/data/users_conf"
+        BINDIR="$home/bin"
+        auth_server=`hostname`
+
+        if [ -n "${DISPLAY}" ]
+        then
+                disp=`echo ${DISPLAY} | sed -n "s/\([^:]*\).*/\1/p"`
+        else
+                echo "DISPLAY env variable not present"
+                echo " "
+                echo "Enter the IP address of the PDC or workstation"
+                echo "where a user is logged in as DOMAIN Administrator"
+                echo "and the NTCSSII Desktop is up:"
+                echo " "
+                read disp < /dev/tty
+                exit 1
+        fi
+
+echo " ";echo " ";echo " "
+echo "		TESTING NTCSS USER CONFIGURATION"
+echo " "
+echo ">>>>>> This script must be invoked from the 'NTCSS' Xterm Window <<<<<<"
+echo " "
+echo "  ----------  test_user_config   ---------  ----------   ------------"
+echo "  ! NTCSS  !     here            ! user_ !  ! adduser!   ! Desktop   !"
+echo "  ! GUI    !      |              ! config!  ! prog   !   ! (frame)   !"
+echo "  ! Admin  !-------------------->! script!  !        !---!  and      !"
+echo "  !        !      |              !       !  !        !   ! Win-NT    !"
+echo "  ----------      |              ---------  ----------   -------------"
+echo "                  |_____________________________|"
+echo " "
+echo "      ---The following variables must exist in"
+echo "      ---the /h/NTCSSS/database/SYS_CONF file:"
+echo " "
+echo "           NTTMPUSER (e.g. IT-21)"
+echo "           NTUSERDIR (e.g. NTUSERS)"
+echo "           NTPROFDIR (e.g. profiles)"
+echo " "
+echo "      'NTUSERS' and 'profiles' are share names and must exist in WIN-NT"
+echo " "
+echo "      Additionally, an 'NTCSS' group must exist on the PC/Domain"
+echo " "
+echo "Hit any key to continue..."
+read x
+clear
+
+}
+
+do_push()
+{
+    if [ `ypwhich -m passwd.byname` = `hostname` ]
+    then
+        curdir=`pwd`
+        cd $NISDIR
+        echo "Executing NIS make"
+        make -f Makefile
+        cd $curdir
+    fi
+}
+
+add()
+{
+	echo "Enter a user name to add to both Unix and NT domains: "
+	read username
+
+	echo "Enter the password for the test user: "
+	read ctpwd
+
+	echo "Enter the User description for this user, e.g. 'Fred Flintstone': "
+	read userdesc
+
+	$NTCSSUCDIR/user_config DELUSER "$username"
+	$NTCSSUCDIR/user_config ADDUSER "$username" "$ctpwd" "$home_dir" "$userdesc" "$ctpwd"
+}
+
+addfixed()
+{
+	username="ntcssusr"
+	ctpwd="ntcssii"
+	userdesc="User added to test user_config"
+	$NTCSSUCDIR/user_config DELUSER "$username"
+	$NTCSSUCDIR/user_config ADDUSER "$username" "$ctpwd" "$home_dir" "$userdesc" "$ctpwd"
+        $BINDIR/adduser $disp /ADDEXT "$username" "$ctpwd" "userdesc" "d:\\ntusers\\$username" "IT-21" "c:\\winnt\\profiles\\$username" "DOMAIN" "$auth_server"
+}
+
+delete()
+{
+	echo " ";echo " "
+	echo "Enter the user name to delete from both Unix and NT domains: "
+	read username
+
+	$NTCSSUCDIR/user_config DELUSER "$username"
+        $BINDIR/adduser $disp /DEL "$username" "DOMAIN"
+}
+
+cpw()
+{
+	echo " ";echo " "
+	echo "Enter the user name to change the password: "
+	read username
+	echo "Enter the new NT domain password: "
+	read ctpwd
+	echo "Enter the Unix password: (Note, this will be put"
+	echo "                          in the password file in"
+	echo "                          plain text for this test )"
+	read password
+
+	$NTCSSUCDIR/user_config CHANGEPASSWD "$username" "$ctpwd" "$password"
+        $BINDIR/adduser $disp /PWD "$username" "DOMAIN"
+}
+
+# Start here
+
+#
+#   get OS system environment
+#
+
+    settings="/etc/ntcss_system_settings.ini"
+
+    ntcssdir=`grep "^HOME_DIR=" "$settings" | cut -d= -f2`
+    
+    bindir=`grep "NTCSS_BIN_DIR" "$settings" | cut -d= -f2`
+    bindir="$ntcssdir/$bindir"
+
+    gps="$bindir/GetProfileString"
+
+    appinst=`$gps Strings APP_INST "applications/data/install" $settings`
+    appinst="$ntcssdir/$appinst"
+
+    postdir="$appinst/post_install"
+
+. $appinst/getOSinfo.sh
+
+
+	initialize
+
+	echo " ";echo " ";echo " "; echo " "
+	echo "add = Add User to both Unix and NT domains."
+	echo " "
+	echo "addfixed = user=    'ntcssusr' (to be added to Unix/NT domains"
+	echo ".......... pass=    'ntcssii'"
+	echo ".......... longname='This user added to test user_config'"
+	echo " "
+	echo "delete = Delete User from both Unix and NT domains."
+	echo " "
+	echo "cpw = Change Unix and NT passwords."
+	echo " "
+	echo "exit = quit."
+	echo " "
+	echo " "; echo " "
+	echo "Enter option: "
+
+	read function
+
+	case $function in
+
+		"exit")
+			exit 0	
+		;;
+		"add")
+			add
+		;;
+		"addfixed")
+			addfixed
+		;;
+		"delete")
+			delete
+		;;
+		"cpw")
+			cpw
+		;;
+	esac
+
+	do_push
+
+echo " ";echo " ";echo " "
+echo "At this point, you may execute the Windows NT domain User"
+echo "Administration program to check if the user 'ntcssusr' was"
+echo "correctly added to, or deleted from, the domain."
+echo " "
+echo "Additionally, the user 'ntcssusr' should have been added to, or"
+echo "deleted from, the Unix NIS domain. A user directory should be built in,"
+echo "or deleted from $home_dir. The Unix registration may be checked by:" 
+echo " "
+echo "	ypcat passwd | grep ntcssusr"
+echo " "
+echo "  NOTE: For optimized systems, a '*' is normally the password"
+echo "        for new users."
+echo " "
+echo "        For ported systems, this script adds a plain"
+echo "        language password in the /etc/passwd file."
+echo " "
